@@ -1,0 +1,2 @@
+# kakaobot
+for my friends
