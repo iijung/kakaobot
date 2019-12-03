@@ -16,7 +16,7 @@ function changeBotName(bot_name) {
 	]
 */
 function isAdmin(sender_name) {
-  if (sender_name == "민정") return 1;
+  if (sender_name == "Admin") return 1;
   var AdminList = Common.selectDB("AdminList.json");
   for (var key in AdminList) {
     if (AdminList[key].name === sender_name) return 1;
@@ -35,9 +35,9 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
    *(String) packageName: 메시지를 받은 메신저의 패키지 이름. (카카오톡: com.kakao.talk, 페메: com.facebook.orca, 라인: jp.naver.line.android
    *(int) threadId: 현재 쓰레드의 순번(스크립트별로 따로 매김)     *Api,Utils객체에 대해서는 설정의 도움말 참조*/
 
-  if (!isAdmin(sender) || sender != "민정") return;
+  if (!isAdmin(sender)) return;
 
-  if (msg.indexOf("--관리자 도움말") == 0 || (msg.indexOf("어떻게") != -1 && msg.indexOf(BotName) != -1)) {
+  if (msg.indexOf("--도움말") == 0) {
     helper = "## " + BotName + " 관리자 도움말##\n";
     helper = helper.concat("--컴파일 \n");
     helper = helper.concat("--구동 : 사용자 명령어 사용\n");

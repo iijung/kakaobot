@@ -33,12 +33,12 @@ function strtoObject(str, token) {
 }
 
 function rand() {
-  if (typeof arg[0] == "object" && arg[1] == undefined) {
-    return arg[0][Math.floor(Math.random() * arg[0].length)];
-  } else if (typeof arg[0] == "number" && arg[1] == "number") {
-    return Math.floor(Math.random() * Math.abs(arg[1] - arg[0]) + Math.min(arg[0], arg[1]));
+  if (typeof arguments[0] == "object" && arguments[1] == undefined) {
+    return arguments[0][Math.floor(Math.random() * arguments[0].length)];
+  } else if (typeof arguments[0] == "number" && arguments[1] == "number") {
+    return Math.floor(Math.random() * Math.abs(arguments[1] - arguments[0]) + Math.min(arguments[0], arguments[1]));
   } else {
-    return arg[Math.floor(Math.random() * arg.length)];
+    return arguments[Math.floor(Math.random() * arguments.length)];
   }
 }
 
