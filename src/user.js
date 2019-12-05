@@ -6,7 +6,7 @@ var Admin = Bridge.getScopeOf("admin.js");
 var BotName = Admin.BotName;
 
 var atTime = new Date();
-var checkPlaster = "";
+var checkPlaster = {};
 
 function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName, threadId) {
   if (sender != "민정") return;
@@ -20,7 +20,7 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
    *(String) ImageDB.getProfileImage(): 전송자의 프로필 이미지를 Base64로 인코딩하여 반환
    *(String) packageName: 메시지를 받은 메신저의 패키지 이름. (카카오톡: com.kakao.talk, 페메: com.facebook.orca, 라인: jp.naver.line.android
    *(int) threadId: 현재 쓰레드의 순번(스크립트별로 따로 매김)     *Api,Utils객체에 대해서는 설정의 도움말 참조*/
-   
+
   if (msg.indexOf("주사위") != -1) {
     var dice = Math.ceil(Math.random() * 6);
     switch (dice) {
@@ -49,21 +49,22 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
   }
 
   // 도배 체크
-  if (checkPlaster == msg) {
+  if (checkPlaster[sender] == msg) {
     if (new Date().valueOf() > atTime.valueOf() + 10000) {
       replier.reply(sender + "님, 도배 경고입니다!!🚫");
       atTime = new Date();
     }
     return;
   }
-  checkPlaster = msg;
+  checkPlaster[sender] = msg;
 
   // 명령어
   if (msg.indexOf("--도움말") == 0 || (msg.indexOf("어떻게") != -1 && msg.indexOf(BotName) != -1)) {
     helper = "## " + BotName + " 도움말##\n";
     helper = helper.concat("주사위\n");
-    helper = helper.concat("\n");
     helper = helper.concat("--타이머 <second>\n");
+    helper = helper.concat("--골라줘 <A> <B> ...\n");
+    helper = helper.concat("\n");
     helper = helper.concat("--학습 <질문>:<대답>\n");
     helper = helper.concat("--학습조회 [질문]");
     helper = helper.concat("--학습제거 <질문>");
@@ -72,11 +73,30 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
 
   if (msg.indexOf("--타이머 ") == 0) {
     var time = Number(msg.split(" ")[1].replace(/[^0-9]/g, ""));
+    if (time == "") {
+      replier.reply("ex) --타이머 10");
+      return;
+    }
     replier.reply("타이머 시작!\n" + time + "초 뒤에 타이머가 종료됩니다!");
     java.lang.Thread.sleep(time * 1000);
     replier.reply(time + "초가 경과했습니다.");
   }
 
+  if (msg.indexOf("--골라줘 ") == 0) {
+    var msg_content = msg.replace("--골라줘 ", "").trim();
+    if (msg_content == "") {
+      replier.reply("ex) --골라줘 치킨 피자");
+      return;
+    }
+
+    var select = msg_content.split(" ");
+    for (var idx in select) {
+      if (select[idx] == "") select.splice(idx, 1);
+    }
+    replier.reply(rand(select) + "!!");
+  }
+
+  /* 시간 많을 때 개발 예정 */
   if (msg.indexOf("--학습 <질문>:<대답>") == 0) {
   }
   if (msg.indexOf("--학습조회 [질문]") == 0) {
@@ -88,7 +108,6 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     replier.reply(return_msg);
   }
 
-  }
   if (msg.indexOf("--학습제거 <질문>") == 0) {
     var msg_content = msg.replace("--관리자 제거 ", "").trim();
     if (msg_content == "") {
