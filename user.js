@@ -8,6 +8,18 @@ var BotName = Admin.BotName;
 var atTime = new Date();
 var checkPlaster = {};
 
+/* Food List */
+var FoodList = new Object();
+FoodList["한식"] = ["불고기", "두루치기", "닭볶음", "쌈밥", "비빔밥", "생선구이", "낙지볶음", "게장", "떡갈비"];
+FoodList["탕"] = ["김치찌개", "순두부찌개", "된장찌개", "부대찌개", "동태찌개", "청국장", "갈비탕", "추어탕", "삼계탕"];
+FoodList["중식"] = ["짜장면", "짬뽕", "볶음밥", "탕수육", "마파두부", "양장피", "깐풍기", "유린기", "고추잡채"];
+FoodList["일식"] = ["초밥", "라멘", "낫또", "오니기리", "덮밥", "우동", "야키니쿠", "메밀소바", "돈카츠"];
+FoodList["양식"] = ["로제파스타", "봉골레파스타", "크림파스타", "피자", "스테이크", "리조또", "햄버거", "시저샐러드"];
+FoodList["해장"] = ["북어국", "콩나물국밥", "순대국", "뼈해장국", "우거지국", "선지해장국", "올갱이국", "매운라면", "물냉면"];
+FoodList["간편"] = ["도시락", "샌드위치", "토스트", "샐러드", "김밥", "떢볶이", "핫도그", "밥버거", "시리얼", "컵밥"];
+FoodList["기타"] = ["쌀국수", "팟타이", "카레", "찜닭", "수제비", "칼국수", "아구찜", "닭갈비", "월남씸"];
+/**************/
+
 function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName, threadId) {
   Log.info("packName: " + packageName + "\nroom: " + room + "\nsender: " + sender + "\nmsg: " + msg + "\nisGruptChat: " + isGroupChat);
   /*(String) room: 메시지를 받은 방 이름
@@ -18,6 +30,10 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
    *(String) ImageDB.getProfileImage(): 전송자의 프로필 이미지를 Base64로 인코딩하여 반환
    *(String) packageName: 메시지를 받은 메신저의 패키지 이름. (카카오톡: com.kakao.talk, 페메: com.facebook.orca, 라인: jp.naver.line.android
    *(int) threadId: 현재 쓰레드의 순번(스크립트별로 따로 매김)     *Api,Utils객체에 대해서는 설정의 도움말 참조*/
+
+  if (msg.indexOf("굿 봇") != -1) {
+    replier.reply("(･ω<)☆");
+  }
 
   if (msg.indexOf("주사위") != -1) {
     var dice = Math.ceil(Math.random() * 6);
@@ -46,8 +62,10 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     return;
   }
 
-  if (msg.indexOf("굿 봇") != -1) {
-    replier.reply("(･ω<)☆");
+  if (msg.indexOf("뭐 먹지") != -1) {
+    var category = rand(FoodList);
+    var menu = rand(FoodList[category]);
+    replier.reply("오늘은 " + menu + "추천 드려요! 👩‍🍳");
   }
 
   // 도배 체크
