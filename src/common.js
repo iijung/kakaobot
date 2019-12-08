@@ -33,10 +33,10 @@ function strtoObject(str, token) {
 }
 
 function rand() {
+  // number range : Math.ceil(Math.random() * 6);  // 1 ~ 6
   if (typeof arguments[0] == "object" && arguments[1] == undefined) {
-    return arguments[0][Math.floor(Math.random() * arguments[0].length)];
-  } else if (typeof arguments[0] == "number" && arguments[1] == "number") {
-    return Math.floor(Math.random() * Math.abs(arguments[1] - arguments[0]) + Math.min(arguments[0], arguments[1]));
+    var keys = Object.keys(arguments[0]);
+    return arguments[0][keys[(keys.length * Math.random()) << 0]];
   } else {
     return arguments[Math.floor(Math.random() * arguments.length)];
   }
