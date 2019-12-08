@@ -66,7 +66,10 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     return;
   }
 
-  if (msg.indexOf("뭐먹지") != -1 || msg.indexOf("뭐 먹지") != -1) {
+  if (
+    (msg.indexOf("뭐") != -1 && (msg.indexOf("먹지") != -1 || msg.indexOf("먹을까") != -1 || msg.indexOf("먹는게 좋을까") != -1)) ||
+    (msg.indexOf("추천해줘") != -1 && (msg.indexOf("아침") != -1 || msg.indexOf("점심") != -1 || msg.indexOf("저녁") != -1 || msg.indexOf("먹을 거") != -1 || msg.indexOf("음식") != -1))
+  ) {
     var category = Common.rand(FoodList);
     var menu = Common.rand(category);
     replier.reply("오늘은 " + menu + " 추천 드려요! 🍳");
