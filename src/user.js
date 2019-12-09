@@ -115,6 +115,26 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     return;
   }
 
+  if (msg.indexOf("시간") != -1 && msg.indexOf("알려줘") != -1) {
+    var now = new Date();
+    var yy = now.getFullYear();
+    var mo = now.getMonth() + 1;
+    var dd = now.getDate();
+    var week = ["일", "월", "화", "수", "목", "금", "토"];
+    var hh = now.getHours();
+    var mm = now.getMinutes();
+    var ss = now.getSeconds();
+    replier.reply(yy + "년 " + mo + "월 " + dd + "일 (" + week[now.getDay()] + ")\n" + hh + "시 " + mm + "분 " + ss + "초" + Common.rand("에요!", "입니다!"));
+  }
+
+  if ((msg.indexOf("지금") != -1 && (msg.indexOf("몇시") != -1 || msg.indexOf("몇 시") != -1)) || msg.indexOf("몇시지") != -1 || msg.indexOf("몇 시지") != -1) {
+    var now = new Date();
+    var hh = now.getHours();
+    var mm = now.getMinutes();
+    var ss = now.getSeconds();
+    replier.reply("지금은 " + hh + "시 " + mm + "분 " + ss + "초" + Common.rand("!!", "에요!"));
+  }
+
   if (msg.indexOf("퇴근까지") != -1) {
     var now = new Date();
     var offwork = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 0, 0, 0);
@@ -152,6 +172,9 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     helper = helper.concat("굿봇, 굿 봇, 구웃봇\n");
     helper = helper.concat("밷봇, 밷 봇, 배드봇\n");
     helper = helper.concat("~건데, ~껀데\n");
+    helper = helper.concat("퇴근까지\n");
+    helper = helper.concat("지금 몇시\n");
+    helper = helper.concat("시간 알려줘\n");
     helper = helper.concat("\n[기능성]\n");
     helper = helper.concat("주사위\n");
     helper = helper.concat("메뉴 보여줘\n");
