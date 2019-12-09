@@ -16,8 +16,8 @@ FoodList["중식"] = ["짜장면", "짬뽕", "볶음밥", "탕수육", "마파�
 FoodList["일식"] = ["초밥", "라멘", "낫또", "오니기리", "덮밥", "우동", "야키니쿠", "메밀소바", "돈카츠"];
 FoodList["양식"] = ["로제파스타", "봉골레파스타", "크림파스타", "피자", "스테이크", "리조또", "햄버거", "시저샐러드"];
 FoodList["해장"] = ["북어국", "콩나물국밥", "순대국", "뼈해장국", "우거지국", "선지해장국", "올갱이국", "매운라면", "물냉면"];
-FoodList["간편"] = ["도시락", "샌드위치", "토스트", "샐러드", "김밥", "떢볶이", "핫도그", "밥버거", "시리얼", "컵밥"];
-FoodList["기타"] = ["쌀국수", "팟타이", "카레", "찜닭", "수제비", "칼국수", "아구찜", "닭갈비", "월남씸"];
+FoodList["간편"] = ["도시락", "샌드위치", "토스트", "샐러드", "김밥", "떡볶이", "핫도그", "밥버거", "시리얼", "컵밥"];
+FoodList["기타"] = ["쌀국수", "팟타이", "카레", "찜닭", "수제비", "칼국수", "아구찜", "닭갈비", "월남쌈", "치킨"];
 /**************/
 
 function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName, threadId) {
@@ -31,14 +31,28 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
    *(String) packageName: 메시지를 받은 메신저의 패키지 이름. (카카오톡: com.kakao.talk, 페메: com.facebook.orca, 라인: jp.naver.line.android
    *(int) threadId: 현재 쓰레드의 순번(스크립트별로 따로 매김)     *Api,Utils객체에 대해서는 설정의 도움말 참조*/
 
+  // Thanks
+  if ((isGroupChat && Math.ceil(Math.random() * 1000) == 701) || (!isGroupChat && Math.ceil(Math.random() * 100) == 12)) {
+    var ment = ["항상 감사드려요 💕", "사랑해요 💕", "앞으로도 잘 부탁드려요 💕"];
+    replier.reply(sender + "님, " + Common.rand(ment));
+  }
+
+  // chatting
   if (msg.indexOf("봇짱") != -1 || msg.indexOf("봇쨩") != -1) {
     var ment = ["예스 마이 마스터?", "ヽ(✿ﾟ▽ﾟ)ノ", "ヽ(✿ﾟωﾟ)ノ"];
     replier.reply(Common.rand(ment));
   } else if (msg.indexOf("굿봇") != -1 || msg.indexOf("굿 봇") != -1 || msg.indexOf("구웃봇") != -1) {
-    var ment = ["(･ω<)☆", "(･ω<)☆", "(･ω<)☆", "(๑ゝڡ◕๑)", "（*´▽`*)", "(♡´艸`)", "ꈍ .̮ ꈍ", "(ง •̀ω•́)ง✧", "( • ̀ω•́  )✧"];
+    var ment = ["(･ω<)☆", "(･ω<)☆", "°˖✧◝(⁰▿⁰)◜✧˖°", "(๑ゝڡ◕๑)", "（*´▽`*)", "(♡´艸`)", "ꈍ .̮ ꈍ", "(ง •̀ω•́)ง✧", "( • ̀ω•́  )✧", "٩(๑•̀o•́๑)و"];
+    replier.reply(Common.rand(ment));
+  } else if (msg.indexOf("밷봇") != -1 || msg.indexOf("밷 봇") != -1 || msg.indexOf("배드봇") != -1) {
+    var ment = ["ŏ̥̥̥̥םŏ̥̥̥̥", "( ´ｰ`)", "(ó﹏ò｡)", "༶ඬ༝ඬ༶", ":3c", "(இ﹏இ`｡)", "( ･×･)"];
+    replier.reply(Common.rand(ment));
+  } else if (msg.indexOf("껀데") > 0 || msg.indexOf("건데") > 0) {
+    var ment = ["(｡•́ - •̀｡)", "(._. )", "...", "(・-・*)♪"];
     replier.reply(Common.rand(ment));
   }
 
+  // utility
   if (msg.indexOf("주사위") != -1) {
     var dice = Math.ceil(Math.random() * 6);
     switch (dice) {
@@ -63,16 +77,60 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
       default:
         break;
     }
+  }
+
+  if (msg.indexOf("메뉴") != -1 && msg.indexOf("보여줘") != -1) {
+    var return_msg = "";
+    for (var key in FoodList) {
+      if (msg.indexOf(key) != -1) {
+        return_msg = return_msg.concat("########## " + key + " ##########\n");
+        return_msg = return_msg.concat(FoodList[key] + "\n\n");
+      }
+    }
+    if (return_msg == "") {
+      for (var key in FoodList) {
+        return_msg = return_msg.concat("########## " + key + " ##########\n");
+        return_msg = return_msg.concat(FoodList[key] + "\n\n");
+      }
+    }
+    replier.reply(return_msg.slice(0, -2));
+  }
+
+  if ((msg.indexOf("뭐") != -1 && (msg.indexOf("먹지") != -1 || msg.indexOf("먹을까") != -1 || msg.indexOf("먹는게 좋을까") != -1)) || msg.indexOf("추천해줘") != -1) {
+    var Foods = new Array();
+    for (var key in FoodList) {
+      if (msg.indexOf(key) != -1) {
+        Foods = Foods.concat(FoodList[key]);
+      }
+    }
+    if (msg.indexOf("추천해줘") != -1) {
+      if (!(Array.isArray(Foods) && Foods.length) && msg.indexOf("아침") == -1 && msg.indexOf("점심") == -1 && msg.indexOf("저녁") == -1 && msg.indexOf("먹을") == -1 && msg.indexOf("음식") == -1)
+        return;
+    }
+
+    var category = Common.rand(FoodList);
+    var menu = Common.rand(category);
+    if (Array.isArray(Foods) && Foods.length) menu = Common.rand(Foods);
+    replier.reply("저는 " + menu + " 추천 드려요! 🍳");
     return;
   }
 
-  if (
-    (msg.indexOf("뭐") != -1 && (msg.indexOf("먹지") != -1 || msg.indexOf("먹을까") != -1 || msg.indexOf("먹는게 좋을까") != -1)) ||
-    (msg.indexOf("추천해줘") != -1 && (msg.indexOf("아침") != -1 || msg.indexOf("점심") != -1 || msg.indexOf("저녁") != -1 || msg.indexOf("먹을 거") != -1 || msg.indexOf("음식") != -1))
-  ) {
-    var category = Common.rand(FoodList);
-    var menu = Common.rand(category);
-    replier.reply("오늘은 " + menu + " 추천 드려요! 🍳");
+  if (msg.indexOf("퇴근까지") != -1) {
+    var now = new Date();
+    var offwork = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 0, 0, 0);
+    var diff = offwork - now;
+    if (diff < 0) {
+      replier.reply("야근하지 마세요 ŏ̥̥̥̥םŏ̥̥̥̥");
+    } else {
+      var hh = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var mm = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      var ss = Math.floor((diff % (1000 * 60)) / 1000);
+      if (hh > 9) {
+        replier.reply("출근까지 " + (hh - 9) + "시 " + mm + "분 " + ss + "초 남았습니다!");
+      } else {
+        replier.reply("퇴근까지 " + hh + "시 " + mm + "분 " + ss + "초 남았습니다!");
+      }
+    }
   }
 
   // 도배 체크
@@ -88,13 +146,21 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
 
   // 명령어
   if (msg.indexOf("--도움말") == 0 || (msg.indexOf("어떻게") != -1 && msg.indexOf(BotName) != -1)) {
-    helper = "## " + BotName + " 도움말##\n";
+    helper = "## " + BotName + " 도움말##";
+    helper = helper.concat("\n[봇 응답]\n");
+    helper = helper.concat("봇짱, 봇쨩\n");
+    helper = helper.concat("굿봇, 굿 봇, 구웃봇\n");
+    helper = helper.concat("밷봇, 밷 봇, 배드봇\n");
+    helper = helper.concat("~건데, ~껀데\n");
+    helper = helper.concat("\n[기능성]\n");
     helper = helper.concat("주사위\n");
-    helper = helper.concat("--타이머 <second>\n");
+    helper = helper.concat("메뉴 보여줘\n");
+    helper = helper.concat("음식 추천해줘, 뭐 먹지..etc\n");
     helper = helper.concat("--골라줘 <A> <B> ...\n");
-    helper = helper.concat("\n");
+    helper = helper.concat("--타이머 <second>\n");
+    helper = helper.concat("\n[개발 예정]\n");
     helper = helper.concat("--학습 <질문>:<대답>\n");
-    helper = helper.concat("--학습조회 [질문]");
+    helper = helper.concat("--학습조회 [질문]\n");
     helper = helper.concat("--학습제거 <질문>");
     replier.reply(helper);
   }
