@@ -50,7 +50,8 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
   } else if (msg.indexOf("껀데") > 0 || msg.indexOf("건데") > 0) {
     var ment = ["(｡•́ - •̀｡)", "(._. )", "...", "(・-・*)♪", "๑°⌓°๑"];
     replier.reply(Common.rand(ment));
-  } else if (msg.indexOf("심심해") != -1) {
+  }
+  if (msg.indexOf("심심해") != -1) {
     var ment = ["밀린 과제가 있지는 않나요?", "오늘도 열공!! ٩(*•̀ᴗ•́*)و ", "운동! 운동! ୧(๑•̀ㅁ•́๑)૭✧", "저랑 같이 놀아요\n(っ˘▽˘)(˘▽˘)˘▽˘ς)"];
     replier.reply(Common.rand(ment));
   }
