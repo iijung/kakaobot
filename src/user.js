@@ -39,16 +39,19 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
 
   // chatting
   if (msg.indexOf("봇짱") != -1 || msg.indexOf("봇쨩") != -1) {
-    var ment = ["예스 마이 마스터?", "ヽ(✿ﾟ▽ﾟ)ノ", "ヽ(✿ﾟωﾟ)ノ"];
+    var ment = ["예스 마이 마스터?", "ヽ(✿ﾟ▽ﾟ)ノ", "ヽ(✿ﾟωﾟ)ノ", " ꧁⍤⃝꧂ ", " ꧁⍢⃝꧂ ", " ꈍ﹃ꈍ "];
     replier.reply(Common.rand(ment));
   } else if (msg.indexOf("굿봇") != -1 || msg.indexOf("굿 봇") != -1 || msg.indexOf("구웃봇") != -1) {
-    var ment = ["(･ω<)☆", "(･ω<)☆", "°˖✧◝(⁰▿⁰)◜✧˖°", "(๑ゝڡ◕๑)", "（*´▽`*)", "(♡´艸`)", "ꈍ .̮ ꈍ", "(ง •̀ω•́)ง✧", "( • ̀ω•́  )✧", "٩(๑•̀o•́๑)و"];
+    var ment = ["(･ω<)☆", " ꉂꉂ(ᵔᗜᵔ*) ", "°˖✧◝(⁰▿⁰)◜✧˖°", "(๑ゝڡ◕๑)", "（*´▽`*)", "(♡´艸`)", "ꈍ .̮ ꈍ", "(ง •̀ω•́)ง✧", "( • ̀ω•́  )✧", "٩(๑•̀o•́๑)و"];
     replier.reply(Common.rand(ment));
   } else if (msg.indexOf("밷봇") != -1 || msg.indexOf("밷 봇") != -1 || msg.indexOf("배드봇") != -1) {
-    var ment = ["ŏ̥̥̥̥םŏ̥̥̥̥", "( ´ｰ`)", "(ó﹏ò｡)", "༶ඬ༝ඬ༶", ":3c", "(இ﹏இ`｡)", "( ･×･)"];
+    var ment = ["ŏ̥̥̥̥םŏ̥̥̥̥", "( ´ｰ`)", "(ó﹏ò｡)", " ˃̣̣̣̣̣̣︿˂̣̣̣̣̣̣ ", ":3c", "(இ﹏இ`｡)", "( ･×･)"];
     replier.reply(Common.rand(ment));
   } else if (msg.indexOf("껀데") > 0 || msg.indexOf("건데") > 0) {
-    var ment = ["(｡•́ - •̀｡)", "(._. )", "...", "(・-・*)♪"];
+    var ment = ["(｡•́ - •̀｡)", "(._. )", "...", "(・-・*)♪", "๑°⌓°๑"];
+    replier.reply(Common.rand(ment));
+  } else if (msg.indexOf("심심해") != -1) {
+    var ment = ["밀린 과제가 있지는 않나요?", "오늘도 열공!! ٩(*•̀ᴗ•́*)و ", "운동! 운동! ୧(๑•̀ㅁ•́๑)૭✧", "저랑 같이 놀아요\n(っ˘▽˘)(˘▽˘)˘▽˘ς)"];
     replier.reply(Common.rand(ment));
   }
 
@@ -79,7 +82,7 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     }
   }
 
-  if (msg.indexOf("메뉴") != -1 && msg.indexOf("보여줘") != -1) {
+  if (msg.indexOf("메뉴") != -1 && (msg.indexOf("보여줘") != -1 || msg.indexOf("뭐") != -1)) {
     var return_msg = "";
     for (var key in FoodList) {
       if (msg.indexOf(key) != -1) {
@@ -96,14 +99,14 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     replier.reply(return_msg.slice(0, -2));
   }
 
-  if ((msg.indexOf("뭐") != -1 && (msg.indexOf("먹지") != -1 || msg.indexOf("먹을까") != -1 || msg.indexOf("먹는게 좋을까") != -1)) || msg.indexOf("추천해줘") != -1) {
+  if ((msg.indexOf("뭐") != -1 && (msg.indexOf("먹지") != -1 || msg.indexOf("먹을까") != -1 || msg.indexOf("먹는게 좋을까") != -1)) || msg.indexOf("추천") != -1) {
     var Foods = new Array();
     for (var key in FoodList) {
       if (msg.indexOf(key) != -1) {
         Foods = Foods.concat(FoodList[key]);
       }
     }
-    if (msg.indexOf("추천해줘") != -1) {
+    if (msg.indexOf("추천") != -1) {
       if (!(Array.isArray(Foods) && Foods.length) && msg.indexOf("아침") == -1 && msg.indexOf("점심") == -1 && msg.indexOf("저녁") == -1 && msg.indexOf("먹을") == -1 && msg.indexOf("음식") == -1)
         return;
     }
@@ -155,7 +158,7 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
 
   // 도배 체크
   if (checkPlaster[sender] == msg) {
-    var emoji = ["🚫", "( ﾟдﾟ )", "ヽ(`Д´)ﾉ", "\n｡･ﾟﾟ*(>д<)*ﾟﾟ･｡", "\n(　ﾟ皿ﾟ)", "\n(╬ ಠ 益ಠ)"];
+    var emoji = ["🚫", "( ﾟдﾟ )", "ヽ(`Д´)ﾉ", "\n｡･ﾟﾟ*(>д<)*ﾟﾟ･｡", "\n ( ง ᵒ̌ ∽ᵒ̌)ง⁼³₌₃ ", "\n ٩(๑`^´๑)۶ "];
     if (new Date().valueOf() > atTime.valueOf() + 10000) {
       replier.reply(sender + "님, 도배 경고입니다!! " + Common.rand(emoji));
       atTime = new Date();
