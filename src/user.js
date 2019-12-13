@@ -182,6 +182,7 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
 
   // 도배 체크
   if (checkPlaster[sender] == msg) {
+    if (msg == "이모티콘을 보냈습니다" || msg == "사진을 보냈습니다" || msg == "동영상을 보냈습니다") return;
     var emoji = ["🚫", "( ﾟдﾟ )", "ヽ(`Д´)ﾉ", "\n｡･ﾟﾟ*(>д<)*ﾟﾟ･｡", "\n ( ง ᵒ̌ ∽ᵒ̌)ง⁼³₌₃ ", "\n ٩(๑`^´๑)۶ "];
     if (new Date().valueOf() > atTime.valueOf() + 10000) {
       replier.reply(sender + "님, 도배 경고입니다!! " + Common.rand(emoji));
@@ -199,7 +200,7 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     helper = helper.concat("굿봇, 굿 봇, 구웃봇\n");
     helper = helper.concat("밷봇, 밷 봇, 배드봇\n");
     helper = helper.concat("~건데, ~껀데\n");
-    helper = helper.concat("퇴근까지\n");
+    helper = helper.concat("퇴근\n");
     helper = helper.concat("지금 몇시\n");
     helper = helper.concat("시간 알려줘\n");
     helper = helper.concat("\n[기능성]\n");
