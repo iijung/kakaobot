@@ -167,7 +167,7 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     var diff = offwork - now;
     if (diff < 0) {
       var ment = ["야근하지 마세요 ŏ̥̥̥̥םŏ̥̥̥̥", "퇴근! 퇴근!"];
-      replier.reply(ment);
+      replier.reply(Common.rand(ment));
     } else {
       var hh = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       var mm = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
