@@ -105,6 +105,22 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     }
   }
 
+  if (msg.indexOf("가위") == 0 || msg.indexOf("바위") == 0 || msg.indexOf("보") == 0) {
+    var com = Common.rand("가위", "바위", "보");
+    replier.reply(com);
+
+    if (msg == com) {
+      var ment = ["앗! 저희 비겼네요(っ˘▽˘)(˘▽˘ς)", "DRAW!"];
+      replier.reply(Common.rand(ment));
+    } else if ((msg == "가위" && com == "보") || (msg == "바위" && com == "가위") || (msg == "보" && com == "바위")) {
+      var ment = ["제가 졌어요 ˃̣̣̣̣̣̣︿˂̣̣̣̣̣̣ ", sender + "님, WIN!", sender + "님의 승리!"];
+      replier.reply(Common.rand(ment));
+    } else {
+      var ment = ["제가 이겼어요! ヽ( ᐛ )ノ", "저의 승리입니다!٩(*´◒`*)۶♡", "LOSE!"];
+      replier.reply(Common.rand(ment));
+    }
+  }
+
   if (msg.indexOf("메뉴") != -1 && (msg.indexOf("보여줘") != -1 || msg.indexOf("뭐") != -1)) {
     var return_msg = "";
     for (var key in FoodList) {
