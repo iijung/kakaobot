@@ -1,32 +1,3 @@
-/* game api */
-function GBB(user_name, user_msg){
-	com_action = rand(1,4);
-	com_msg = com_action == 1? "가위": com_action == 2? "바위": "보";
-	user_action = user_mag === "가위"? 1: user_msg === "바위"? 2 : user_msg ==="보"? 3: 0;
-	if (!user_action) {
-		return user_name+"님, ["+user_msg+"]는 낼 수 없습니다.";
-	}
-
-	var str = "";	
-	str = str.concat(user_name+"님: "+user_msg+"\n");
-	str = str.concat(bot_name+": "+com_msg+"\n");
-
-	if (user_action == com_action) {
-		str = str.concat("비겼습니다");
-	} else if ((user_action == 1 && com_action == 3) 
-					|| (user_action == 2 && com_action == 1) 
-					|| (user_action == 3 && com_action == 3)) {
-		str = str.concat(user_name+"님이 이겼습니다");
-	} else {
-		str = str.concat(bot_name+"이 이겼습니다");
-	}
-	return str;
-}
-
-
-이거 수정해야함 
-
-
 
 const scriptName="main.js";
 
