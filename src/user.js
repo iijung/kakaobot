@@ -105,7 +105,7 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     }
   }
 
-  if (msg.indexOf("가위") == 0 || msg.indexOf("바위") == 0 || msg.indexOf("보") == 0) {
+  if (msg =="가위"|| msg == "바위" || msg == "보") {
     var com = Common.rand("가위", "바위", "보");
     replier.reply(com);
 
