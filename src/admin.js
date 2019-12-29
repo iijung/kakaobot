@@ -123,7 +123,7 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
         return_name = return_name.concat(ObjectList[idx].name + ",");
       }
     }
-    replier.reply(return_name + "님이 관리자에서 제거되었습니다.");
+    replier.reply(return_name.slice(0, -1) + "님이 관리자에서 제거되었습니다.");
   }
 
   if (msg.indexOf("--관리자 조회") == 0) {
@@ -132,7 +132,7 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     for (var idx in AdminList) {
       return_msg = return_msg.concat(AdminList[idx].name + "\n");
     }
-    replier.reply(return_msg);
+    replier.reply(return_msg.slice(0, -1));
   }
 }
 
