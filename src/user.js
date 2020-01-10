@@ -152,7 +152,15 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
       }
     }
     if (msg.indexOf("추천") != -1) {
-      if (!(Array.isArray(Foods) && Foods.length) && msg.indexOf("아침") == -1 && msg.indexOf("점심") == -1 && msg.indexOf("저녁") == -1 && msg.indexOf("먹을") == -1 && msg.indexOf("음식") == -1)
+      if (
+        !(Array.isArray(Foods) && Foods.length) &&
+        msg.indexOf("아침") == -1 &&
+        msg.indexOf("점심") == -1 &&
+        msg.indexOf("저녁") == -1 &&
+        msg.indexOf("야식") == -1 &&
+        msg.indexOf("먹을") == -1 &&
+        msg.indexOf("음식") == -1
+      )
         return;
     }
 
@@ -163,7 +171,7 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     return;
   }
 
-  if (msg.indexOf("시간") != -1 && msg.indexOf("알려줘") != -1) {
+  if ((msg.indexOf("시간") != -1 || msg.indexOf("날짜") != -1) && msg.indexOf("알려줘") != -1) {
     var now = new Date();
     var yy = now.getFullYear();
     var mo = now.getMonth() + 1;
@@ -175,7 +183,7 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     replier.reply(yy + "년 " + mo + "월 " + dd + "일 (" + week[now.getDay()] + ")\n" + hh + "시 " + mm + "분 " + ss + "초" + Common.rand("에요!", "입니다!"));
   }
 
-  if ((msg.indexOf("지금") != -1 && (msg.indexOf("몇시") != -1 || msg.indexOf("몇 시") != -1)) || msg.indexOf("몇시지") != -1 || msg.indexOf("몇 시지") != -1) {
+  if (msg.indexOf("지금") != -1 && (msg.indexOf("몇시") != -1 || msg.indexOf("몇 시") != -1)) {
     var now = new Date();
     var hh = now.getHours();
     var mm = now.getMinutes();
