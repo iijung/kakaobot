@@ -21,7 +21,6 @@ FoodList["기타"] = ["쌀국수", "팟타이", "카레", "찜닭", "수제비",
 /**************/
 
 function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName, threadId) {
-  Log.info("packName: " + packageName + "\nroom: " + room + "\nsender: " + sender + "\nmsg: " + msg + "\nisGruptChat: " + isGroupChat);
   /*(String) room: 메시지를 받은 방 이름
    *(String) msg: 메시지 내용
    *(String) sender: 전송자 닉네임
@@ -31,6 +30,10 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
    *(String) packageName: 메시지를 받은 메신저의 패키지 이름. (카카오톡: com.kakao.talk, 페메: com.facebook.orca, 라인: jp.naver.line.android
    *(int) threadId: 현재 쓰레드의 순번(스크립트별로 따로 매김)     *Api,Utils객체에 대해서는 설정의 도움말 참조*/
 
+  //////////////////////////////////////////////////////////////////////////////////////
+  // not command
+  //////////////////////////////////////////////////////////////////////////////////////
+
   // Thanks
   if ((isGroupChat && Math.ceil(Math.random() * 1000) == 701) || (!isGroupChat && Math.ceil(Math.random() * 100) == 12)) {
     var ment = ["항상 감사드려요 💕", "사랑해요 💕", "앞으로도 잘 부탁드려요 💕"];
@@ -38,21 +41,6 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
   }
 
   // chatting
-  if (msg.indexOf("봇짱") != -1 || msg.indexOf("봇쨩") != -1) {
-    var ment = ["예스 마이 마스터?", "ヽ( ᐛ )ノ", "ヽ(✿ﾟ▽ﾟ)ノ", "ヽ(✿ﾟωﾟ)ノ", " ꧁⍤⃝꧂ ", " ꧁⍢⃝꧂ ", " ꈍ﹃ꈍ ", "ヾ(*'▽'*)"];
-    replier.reply(Common.rand(ment));
-  } else if (msg.indexOf("굿봇") != -1 || msg.indexOf("굿 봇") != -1 || msg.indexOf("구웃봇") != -1) {
-    var ment = ["(◍•ᴗ•◍)♡ ✧*。", "(･ω<)☆", " ꉂꉂ(ᵔᗜᵔ*) ", "°˖✧◝(⁰▿⁰)◜✧˖°", "(๑ゝڡ◕๑)", "（*´▽`*)", "(♡´艸`)", "ꈍ .̮ ꈍ", "( • ̀ω•́  )✧", "٩(๑•̀o•́๑)و", "(*´˘`*)♡", "٩(*´◒`*)۶♡"];
-    replier.reply(Common.rand(ment));
-  } else if (msg.indexOf("밷봇") != -1 || msg.indexOf("밷 봇") != -1 || msg.indexOf("배드봇") != -1) {
-    var ment = ["ŏ̥̥̥̥םŏ̥̥̥̥", "( ´ｰ`)", "(ó﹏ò｡)", " ˃̣̣̣̣̣̣︿˂̣̣̣̣̣̣ ", ":3c", "(இ﹏இ`｡)", "( ･×･)", "｡ﾟﾟ(*´□`*｡)°ﾟ｡"];
-    replier.reply(Common.rand(ment));
-  } else if (msg.indexOf("껀데") > 0 || msg.indexOf("건데") > 0) {
-    var ment = ["(｡•́ - •̀｡)", "(._. )", "...", "(・-・*)♪", "๑°⌓°๑"];
-    replier.reply(Common.rand(ment));
-  } else if (msg.indexOf("음악") != -1) {
-    replier.reply("⇆ㅤㅤ◁ㅤㅤ❚❚ㅤㅤ▷ㅤㅤ↻");
-  }
   if (msg.indexOf("좋은") != -1 && (msg.indexOf("아침") != -1 || msg.indexOf("저녁") != -1 || msg.indexOf("점심") != -1 || msg.indexOf("꿈꿔") != -1)) {
     var now = new Date();
     if (now.getHours() < 6) {
@@ -69,12 +57,30 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     }
     replier.reply(Common.rand(ment));
   }
+
   if (msg.indexOf("심심해") != -1) {
     var ment = ["밀린 과제나 업무가 있지는 않나요?", "오늘도 열공!! ٩(*•̀ᴗ•́*)و ", "운동! 운동! ୧(๑•̀ㅁ•́๑)૭✧", "저랑 같이 놀아요\n(っ˘▽˘)(˘▽˘)˘▽˘ς)", "_(-ω-`_)⌒)_"];
     replier.reply(Common.rand(ment));
   }
-  if (msg.indexOf("응원") != -1) {
+
+  if (msg.indexOf("응원") != -1 || msg.indexOf("위로해줘") != -1) {
     var ment = ["힘내세요! ❀.(*´▽`*)❀.", "잘할 수 있을거에요!", "҉*( ‘ω’ )/*҉", "아자! 아자! (ง •̀ω•́)ง✧", "마법 걸어줄게요\nଘ(੭*ˊᵕˋ)੭* ੈ✩‧₊˚❛ ֊ ❛„ 뾰로롱₊୭*ˈ "];
+    replier.reply(Common.rand(ment));
+  }
+
+  if (msg.indexOf("굿봇") != -1 || msg.indexOf("굿 봇") != -1 || msg.indexOf("구웃봇") != -1) {
+    var ment = ["(◍•ᴗ•◍)♡ ✧*。", "(･ω<)☆", " ꉂꉂ(ᵔᗜᵔ*) ", "°˖✧◝(⁰▿⁰)◜✧˖°", "(๑ゝڡ◕๑)", "（*´▽`*)", "(♡´艸`)", "ꈍ .̮ ꈍ", "( • ̀ω•́  )✧", "٩(๑•̀o•́๑)و", "(*´˘`*)♡", "٩(*´◒`*)۶♡"];
+    replier.reply(Common.rand(ment));
+  } else if (msg.indexOf("밷봇") != -1 || msg.indexOf("밷 봇") != -1 || msg.indexOf("배드봇") != -1) {
+    var ment = ["ŏ̥̥̥̥םŏ̥̥̥̥", "( ´ｰ`)", "(ó﹏ò｡)", " ˃̣̣̣̣̣̣︿˂̣̣̣̣̣̣ ", ":3c", "(இ﹏இ`｡)", "( ･×･)", "｡ﾟﾟ(*´□`*｡)°ﾟ｡"];
+    replier.reply(Common.rand(ment));
+  } else if (msg.indexOf("껀데") > 0 || msg.indexOf("건데") > 0) {
+    var ment = ["(｡•́ - •̀｡)", "(._. )", "...", "(・-・*)♪", "๑°⌓°๑"];
+    replier.reply(Common.rand(ment));
+  } else if (msg.indexOf("음악") != -1) {
+    replier.reply("⇆ㅤㅤ◁ㅤㅤ❚❚ㅤㅤ▷ㅤㅤ↻");
+  } else if (msg.indexOf("봇짱") != -1 || msg.indexOf("봇쨩") != -1) {
+    var ment = ["예스 마이 마스터?", "ヽ( ᐛ )ノ", "ヽ(✿ﾟ▽ﾟ)ノ", "ヽ(✿ﾟωﾟ)ノ", " ꧁⍤⃝꧂ ", " ꧁⍢⃝꧂ ", " ꈍ﹃ꈍ ", "ヾ(*'▽'*)"];
     replier.reply(Common.rand(ment));
   }
 
@@ -105,7 +111,7 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     }
   }
 
-  if (msg =="가위"|| msg == "바위" || msg == "보") {
+  if (msg == "가위" || msg == "바위" || msg == "보") {
     var com = Common.rand("가위", "바위", "보");
     replier.reply(com);
 
@@ -177,12 +183,12 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     replier.reply("지금은 " + hh + "시 " + mm + "분 " + ss + "초" + Common.rand("!!", "에요!"));
   }
 
-  if (msg.indexOf("퇴근") != -1) {
+  if (msg.indexOf("퇴근까지") != -1) {
     var now = new Date();
     var offwork = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 0, 0, 0);
     var diff = offwork - now;
     if (diff < 0) {
-      var ment = ["야근하지 마세요 ŏ̥̥̥̥םŏ̥̥̥̥", "퇴근! 퇴근!"];
+      var ment = ["이미 퇴근할 시간이에요\n야근하지 마세요 ŏ̥̥̥̥םŏ̥̥̥̥", "퇴근! 퇴근!"];
       replier.reply(Common.rand(ment));
     } else {
       var hh = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -195,6 +201,9 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
       }
     }
   }
+  //////////////////////////////////////////////////////////////////////////////////////
+  // command
+  //////////////////////////////////////////////////////////////////////////////////////
 
   // 도배 체크
   if (checkPlaster[sender] == msg) {
@@ -225,10 +234,6 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     helper = helper.concat("음식 추천해줘, 뭐 먹지..etc\n");
     helper = helper.concat("--골라줘 <A> <B> ...\n");
     helper = helper.concat("--타이머 <second>\n");
-    helper = helper.concat("\n[개발 예정]\n");
-    helper = helper.concat("--학습 <질문>:<대답>\n");
-    helper = helper.concat("--학습조회 [질문]\n");
-    helper = helper.concat("--학습제거 <질문>");
     replier.reply(helper);
   }
 
@@ -257,40 +262,13 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     replier.reply(Common.rand(select) + "!!");
   }
 
-  /* 시간 많을 때 개발 예정 */
-  if (msg.indexOf("--학습 <질문>:<대답>") == 0) {
-  }
-  if (msg.indexOf("--학습조회 [질문]") == 0) {
-    var return_msg = "";
-    var ObjectList = selectDB("test.json", 0);
-    for (var idx in ObjectList) {
-      return_msg = return_msg.concat(" " + ObjectList[idx].name);
-    }
-    replier.reply(return_msg);
-  }
+  /* 개발 버킷 리스트 */
 
-  if (msg.indexOf("--학습제거 <질문>") == 0) {
-    var msg_content = msg.replace("--관리자 제거 ", "").trim();
-    if (msg_content == "") {
-      replier.reply("ex) --관리자 제거 Tanya");
-      return;
-    }
-
-    var return_name = "";
-    var names = msg_content.split(" ");
-    for (var idx in names) {
-      if (names[idx] == "") names.splice(idx, 1);
-    }
-    for (var idx in names) {
-      var object = new Object();
-      object["name"] = names[idx];
-      var ObjectList = Common.deleteDB("AdminList.json", object);
-      for (var idx in ObjectList) {
-        return_name = return_name.concat(ObjectList[idx].name + ",");
-      }
-    }
-    replier.reply(return_name + "님이 관리자에서 제거되었습니다.");
-  }
+  /*
+  1. 오브젝트 파일 저장 기능 수정
+  2. 
+  2. 메시지 학습 기능
+  */
 }
 
 function onStartCompile() {
