@@ -58,6 +58,11 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     replier.reply(Common.rand(ment));
   }
 
+  if (msg.indexOf("안녕") != -1) {
+    ment = [sender + "님, 안녕하세요!!", "하이요!!"];
+    replier.reply(Common.rand(ment));
+  }
+
   if (msg.indexOf("심심해") != -1) {
     var ment = ["밀린 과제나 업무가 있지는 않나요?", "오늘도 열공!! ٩(*•̀ᴗ•́*)و ", "운동! 운동! ୧(๑•̀ㅁ•́๑)૭✧", "저랑 같이 놀아요\n(っ˘▽˘)(˘▽˘)˘▽˘ς)", "_(-ω-`_)⌒)_"];
     replier.reply(Common.rand(ment));
