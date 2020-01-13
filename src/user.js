@@ -280,6 +280,49 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
       }
     }
   }
+
+  if (msg.indexOf("날씨") != -1) {
+    var return_msg = "";
+    var region = "";
+    if (msg.indexOf("서울") != -1 || msg.indexOf("경기도") != -1) {
+      return_msg = return_msg.concat("[서울/경기도 날씨]\n\n");
+      region = "서울";
+    } else if (msg.indexOf("강원도") != -1) {
+      return_msg = return_msg.concat("[강원도 날씨]\n\n");
+      region = "강원도";
+    } else if (msg.indexOf("충청북도") != -1) {
+      return_msg = return_msg.concat("[충청북도 날씨]\n\n");
+      region = "충청북도";
+    } else if (msg.indexOf("충청남북도") != -1) {
+      return_msg = return_msg.concat("[충청남북도 날씨]\n\n");
+      region = "충청남북도";
+    } else if (msg.indexOf("경상남북도") != -1) {
+      return_msg = return_msg.concat("[경상남북도 날씨]\n\n");
+      region = "경상남북도";
+    } else if (msg.indexOf("전라북도") != -1) {
+      return_msg = return_msg.concat("[전라북도 날씨]\n\n");
+      region = "전라북도";
+    } else if (msg.indexOf("전라남북도") != -1) {
+      return_msg = return_msg.concat("[전라남북도 날씨]\n\n");
+      region = "전라남북도";
+    } else if (msg.indexOf("제주도") != -1) {
+      return_msg = return_msg.concat("[제주도 날씨]\n\n");
+      region = "제주도";
+    } else {
+      replier.reply("서울/경기, 강원도, 충청북도, 충청남북도, 경상남북도, 전라북도, 전라남북도, 제주도를 포함한 날씨를 말해주세요");
+      return;
+    }
+    var weather = Utils.getWebText("https://weather.naver.com/period/weeklyFcast.nhn").split("지역별 날씨 전망")[2];
+    return_msg = return_msg.concat(
+      weather
+        .substring(weather.indexOf(region))
+        .split('line">')[1]
+        .split("</td>")[0]
+        .replace(/<br\s*[\/]?>/gi, "\n")
+    );
+    replier.reply(return_msg);
+  }
+
   //////////////////////////////////////////////////////////////////////////////////////
   // command
   //////////////////////////////////////////////////////////////////////////////////////
