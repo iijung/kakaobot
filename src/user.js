@@ -132,6 +132,72 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     }
   }
 
+  if (msg.indexOf("운세") != -1) {
+    var fortune_msg = "";
+    var seed = 777;
+    for (var i = 0; i < sender.length; i++) {
+      switch (i % 4) {
+        case 0:
+          seed += sender.charCodeAt(i);
+          break;
+        case 1:
+          seed += sender.charCodeAt(i);
+          break;
+        case 2:
+          seed *= sender.charCodeAt(i);
+          break;
+        case 3:
+          seed /= sender.charCodeAt(i);
+          break;
+      }
+    }
+    var date = new Date();
+    if (msg.indexOf("오늘") != -1 && msg.indexOf("내일") == -1) {
+      fortune_msg = "# " + sender + "님의 오늘 운세 #";
+      seed *= date.getDate();
+      seed *= date.getMonth() + 1;
+      seed %= date.getFullYear();
+    } else if (msg.indexOf("내일") != -1 && msg.indexOf("오늘") == -1) {
+      fortune_msg = "# " + sender + "님의 내일 운세 #";
+      date.setDate(date.getDate() + 1);
+      seed *= date.getDate();
+      seed *= date.getMonth() + 1;
+      seed %= date.getFullYear();
+    } else {
+      fortune_msg = "# " + sender + "님의 종합 운세 #";
+      seed *= date.getMonth() + 1;
+      seed %= date.getFullYear();
+    }
+
+    var love = parseInt((((seed % 10000) / 1000) * 7) % 5) + 1;
+    var job = parseInt((((seed % 1000) / 100) * 11) % 5) + 1;
+    var luck = parseInt((((seed % 100) / 10) * 13) % 5) + 1;
+    var gold = ((((love + job + luck) % 10) * 17) % 5) + 1;
+
+    fortune_msg = fortune_msg.concat("\n애정 ");
+    while (love > 0) {
+      fortune_msg = fortune_msg.concat("❤");
+      love--;
+    }
+    fortune_msg = fortune_msg.concat("\n직업 ");
+    while (job > 0) {
+      fortune_msg = fortune_msg.concat("🏆");
+      job--;
+    }
+    fortune_msg = fortune_msg.concat("\n행운 ");
+    while (luck > 0) {
+      fortune_msg = fortune_msg.concat("🍀");
+      luck--;
+    }
+    fortune_msg = fortune_msg.concat("\n금전 ");
+    while (gold > 0) {
+      fortune_msg = fortune_msg.concat("💎");
+      gold--;
+    }
+
+    replier.reply(fortune_msg);
+  }
+
   if (msg.indexOf("메뉴") != -1 && (msg.indexOf("보여줘") != -1 || msg.indexOf("뭐") != -1)) {
     var return_msg = "";
     for (var key in FoodList) {
@@ -245,6 +311,7 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     helper = helper.concat("주사위\n");
     helper = helper.concat("메뉴 보여줘\n");
     helper = helper.concat("음식 추천해줘, 뭐 먹지..etc\n");
+    helper = helper.concat("운세, 오늘 운세, 내일 운세\n");
     helper = helper.concat("--골라줘 <A> <B> ...\n");
     helper = helper.concat("--타이머 <second>\n");
     replier.reply(helper);
