@@ -242,7 +242,7 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     return;
   }
 
-  if ((msg.indexOf("시간") != -1 || msg.indexOf("날짜") != -1) && msg.indexOf("알려줘") != -1) {
+  if ((msg.indexOf("시간") == 0 || msg.indexOf("날짜") == 0) && msg.indexOf("알려줘") != -1) {
     var now = new Date();
     var yy = now.getFullYear();
     var mo = now.getMonth() + 1;
@@ -262,7 +262,7 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     replier.reply("지금은 " + hh + "시 " + mm + "분 " + ss + "초" + Common.rand("!!", "에요!"));
   }
 
-  if (msg.indexOf("퇴근까지") != -1) {
+  if (msg.indexOf("퇴근까지") != -1 || msg.indexOf("출근까지") != -1) {
     var now = new Date();
     var offwork = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 0, 0, 0);
     var diff = offwork - now;
@@ -347,7 +347,7 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     helper = helper.concat("굿봇, 굿 봇, 구웃봇\n");
     helper = helper.concat("밷봇, 밷 봇, 배드봇\n");
     helper = helper.concat("~건데, ~껀데\n");
-    helper = helper.concat("퇴근\n");
+    helper = helper.concat("퇴근까지 ,출근까지\n");
     helper = helper.concat("지금 몇시\n");
     helper = helper.concat("시간 알려줘\n");
     helper = helper.concat("\n[기능성]\n");
@@ -355,6 +355,8 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     helper = helper.concat("메뉴 보여줘\n");
     helper = helper.concat("음식 추천해줘, 뭐 먹지..etc\n");
     helper = helper.concat("운세, 오늘 운세, 내일 운세\n");
+    helper = helper.concat("\n[명령어]\n");
+    helper = helper.concat("--도움말\n");
     helper = helper.concat("--골라줘 <A> <B> ...\n");
     helper = helper.concat("--타이머 <second>\n");
     replier.reply(helper);
