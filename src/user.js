@@ -82,8 +82,9 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
   } else if (msg.indexOf("껀데") > 0 || msg.indexOf("건데") > 0) {
     var ment = ["(｡•́ - •̀｡)", "(._. )", "...", "(・-・*)♪", "๑°⌓°๑"];
     replier.reply(Common.rand(ment));
-  } else if (msg.indexOf("음악") != -1) {
-    replier.reply("⇆ㅤㅤ◁ㅤㅤ❚❚ㅤㅤ▷ㅤㅤ↻");
+  } else if (msg.indexOf("음악") != -1 || msg.indexOf("노래") != -1) {
+    var ment = ["▶               3:14", "⇆ㅤㅤ◁ㅤㅤ❚❚ㅤㅤ▷ㅤㅤ↻"];
+    replier.reply(Common.rand(ment));
   } else if (msg.indexOf("봇짱") != -1 || msg.indexOf("봇쨩") != -1) {
     var ment = ["예스 마이 마스터?", "ヽ( ᐛ )ノ", "ヽ(✿ﾟ▽ﾟ)ノ", "ヽ(✿ﾟωﾟ)ノ", " ꧁⍤⃝꧂ ", " ꧁⍢⃝꧂ ", " ꈍ﹃ꈍ ", "ヾ(*'▽'*)"];
     replier.reply(Common.rand(ment));
