@@ -351,6 +351,9 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     helper = helper.concat("퇴근까지 ,출근까지\n");
     helper = helper.concat("지금 몇시\n");
     helper = helper.concat("시간 알려줘\n");
+    helper = helper.concat("가위, 바위, 보\n");
+    helper = helper.concat("심심해\n");
+    helper = helper.concat("응원, 위로해줘\n");
     helper = helper.concat("\n[기능성]\n");
     helper = helper.concat("주사위\n");
     helper = helper.concat("메뉴 보여줘\n");
