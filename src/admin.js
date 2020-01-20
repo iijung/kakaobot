@@ -24,8 +24,9 @@ function isAdmin(sender_name) {
   return 0;
 }
 
+var before_room = "";
+
 function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName, threadId) {
-  Log.info("packName: " + packageName + "\nroom: " + room + "\nsender: " + sender + "\nmsg: " + msg + "\nisGruptChat: " + isGroupChat);
   /*(String) room: 메시지를 받은 방 이름
    *(String) msg: 메시지 내용
    *(String) sender: 전송자 닉네임
@@ -36,6 +37,11 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
    *(int) threadId: 현재 쓰레드의 순번(스크립트별로 따로 매김)     *Api,Utils객체에 대해서는 설정의 도움말 참조*/
 
   if (!isAdmin(sender)) return;
+
+  if (msg.indexOf("--방") == 0) {
+    replier.reply(before_room);
+  }
+  before_room = room;
 
   if (msg.indexOf("--공지") == 0) {
     var msg_content = msg.replace("--공지 ", "").trim();
@@ -55,6 +61,7 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     helper = helper.concat("--구동 : 사용자 명령어 사용\n");
     helper = helper.concat("--중지 : 사용자 명령어 중지\n");
     helper = helper.concat("--상태 : " + BotName + " 상태\n");
+    helper = helper.concat("--방 : 마지막 방 이름 조회\n");
     helper = helper.concat("--공지 <방> <메시지>\n");
     helper = helper.concat("--관리자 추가 <이름1> \n");
     helper = helper.concat("--관리자 제거 <이름1> \n");
