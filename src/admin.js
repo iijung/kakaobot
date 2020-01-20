@@ -9,11 +9,11 @@ function changeBotName(bot_name) {
 }
 
 /* AdminList.json
-	[
-		{name: "관리자1"},
-		{name: "관리자2"},
-		{name: "관리자3"}
-	]
+   [
+      {name: "관리자1"},
+      {name: "관리자2"},
+      {name: "관리자3"}
+   ]
 */
 function isAdmin(sender_name) {
   if (sender_name == "Admin") return 1;
@@ -37,12 +37,25 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
 
   if (!isAdmin(sender)) return;
 
+  if (msg.indexOf("--공지") == 0) {
+    var msg_content = msg.replace("--공지 ", "").trim();
+    if (msg_content == "") {
+      replier.reply("ex) --공지 테스트 안녕");
+      return;
+    }
+
+    var room_name = msg_content.split(" ")[0];
+    var notice = msg_content.substring(msg_content.indexOf(" ") + 1);
+    replier.reply(room_name, notice);
+  }
+
   if (msg.indexOf("--도움말") == 0) {
     helper = "## " + BotName + " 관리자 도움말##\n";
     helper = helper.concat("--컴파일 \n");
     helper = helper.concat("--구동 : 사용자 명령어 사용\n");
     helper = helper.concat("--중지 : 사용자 명령어 중지\n");
     helper = helper.concat("--상태 : " + BotName + " 상태\n");
+    helper = helper.concat("--공지 <방> <메시지>\n");
     helper = helper.concat("--관리자 추가 <이름1> \n");
     helper = helper.concat("--관리자 제거 <이름1> \n");
     helper = helper.concat("--관리자 조회 : 관리자 조회");
