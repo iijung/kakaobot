@@ -50,7 +50,10 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     } else if (now.getHours() < 14) {
       ment = ["지금은 점심시간!!", "식사 맛있게 드세요!!🍖"];
     } else if (now.getHours() < 18) {
-      var reuse = msg.replace("봇쨩", sender + "님").replace("봇짱", sender + "님").trim();
+      var reuse = msg
+        .replace("봇쨩", sender + "님")
+        .replace("봇짱", sender + "님")
+        .trim();
       ment = [sender + "님!! 저랑 간식 어때요?! 🍰", reuse + "!!", "H͓̽a͓̽v͓̽e͓̽ A͓̽ G͓̽o͓̽o͓̽d͓̽ D͓̽a͓̽y͓̽! ღ'ᴗ'ღ"];
     } else {
       ment = [sender + "님, 좋은 저녁이에요!", sender + "님, 오늘 하루도 수고 많으셨어요!"];
@@ -285,7 +288,7 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
   if (msg.indexOf("날씨") != -1) {
     var return_msg = "";
     var region = "";
-    if (msg.indexOf("서울") != -1 || msg.indexOf("경기도") != -1) {
+    if (msg.indexOf("서울") != -1 || msg.indexOf("경기") != -1) {
       return_msg = return_msg.concat("[서울/경기도 날씨]\n\n");
       region = "서울";
     } else if (msg.indexOf("강원도") != -1) {
