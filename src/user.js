@@ -34,6 +34,11 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
   // not command
   //////////////////////////////////////////////////////////////////////////////////////
 
+  if (msg.indexOf("봇짱") != -1 || msg.indexOf("봇쨩") != -1) {
+    var ment = ["예스 마이 마스터?", "ヽ( ᐛ )ノ", "ヽ(✿ﾟ▽ﾟ)ノ", "ヽ(✿ﾟωﾟ)ノ", " ꧁⍤⃝꧂ ", " ꧁⍢⃝꧂ ", " ꈍ﹃ꈍ ", "ヾ(*'▽'*)"];
+    replier.reply(Common.rand(ment));
+  }
+
   // Thanks
   if ((isGroupChat && Math.ceil(Math.random() * 1000) == 701) || (!isGroupChat && Math.ceil(Math.random() * 100) == 12)) {
     var ment = ["항상 감사드려요 💕", "사랑해요 💕", "앞으로도 잘 부탁드려요 💕"];
@@ -87,9 +92,6 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     replier.reply(Common.rand(ment));
   } else if (msg.indexOf("음악") != -1 || msg.indexOf("노래") != -1) {
     var ment = ["▶               3:14", "⇆ㅤㅤ◁ㅤㅤ❚❚ㅤㅤ▷ㅤㅤ↻"];
-    replier.reply(Common.rand(ment));
-  } else if (msg.indexOf("봇짱") != -1 || msg.indexOf("봇쨩") != -1) {
-    var ment = ["예스 마이 마스터?", "ヽ( ᐛ )ノ", "ヽ(✿ﾟ▽ﾟ)ノ", "ヽ(✿ﾟωﾟ)ノ", " ꧁⍤⃝꧂ ", " ꧁⍢⃝꧂ ", " ꈍ﹃ꈍ ", "ヾ(*'▽'*)"];
     replier.reply(Common.rand(ment));
   }
 
