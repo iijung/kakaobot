@@ -388,22 +388,25 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     var loop = 0;
     while (loop < 6) {
       var same_flag = 0;
-      var tmp = Math.ceil(Math.random() * 44 + 1);
+      var tmp = Math.ceil(Math.random() * 45);
       for (var idx in lotto) {
-        if (lotto[idx] == tmp) same_flag = 1;
+        if (lotto[idx] == tmp) {
+          same_flag = 1;
+          break;
+        }
       }
       if (!same_flag) {
         lotto[loop++] = tmp;
       }
     }
     replier.reply(
-      "당첨 예상번호는...!!\n{0} {1} {2} {3} {4} + {5} 입니다!".format(
-        lotto[0] < 10 ? "0" : "" + lotto[0],
-        lotto[1] < 10 ? "0" : "" + lotto[1],
-        lotto[2] < 10 ? "0" : "" + lotto[2],
-        lotto[3] < 10 ? "0" : "" + lotto[3],
-        lotto[4] < 10 ? "0" : "" + lotto[4],
-        lotto[5] < 10 ? "0" : "" + lotto[5]
+      "당첨 예상번호는...!! 🥁🥁\n\n🍀 {0} {1} {2} {3} {4} + {5}!".format(
+        (lotto[0] < 10 ? "0" : "") + lotto[0],
+        (lotto[1] < 10 ? "0" : "") + lotto[1],
+        (lotto[2] < 10 ? "0" : "") + lotto[2],
+        (lotto[3] < 10 ? "0" : "") + lotto[3],
+        (lotto[4] < 10 ? "0" : "") + lotto[4],
+        (lotto[5] < 10 ? "0" : "") + lotto[5]
       )
     );
   }
