@@ -1,5 +1,16 @@
 const scriptName = "user.js";
 
+String.prototype.format = function() {
+  // Usage: "hello {1} {0} world {0}".foramt('!', 10)
+  // Return: hello 10 ! world !
+  var string = this;
+  for (var i = 0; i < arguments.length; i++) {
+    var regExp = new RegExp("\\{" + i + "\\}", "gm");
+    string = string.replace(regExp, arguments[i]);
+  }
+  return string;
+};
+
 var Common = Bridge.getScopeOf("common.js");
 var Admin = Bridge.getScopeOf("admin.js");
 
@@ -366,9 +377,35 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     helper = helper.concat("운세, 오늘 운세, 내일 운세\n");
     helper = helper.concat("\n[명령어]\n");
     helper = helper.concat("--도움말\n");
+    helper = helper.concat("--로또\n");
     helper = helper.concat("--골라줘 <A> <B> ...\n");
     helper = helper.concat("--타이머 <second>\n");
     replier.reply(helper);
+  }
+
+  if (msg.indexOf("--로또") == 0) {
+    var lotto = [];
+    var loop = 0;
+    while (loop < 6) {
+      var same_flag = 0;
+      var tmp = Math.ceil(Math.random() * 44 + 1);
+      for (var idx in lotto) {
+        if (lotto[idx] == tmp) same_flag = 1;
+      }
+      if (!same_flag) {
+        lotto[loop++] = tmp;
+      }
+    }
+    replier.reply(
+      "당첨 예상번호는...!!\n{0} {1} {2} {3} {4} + {5} 입니다!".format(
+        lotto[0] < 10 ? "0" : "" + lotto[0],
+        lotto[1] < 10 ? "0" : "" + lotto[1],
+        lotto[2] < 10 ? "0" : "" + lotto[2],
+        lotto[3] < 10 ? "0" : "" + lotto[3],
+        lotto[4] < 10 ? "0" : "" + lotto[4],
+        lotto[5] < 10 ? "0" : "" + lotto[5]
+      )
+    );
   }
 
   if (msg.indexOf("--타이머 ") == 0) {
