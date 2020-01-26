@@ -384,31 +384,37 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
   }
 
   if (msg.indexOf("--로또") == 0) {
-    var lotto = [];
-    var loop = 0;
-    while (loop < 6) {
-      var same_flag = 0;
-      var tmp = Math.ceil(Math.random() * 45);
-      for (var idx in lotto) {
-        if (lotto[idx] == tmp) {
-          same_flag = 1;
-          break;
+    var return_msg = "당첨 예상번호는...!! 🥁🥁\n\n";
+
+    for (var i = 0; i < 5; i++) {
+      var lotto = [];
+      var loop = 0;
+      while (loop < 6) {
+        var same_flag = 0;
+        var tmp = Math.ceil(Math.random() * 45);
+        for (var idx in lotto) {
+          if (lotto[idx] == tmp) {
+            same_flag = 1;
+            break;
+          }
+        }
+        if (!same_flag) {
+          lotto[loop++] = tmp;
         }
       }
-      if (!same_flag) {
-        lotto[loop++] = tmp;
-      }
+
+      return_msg = return_msg.concat(
+        "{0} {1} {2} {3} {4} + {5}\n".format(
+          (lotto[0] < 10 ? "0" : "") + lotto[0],
+          (lotto[1] < 10 ? "0" : "") + lotto[1],
+          (lotto[2] < 10 ? "0" : "") + lotto[2],
+          (lotto[3] < 10 ? "0" : "") + lotto[3],
+          (lotto[4] < 10 ? "0" : "") + lotto[4],
+          (lotto[5] < 10 ? "0" : "") + lotto[5]
+        )
+      );
     }
-    replier.reply(
-      "당첨 예상번호는...!! 🥁🥁\n\n🍀 {0} {1} {2} {3} {4} + {5}!".format(
-        (lotto[0] < 10 ? "0" : "") + lotto[0],
-        (lotto[1] < 10 ? "0" : "") + lotto[1],
-        (lotto[2] < 10 ? "0" : "") + lotto[2],
-        (lotto[3] < 10 ? "0" : "") + lotto[3],
-        (lotto[4] < 10 ? "0" : "") + lotto[4],
-        (lotto[5] < 10 ? "0" : "") + lotto[5]
-      )
-    );
+    replier.reply(return_msg.slice(0, -1));
   }
 
   if (msg.indexOf("--타이머 ") == 0) {
