@@ -403,8 +403,12 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
         }
       }
 
+      lotto.sort(function(a, b) {
+        return a - b;
+      });
+
       return_msg = return_msg.concat(
-        "{0} {1} {2} {3} {4} + {5}\n".format(
+        "{0} {1} {2} {3} {4} {5}\n".format(
           (lotto[0] < 10 ? "0" : "") + lotto[0],
           (lotto[1] < 10 ? "0" : "") + lotto[1],
           (lotto[2] < 10 ? "0" : "") + lotto[2],
