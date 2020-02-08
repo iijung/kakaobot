@@ -376,7 +376,7 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
   }
 
   if ((msg.indexOf("뭐") != -1 && (msg.indexOf("먹지") != -1 || msg.indexOf("먹을까") != -1 || msg.indexOf("먹는게") != -1)) ||
-    (msg.indexOf("추천") != -1 && (msg.indexOf("아침") != -1 || msg.indexOf("점심") != -1 || msg.indexOf("저녁") != -1 || msg.indexOf("야식") != -1 || msg.indexOf("먹을") == -1 || msg.indexOf("음식") == -1))) {
+    (msg.indexOf("추천") != -1 && (msg.indexOf("아침") != -1 || msg.indexOf("점심") != -1 || msg.indexOf("저녁") != -1 || msg.indexOf("야식") != -1 || msg.indexOf("먹을") != -1 || msg.indexOf("음식") != -1))) {
     replier.reply(recommendFood(room, msg, sender)); return;
   }
 
