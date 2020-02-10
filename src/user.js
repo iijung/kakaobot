@@ -396,23 +396,16 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
   }
 
   // chatting
-  if (msg.indexOf("좋은") != -1 && (msg.indexOf("아침") != -1 || msg.indexOf("저녁") != -1 || msg.indexOf("점심") != -1 || msg.indexOf("꿈꿔") != -1) || msg.indexOf("굿밤") != -1) {
-    var now = new Date();
-    if (now.getHours() < 6) {
-      ment = ["제 꿈 꿔요...♥", "좋은 꿈 꿔요", " ꈍ﹃ꈍ ", "쫀밤!", "굿밤 🐑"];
-    } else if (now.getHours() < 12) {
-      ment = [sender + "님, 좋은 아침이에요!", sender + "님, 굿모닝♬", sender + "님, 오늘 하루도 화이팅이에요!"];
-    } else if (now.getHours() < 14) {
-      ment = ["지금은 점심시간!!", "식사 맛있게 드세요!!🍖"];
-    } else if (now.getHours() < 18) {
-      var reuse = msg
-        .replace("봇쨩", sender + "님")
-        .replace("봇짱", sender + "님")
-        .trim();
-      ment = [sender + "님!! 저랑 간식 어때요?! 🍰", reuse + "!!", "H͓̽a͓̽v͓̽e͓̽ A͓̽ G͓̽o͓̽o͓̽d͓̽ D͓̽a͓̽y͓̽! ღ'ᴗ'ღ"];
-    } else {
-      ment = [sender + "님, 좋은 저녁이에요!", sender + "님, 오늘 하루도 수고 많으셨어요!"];
-    }
+  if ((msg.indexOf("좋은") != -1 && msg.indexOf("아침") != -1) || (msg.indexOf("굿모닝") != -1)) {
+    ment = [sender + "님, 좋은 아침이에요!", sender + "님, 굿모닝♬", sender + "님, 오늘 하루도 화이팅이에요!"];
+    replier.reply(Common.rand(ment));
+  }
+  if (msg.indexOf("좋은") != -1 && msg.indexOf("저녁") != -1) {
+    ment = [sender + "님, 좋은 저녁이에요!", sender + "님, 오늘 하루도 수고 많으셨어요!"];
+    replier.reply(Common.rand(ment));
+  }
+  if ((msg.indexOf("좋은") != -1 && (msg.indexOf("꿈") != -1)) || (msg.indexOf("굿밤") != -1)) {
+    ment = ["제 꿈 꿔요...♥", "좋은 꿈 꿔요", " ꈍ﹃ꈍ ", "쫀밤!", "굿밤 🐑"];
     replier.reply(Common.rand(ment));
   }
 
