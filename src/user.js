@@ -85,38 +85,52 @@ function playRockScissorsPaper(room, msg, sender, com) {
   return Common.rand(ment);
 }
 
-function getWeather(room, msg, sender) {
+function getWeather(room, msg, sender, region) {
   var return_msg = "";
+
   var region = "";
   if (msg.indexOf("서울") != -1 || msg.indexOf("경기") != -1) {
-    return_msg = return_msg.concat("[서울/경기도 날씨]\n\n");
-    region = "서울";
-  } else if (msg.indexOf("강원도") != -1) {
-    return_msg = return_msg.concat("[강원도 날씨]\n\n");
-    region = "강원도";
+    region = "서울 경기";
+  } else if (msg.indexOf("서해") != -1) {
+    region = "서해 5도";
+  } else if (msg.indexOf("강원") != -1 && msg.indexOf("영서") != -1) {
+    region = "강원 영서";
+  } else if (msg.indexOf("강원") != -1 && msg.indexOf("영동") != -1) {
+    region = "강원 영동";
   } else if (msg.indexOf("충청북도") != -1) {
-    return_msg = return_msg.concat("[충청북도 날씨]\n\n");
-    region = "충청북도";
+    region = "충청 북도";
   } else if (msg.indexOf("충청남도") != -1) {
-    return_msg = return_msg.concat("[충청남도 날씨]\n\n");
-    region = "충청남북도";
+    region = "충청 남도";
+  } else if (msg.indexOf("경상북도") != -1) {
+    region = "경상 북도";
   } else if (msg.indexOf("경상남도") != -1) {
-    return_msg = return_msg.concat("[경상남도 날씨]\n\n");
-    region = "경상남북도";
+    region = "경상 남도";
   } else if (msg.indexOf("전라북도") != -1) {
-    return_msg = return_msg.concat("[전라북도 날씨]\n\n");
-    region = "전라북도";
+    region = "전라 북도";
   } else if (msg.indexOf("전라남도") != -1) {
-    return_msg = return_msg.concat("[전라남도 날씨]\n\n");
-    region = "전라남북도";
-  } else if (msg.indexOf("제주도") != -1) {
-    return_msg = return_msg.concat("[제주도 날씨]\n\n");
-    region = "제주도";
+    region = "전라 남도";
+  } else if (msg.indexOf("울릉") != -1 || msg.indexOf("독도") != -1) {
+    region = "울릉 독도";
+  } else if (msg.indexOf("제주") != -1) {
+    region = "제주";
   } else {
-    return "서울/경기, 강원도, 충청북도, 충청남도, 경상남도, 전라북도, 전라남도, 제주도를 포함한 날씨를 말해주세요";
+    return "서울/경기, 서해, 강원 영서, 강원 영동, 충청북도, 충청남도, 경상북도, 경상남도, 전라북도, 전라남도, 울릉/독도, 제주를 포함한 날씨를 입력해주세요.";
   }
-  var weather = Utils.getWebText("https://weather.naver.com/period/weeklyFcast.nhn").split("지역별 날씨 전망")[2];
-  return_msg = return_msg.concat(weather.substring(weather.indexOf(region)).split('line">')[1].split("</td>")[0].replace(/<br\s*[\/]?>/gi, "\n"));
+
+  var weather = org.jsoup.Jsoup.connect("https://weather.naver.com/rgn/cityWetrMain.nhn").get();
+  var tbl_weather = weather.select("table.tbl_weather").select("tbody").select("tr");
+  for (var i = 0; i < tbl_weather.size(); i++) {
+    var row = tbl_weather.get(i);
+    if (row.select("th").text() != region) continue;
+    return_msg = return_msg.concat("[" + row.select("th").text() + ": 오늘 오전]\n");
+    return_msg = return_msg.concat(row.select("td").get(0).select("ul>li").get(0).text() + "\n");
+    return_msg = return_msg.concat(row.select("td").get(0).select("ul>li").get(1).text() + "\n");
+    return_msg = return_msg.concat("\n");
+    return_msg = return_msg.concat("[" + row.select("th").text() + ": 오늘 오후]\n");
+    return_msg = return_msg.concat(row.select("td").get(1).select("ul>li").get(0).text() + "\n");
+    return_msg = return_msg.concat(row.select("td").get(1).select("ul>li").get(1).text());
+  }
+
   return return_msg;
 }
 
