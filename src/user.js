@@ -25,6 +25,7 @@ function getHelp() {
   return_msg = return_msg.concat("\n# 명령어\n");
   return_msg = return_msg.concat("--도움말\n");
   return_msg = return_msg.concat("--로또\n");
+  return_msg = return_msg.concat("--날씨 서울\n");
   return_msg = return_msg.concat("--타이머 10\n");;
   return_msg = return_msg.concat("--출퇴근 9 18\n");
   return_msg = return_msg.concat("--골라줘 A B C D...\n");
@@ -33,7 +34,6 @@ function getHelp() {
   return_msg = return_msg.concat("지금\n");
   return_msg = return_msg.concat("주사위\n");
   return_msg = return_msg.concat("가위, 바위, 보\n");
-  return_msg = return_msg.concat("날씨, 경기도 날씨, ...\n");
   return_msg = return_msg.concat("운세, 오늘 운세, 내일 운세, ...\n");
   return_msg = return_msg.concat("메뉴 뭐, 메뉴 보여줘\n");
   return_msg = return_msg.concat("음식 추천, 뭐 먹지, ...\n");
@@ -345,6 +345,9 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
   if (msg.indexOf("--로또") == 0) {
     replier.reply(getLottoNumber(room, msg, sender)); return;
   }
+  if (msg.indexOf("--날씨") == 0) {
+    replier.reply(getWeather(room, msg, sender)); return;
+  }
 
   if (msg.indexOf("--타이머") == 0) {
     replier.reply(setTimer(room, msg, sender, replier)); return;
@@ -375,10 +378,6 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     replier.reply(com);
     replier.reply(playRockScissorsPaper(room, msg, sender, com));
     return;
-  }
-
-  if (msg.indexOf("날씨") != -1) {
-    replier.reply(getWeather(room, msg, sender)); return;
   }
 
   if (msg.indexOf("운세") != -1) {
