@@ -389,8 +389,13 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     replier.reply(showFoodList(room, msg, sender)); return;
   }
 
-  if ((msg.indexOf("뭐") != -1 && (msg.indexOf("먹지") != -1 || msg.indexOf("먹을까") != -1 || msg.indexOf("먹는게") != -1)) ||
-    (msg.indexOf("추천") != -1 && (msg.indexOf("아침") != -1 || msg.indexOf("점심") != -1 || msg.indexOf("저녁") != -1 || msg.indexOf("야식") != -1 || msg.indexOf("먹을") != -1 || msg.indexOf("음식") != -1))) {
+  if ((msg.indexOf("뭐") != -1 && (msg.indexOf("먹지") != -1 || msg.indexOf("먹을까") != -1 || msg.indexOf("먹는게") != -1)) || (msg.indexOf("추천") != -1)) {
+    var food_flag = 0;
+    for (var idx in FoodList) {
+      if (msg.indexOf(idx) != - 1) food_flag = 1;
+    }
+    if (food_flag == 0 && (msg.indexOf("아침") == -1 && msg.indexOf("점심") == -1 && msg.indexOf("저녁") == -1 && msg.indexOf("야식") == -1 && msg.indexOf("먹을") == -1 && msg.indexOf("음식") == -1)) return;
+
     replier.reply(recommendFood(room, msg, sender)); return;
   }
 
