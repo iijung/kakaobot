@@ -1,6 +1,6 @@
 const scriptName = "common.js";
 
-String.prototype.format = function() {
+String.prototype.format = function () {
   // Usage: "hello {1} {0} world {0}".foramt('!', 10)
   // Return: hello 10 ! world !
   var string = this;
@@ -51,7 +51,6 @@ function createDB(file_name) {
     return -1;
   }
   DataBase.setDataBase(file_name, JSON.stringify(new Array()));
-  Log.info("database [{0}] created.".format(file_name));
   return 0;
 
   //  0 : success
@@ -67,7 +66,6 @@ function dropDB(file_name) {
     Log.error("an error occurred while deleting the database [{0}].".format(file_name));
     return -2;
   }
-  Log.info("database [{0}] dropped.".format(file_name));
   return 0;
 
   //  0 : success
@@ -95,7 +93,6 @@ function insertDB(file_name, insert_object) {
   ObjectList.push(insert_object);
 
   DataBase.setDataBase(file_name, JSON.stringify(ObjectList));
-  Log.info("object inserted in database [{0}]".format(file_name));
   return 0;
 
   //  0 : success
@@ -119,7 +116,6 @@ function selectDB(file_name, where_object) {
     if (same_flag == 0) continue;
     SelectList.push(ObjectList[idx]);
   }
-  Log.info("{1} objects selected in database [{0}]".format(file_name, SelectList.length));
   return SelectList;
 }
 
@@ -144,7 +140,6 @@ function deleteDB(file_name, where_object) {
   }
 
   DataBase.setDataBase(file_name, JSON.stringify(InsertList));
-  Log.info("{1} objects deleted in database [{0}]".format(file_name, DeleteList.length));
   return DeleteList;
 }
 
@@ -170,7 +165,6 @@ function updateDB(file_name, update_object, where_object) {
   }
 
   DataBase.setDataBase(file_name, JSON.stringify(ObjectList));
-  Log.info("{1} objects updated in database [{0}]".format(file_name, AfterList.length));
   return { before: BeforeList, after: AfterList };
 }
 
