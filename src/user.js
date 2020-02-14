@@ -460,7 +460,11 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
   // 도배 체크
   if (checkPlaster[sender] == msg) {
     if (msg == "이모티콘을 보냈습니다." || msg == "사진을 보냈습니다." || msg == "동영상을 보냈습니다." || msg == "ㅋ") return;
-    var emoji = ["🚫", "( ﾟдﾟ )", "ヽ(`Д´)ﾉ", "\n｡･ﾟﾟ*(>д<)*ﾟﾟ･｡", "\n ( ง ᵒ̌ ∽ᵒ̌)ง⁼³₌₃ ", "\n ٩(๑`^´๑)۶ "];
+    if (msg.indexOf("사진 ") == 0 && msg.indexOf("장을 보냈습니다.") != -1) return;
+
+    Log.info("checkPlaster[ {0} ]".format(msg));
+
+    var emoji = ["🚫", "( ﾟдﾟ )", "ヽ(`Д´)ﾉ", "\n ( ง ᵒ̌ ∽ᵒ̌)ง⁼³₌₃ ", "\n ٩(๑`^´๑)۶ "];
     if (new Date().valueOf() > atTime.valueOf() + 10000) {
       replier.reply(sender + "님, 도배 경고입니다!! " + Common.rand(emoji));
       atTime = new Date();
