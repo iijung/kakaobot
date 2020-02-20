@@ -114,7 +114,7 @@ function getWeather(room, msg, sender, region) {
   } else if (msg.indexOf("제주") != -1) {
     region = "제주";
   } else {
-    return "서울/경기, 서해, 강원 영서, 강원 영동, 충청북도, 충청남도, 경상북도, 경상남도, 전라북도, 전라남도, 울릉/독도, 제주를 포함한 날씨를 입력해주세요.";
+    return "서울/경기, 서해, 강원 영서, 강원 영동, 충청북도, 충청남도, 경상북도, 경상남도, 전라북도, 전라남도, 울릉/독도, 제주를 포함한 날씨를 입력해주세요.\n\nex. --날씨 서울";
   }
 
   var weather = org.jsoup.Jsoup.connect("https://weather.naver.com/rgn/cityWetrMain.nhn").get();
