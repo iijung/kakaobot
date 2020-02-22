@@ -136,37 +136,41 @@ function getWeather(room, msg, sender, region) {
 
 function getFortune(room, msg, sender) {
   var return_msg = "";
-  var seed = 777;
+  var seed = 970119;
   for (var i = 0; i < sender.length; i++) {
-    switch (i % 4) {
-      case 0: seed += sender.charCodeAt(i); break;
-      case 1: seed += sender.charCodeAt(i); break;
-      case 2: seed *= sender.charCodeAt(i); break;
-      case 3: seed /= sender.charCodeAt(i); break;
-    }
+    seed *= sender.charCodeAt(i);
   }
   var date = new Date();
   if (msg.indexOf("오늘") != -1 && msg.indexOf("내일") == -1) {
     return_msg = "# " + sender + "님의 오늘 운세 #";
     seed *= date.getDate();
     seed *= date.getMonth() + 1;
-    seed %= date.getFullYear();
+    seed *= date.getFullYear();
   } else if (msg.indexOf("내일") != -1 && msg.indexOf("오늘") == -1) {
     return_msg = "# " + sender + "님의 내일 운세 #";
     date.setDate(date.getDate() + 1);
     seed *= date.getDate();
     seed *= date.getMonth() + 1;
-    seed %= date.getFullYear();
+    seed *= date.getFullYear();
   } else {
     return_msg = "# " + sender + "님의 종합 운세 #";
     seed *= date.getMonth() + 1;
-    seed %= date.getFullYear();
+    seed *= date.getFullYear();
   }
 
-  var love = parseInt((((seed % 10000) / 1000) * 7) % 5) + 1;
-  var job = parseInt((((seed % 1000) / 100) * 11) % 5) + 1;
-  var luck = parseInt((((seed % 100) / 10) * 13) % 5) + 1;
-  var gold = ((((love + job + luck) % 10) * 17) % 5) + 1;
+  var love = parseInt((seed = seed / 258)) % 5 + 1;
+  var job = parseInt((seed = seed / 369)) % 5 + 1;
+  var luck = parseInt((seed = seed / 987)) % 5 + 1;
+  var gold = parseInt((seed = seed / 654)) % 5 + 1;
+  var health = parseInt((seed = seed / 321)) % 5 + 1;
+
+  if ((love + job + luck + gold + health) / 5 < 2) {
+    love++;
+    job++;
+    luck++;
+    gold++;
+    health++;
+  }
 
   return_msg = return_msg.concat("\n애정 ");
   while (love > 0) {
@@ -187,6 +191,11 @@ function getFortune(room, msg, sender) {
   while (gold > 0) {
     return_msg = return_msg.concat("💎");
     gold--;
+  }
+  return_msg = return_msg.concat("\n건강 ");
+  while (health > 0) {
+    return_msg = return_msg.concat("💊");
+    health--;
   }
   return return_msg;
 }
