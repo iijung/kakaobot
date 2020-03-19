@@ -44,7 +44,7 @@ function getHelp() {
   return_msg = return_msg.concat("밷봇, 밷 봇, 배드봇\n");
   return_msg = return_msg.concat("~건데, ~껀데\n");
   return_msg = return_msg.concat("심심해\n");
-  return_msg = return_msg.concat("응원, 위로해줘\n");
+  return_msg = return_msg.concat("응원, 위로해줘, 힘들어\n");
   return return_msg;
 }
 
