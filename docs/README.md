@@ -1,18 +1,21 @@
 # 메신저 봇 개발
 카카오톡에서 구동 가능한 자동응답 봇을 만들기 위한 개발 가이드입니다.
+
 자동응답 어플 중 하나인 [메신저봇R](https://violet.develope.kr)을 사용하여 진행합니다. 
+ 
+ <br />
 
 ## 환경구성  
-> 안드로이드 휴대폰일 경우, 생략 가능합니다. 
+> 안드로이드 휴대폰일 경우, 환경 구성 생략 가능합니다. 
 
 아이폰에서는 메신저봇R과 같은 자동응답 어플이 지원되지 않습니다. <br />
 따라서, 휴대폰에서 사용할 수 없으므로 다음과 같이 PC에 개발환경 구성이 필요합니다.  
 
 1. PC 에서 모바일 애플리케이션을 구동하기 위한 앱플레이어를 하나 다운 받습니다. 
-    * [NOX 앱플레이어](https://kr.bignox.com/)
     * [LD 앱플레이어](https://kr.ldplayer.net/)
+    * [NOX 앱플레이어](https://kr.bignox.com/)
 
-2. 앱 플레이어 내부에서 자동응답을 수행할 카카오톡 계정 로그인을 시도합니다.
+3. 앱 플레이어 내부에서 자동응답을 수행할 카카오톡 계정 로그인을 시도합니다.
    * 다른 기기에서 카카오톡 로그인 시, 단톡방이나 대화내용 등이 사라므로 다음과 같이 백업을 추천드립니다. 
     ```
     # 기존 기기에서 수행
@@ -25,11 +28,15 @@
     1. 복원하기
     2. 복원 패스워드 입력
     ```
+ 
+ <br />
 
 ---
 
 ## 애플리케이션 설치
-자동 응답을 위해 필요한 앱은 총 3개 입니다. 
+자동 응답을 위해 필요한 앱은 총 3개 입니다.  <br />
+구글 플레이스토어를 통해 앱을 설치해야하므로 구글 계정이 필요합니다. 
+
 
 |                   용도                   | 간단 설명                           |
 | :------------------------------------: | :------------------------------ |
@@ -40,7 +47,7 @@
 1. 카카오톡
    ```
    카카오톡 알림이 꺼져 있거나 채팅방을 보고 있는 경우, 자동응답이 실행되지 않습니다.   
-   알림센터로 부터 메시지를 읽어와 답장을 보내야하기 때문에 알림 팝업이 꼭 필요합니다.
+   알림센터로 부터 메시지를 읽어와 답장을 보내야하기 때문에 알림 팝업 설정이 꼭 필요합니다.
 
    1. 카카오톡 접속
    2. 더보기 > 설정 > 알림
@@ -49,6 +56,15 @@
       * 알림 센터에 메시지 표시 
           - 모든 채팅방 : 모든 채팅방에 자동 응답이 수행됨 
           - 알림 켠 채팅방만 : 알림을 켠 채팅방만 자동 응답이 수행됨
+
+
+    ※ 카카오톡 부계정을 생성하는 방법
+      1. 다이소 국민 유심(5000원)을 구입합니다.
+         - 유심 구입 시, 뒷면의 가입 가능한 요금제를 확인합니다.
+         - LG U+ 이야기알뜰 요금제의 경우, 2년간 월 통신비 0원입니다.
+      2. 설명서를 따라 공기계에 유심을 삽입한 후 새로운 휴대폰 번호를 개통합니다. 
+      3. 이후 와이파이만 연결해서 사용하면 월 통신비 0원! 
+         - 3개월간 통화내역이 없을 경우, 요금제가 자동 변경되므로 주의바랍니다.
    ```
 
 2. 메신저봇R
@@ -62,26 +78,34 @@
    1. 메신저봇R 접속
    2. 우측 상단 > 설정 > 공용 설정 > 기타 > 알림 읽기 권한
         - 메신저봇 활성화 
+        - Wear OS by Google 또는 Galaxy Wearable 활성화
    ```
 
 3. Wear OS by Google 또는 Galaxy Wearable
    ```
-   답장을 보내기 위해 사용되는 어플입니다. 둘 중 하나를 설치만 되어있으면 됩니다. 
+   답장을 보내기 위해 사용되는 어플입니다. 둘 중 하나가 설치만 되어있으면 됩니다. 
    스마트워치에서 답장을 보낼 때 사용하는 어플이기도 합니다.
    ```
+
+ <br />
 
 ---
 
 ## 메신저봇R 화면 구성
-<img src="./images/main.png" height="500"> </img><img src="./images/main_bot2.png" height="500"></img>
+<img src="./images/main.png" height="500"> </img><img src="./images/main_bot.png" height="500"></img> <img src="./images/edit.png" height="500"> </img>
 
 **메인 화면** 
+
+`추가` 버튼을 클릭하여 새로운 스크립트를 생성합니다. 
+
 ```
 - 활성화 : 모든 스크립트에 대하여 활성화/비활성화 여부를 지정합니다.
 - 추가(+) : 새로운 스크립트를 추가합니다. (스크립트 ≒ 봇)
 ```
 
-**test 봇** 
+<br />
+
+**메인화면 - test 스크립트** 
 ```
 - 활성화 : 해당 스크립트에 대하여 활성화/비활성화 여부를 지정합니다. <br>
 
@@ -94,13 +118,22 @@
 - 재생버튼 : ??? 
 - 설정버튼 : 스크립트에 대한 개별 설정입니다.
 ```
+
+ <br />
+
+**편집화면 - test 스크립트** 
+```
+- 폴더모양 : `저장` 또는 `저장하고 컴파일`
+- 연필모양 : 되돌아가기 등 편집 도구
+- 설정버튼 : ???
+```
+
+ <br />
+
 ---
 
 ## 메신저봇R 개발
 메신저봇R 에서 봇 개발을 하기 위해서는 `JavaScript`를 사용하며, 소스코드 수정 후 반드시 우측 상단의 폴더를 클릭하여 `저장하고 컴파일`을 수행해야 합니다.
-
-<img src="./images/edit.png" height="500"> </img>
-
 
 ### 간단한 응답 
 > 채팅방 이름(room)과 메시지(msg)를 확인하지 않을 경우, 모든 채팅방의 모든 메시지에 답장을 보내므로 주의바랍니다! 
@@ -124,6 +157,8 @@ funciton response(room,msg,sender,isGroupChat, replier, imageDB, packageName) {
   }
 }
 ```
+
+ <br />
 
 ### JavaScript 문자열 조작 함수 간단 가이드
 
@@ -185,6 +220,7 @@ replier.reply(msg.replace(/bc/g,"BC"));   // "aBCaBC" 반환 (모든 문자열1�
 }
 ```
 
+ <br />
 
 ### 문자열을 조작하여 응답
 ```javascript
@@ -210,6 +246,8 @@ funciton response(room,msg,sender,isGroupChat, replier, imageDB, packageName) {
     }
 
 ```
+
+ <br />
 
 #### 랜덤 출력
 
@@ -243,7 +281,85 @@ funciton response(room,msg,sender,isGroupChat, replier, imageDB, packageName) {
     }
 }
 ```
+#### 웹페이지 크롤링
 
+<br />
+
+**가져올 데이터 구조 확인** 
+
+크롬 브라우저에서 `F12`를 클릭해 개발자 도구를 연 뒤 좌측 상단의 버튼을 클릭합니다. <br />
+커서를 사용하여 가져오길 원하는 부분을 클릭하면 해당 데이터의 HTML 소스코드를 우측에서 확인할 수 있습니다. 
+
+<img src="./images/chrome_developer_tool1.png" width="100%">
+<img src="./images/chrome_developer_tool2.png" width="100%">
+
+
+<br />
+
+**JSOUP을 사용한 간단한 데이터 크롤링** 
+| 구분   | HTML 소스코드                                        | 예시                                                              |
+| ---- | ------------------------------------------------ | --------------------------------------------------------------- |
+| 전체   | HTML 소스 전체                                       | var doc = org.jsoup.Jsoup.connect("https://github.com/").get(); |
+| 클래스  | \<div class="test_class"\> 의 값                   | var element = doc.select(".test_class");                        |
+| 아이디  | \<p id="test_id" alt="100"\> 의 값                 | var element = doc.select("#test_id");                           |
+| 속성값  | \<p id="test_id" alt="100"\> 의 값                 | var element = doc.select("#test_id").attr("alt");               |
+| 하위태그 | \<div class="test"\>\<a\>...\<\/a\>\<\/div\> 의 값 | var element = doc.select("div.test a");                         |
+| 하위태그 | <ul\>\<li\>...\<\/li\>\<\/ul\> 의 값               | var element = doc.select("ul>li");                              |  |  |
+
+
+```javascript
+funciton response(room,msg,sender,isGroupChat, replier, imageDB, packageName) { 
+
+    var reply_msg = ""; // 응답에 사용될 메시지 변수 
+
+    // 특정 웹 페이지로부터 HTML 소스코드 가져오기
+    var weather = org.jsoup.Jsoup.connect("https://weather.naver.com/air/airFcast.nhn").get();
+
+    // 클래스가 list_air_inn인 데이터들을 가져와서 반복을 돌린다. 
+    var list_air_inn = weather.select(".list_air_inn");
+    for (var i = 0; i < list_air_inn.size(); i++) {        
+        var air_inn = list_air_inn.get(i); // i 번째 데이터 가져오기        
+        /* 추출된 데이터 air_inn 예시 
+        <h5><a href="#">오늘 오후</a></h5>
+        <ul>
+	        <li><span>미세먼지</span> <strong class="normal">보통</strong></li>
+	        <li><span>초미세먼지</span> <strong class="good">좋음</strong></li>
+	        <li><span>오존</span> <strong class="normal">보통</strong></li>
+	        <li><span>자외선</span> <strong class="normal">보통</strong></li>
+	        <li><span>황사</span> <strong class="normal">보통</strong></li>
+        </ul>
+        */
+
+        // [오늘 오후]
+        reply_msg = reply_msg.concat("[" + air_inn.select("h5>a").text() + "]\n");
+        
+        // 미세먼지 : 보통 
+        var air_inn_ul = air_inn.select("ul>a");        
+        for (var j = 0; j < air_inn_ul.size(); j++) {
+            var li = air_inn_ul.get(j);
+            reply_msg = reply_msg.concat(li.select("span").text() + " : " + li.select("strong").text() + "\n");
+        }
+    } 
+    replier.reply(reply_msg);
+
+    /* 결과
+    [오늘 오전]
+    미세먼지 : 보통
+    초미세먼지 : 보통
+    오존 : 보통
+    자외선 : 보통
+    황사 : 보통
+    [오늘 오후]
+    미세먼지 : 보통
+    초미세먼지 : 좋음
+    오존 : 보통
+    자외선 : 보통
+    황사 : 보통
+    
+    */
+  }
+}
+```
 
 #### 참고 사이트
 - 메신저봇 공식 홈 : [https://violet.develope.kr](https://violet.develope.kr)
