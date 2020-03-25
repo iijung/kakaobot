@@ -157,6 +157,53 @@ funciton response(room,msg,sender,isGroupChat, replier, imageDB, packageName) {
   }
 }
 ```
+ <br />
+
+### JavaScript 간단 가이드
+
+```javascript
+// 변수 선언
+var 변수이름 = 값;
+
+// 콘솔 출력
+puts(메세지);   // puts("hi"); puts(변수명); puts("I'm " + name); ...
+
+// 조건문
+if (조건문1) {
+	명령어1;
+} else if (조건문2) {
+	명령어2;
+} else if (조건문3) {
+	명령어3;
+} else {
+	명령어4;
+}
+
+// 반복문 (for)
+for (var i = 0; i < 5; i++) {
+	명령문;
+}
+
+// 반복문 (while)
+var i = 0;
+while (i < 5) {
+	명령문;
+	i++;
+}
+
+// 반복문 (do-while)
+var i = 0;
+do{
+	명령문;
+	i++;
+} while(i <= 5);
+
+// 함수
+function add(a,b) {
+	return a + b;
+}
+```
+
 
  <br />
 
