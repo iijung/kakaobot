@@ -383,7 +383,7 @@ funciton response(room,msg,sender,isGroupChat, replier, imageDB, packageName) {
         reply_msg = reply_msg.concat("[" + air_inn.select("h5>a").text() + "]\n");
         
         // 미세먼지 : 보통 
-        var air_inn_ul = air_inn.select("ul>a");        
+        var air_inn_ul = air_inn.select("ul>li");        
         for (var j = 0; j < air_inn_ul.size(); j++) {
             var li = air_inn_ul.get(j);
             reply_msg = reply_msg.concat(li.select("span").text() + " : " + li.select("strong").text() + "\n");
