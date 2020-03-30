@@ -260,7 +260,11 @@ function remainRushHour(room, msg, sender) {
   var offwork = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 0, 0, 0);
 
   var msg_content = msg.replace("--출퇴근", "").trim();
-  if (msg_content.indexOf(" ") == -1) return "ex) --출퇴근 9 18";
+  if (msg_content == "") {
+    msg_content = "9 18";
+  } else if (msg_content.indexOf(" ") == -1) {
+    return "ex) --출퇴근 9 18";
+  }
 
   if (msg_content != "") {
     var set_gowork = Number(msg_content.split(" ")[0].replace(/[^0-9]/g, ""));
