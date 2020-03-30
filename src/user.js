@@ -85,18 +85,16 @@ function playRockScissorsPaper(room, msg, sender, com) {
   return Common.rand(ment);
 }
 
-function getWeather(msg) {
-  var return_msg = "";
-
-  var weather = org.jsoup.Jsoup.connect("https://www.google.com/search?q=" + msg.replace(" ", "+")).get().select("#wob_wc");
-  if (weather == undefined) return;
+function getWeather(msg, replier) {
+  var weather = org.jsoup.Jsoup.connect("https://www.google.com/search?q=" + msg.replace(" ", "+")).get().select("#wob_wc");;
+  if (weather == undefined || weather == "") return;
 
   var wob_loc = weather.select("#wob_loc").text();
   var wob_dts = weather.select("#wob_dts").text();
   var wob_dc = weather.select("#wob_dc").text();
   var wob_tm = weather.select("#wob_tm").text();
 
-  return_msg = wob_loc + " 날씨 ⛅";
+  var return_msg = wob_loc + " 날씨 ⛅";
   return_msg = return_msg.concat("\n" + wob_dts + "\n");
   return_msg = return_msg.concat("\n" + wob_dc + " " + wob_tm + "℃");
 
@@ -108,7 +106,7 @@ function getWeather(msg) {
 
   return_msg = return_msg.concat("\n\n=-=-=-=-=-=-=-=-=-=-=-=-=");
   var wob_df = weather.select(".wob_df");
-  for (var i = 0; i < 7; i++) {
+  for (var i = 0; i < wob_df.size(); i++) {
     var t = wob_df.get(i);
     return_msg = return_msg.concat("\n");
     return_msg = return_msg.concat(t.select("div>div").get(0).text() + " : ");
@@ -116,8 +114,7 @@ function getWeather(msg) {
     return_msg = return_msg.concat("(" + t.select("div>div>span").get(0).text());
     return_msg = return_msg.concat(" ~ " + t.select("div>div>span").get(2).text() + "℃)");
   }
-
-  return return_msg;
+  replier.reply(return_msg);
 }
 
 function getFortune(room, msg, sender) {
@@ -373,7 +370,7 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
   }
 
   if (msg.indexOf("날씨") != -1) {
-    replier.reply(getWeather(msg)); return;
+    getWeather(msg, replier);
   }
 
   if (msg == "가위" || msg == "바위" || msg == "보") {
