@@ -439,7 +439,7 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     replier.reply(Common.rand(ment));
   }
   if ((msg.indexOf("좋은") != -1 && (msg.indexOf("꿈") != -1)) || (msg.indexOf("굿밤") != -1)) {
-    ment = ["제 꿈 꿔요...♥", "좋은 꿈 꿔요", " ꈍ﹃ꈍ ", "쫀밤!", "굿밤 🐑"];
+    ment = ["제 꿈 꿔요...♥", "좋은 꿈 꿔요💕", " ꈍ﹃ꈍ ", "쫀밤!", "굿밤 🐑"];
     replier.reply(Common.rand(ment));
   }
 
