@@ -25,7 +25,6 @@ function getHelp() {
   return_msg = return_msg.concat("\n# 명령어\n");
   return_msg = return_msg.concat("--도움말\n");
   return_msg = return_msg.concat("--로또\n");
-  return_msg = return_msg.concat("--날씨 서울\n");
   return_msg = return_msg.concat("--타이머 10\n");;
   return_msg = return_msg.concat("--출퇴근 9 18\n");
   return_msg = return_msg.concat("--골라줘 A B C D...\n");
@@ -33,6 +32,7 @@ function getHelp() {
   return_msg = return_msg.concat("\n# 봇 응답\n");
   return_msg = return_msg.concat("지금\n");
   return_msg = return_msg.concat("주사위\n");
+  return_msg = return_msg.concat("경기도 날씨\n");
   return_msg = return_msg.concat("가위, 바위, 보\n");
   return_msg = return_msg.concat("운세, 오늘 운세, 내일 운세, ...\n");
   return_msg = return_msg.concat("메뉴 뭐, 메뉴 보여줘\n");
@@ -85,50 +85,36 @@ function playRockScissorsPaper(room, msg, sender, com) {
   return Common.rand(ment);
 }
 
-function getWeather(room, msg, sender, region) {
+function getWeather(msg) {
   var return_msg = "";
 
-  var region = "";
-  if (msg.indexOf("서울") != -1 || msg.indexOf("경기") != -1) {
-    region = "서울 경기";
-  } else if (msg.indexOf("서해") != -1) {
-    region = "서해 5도";
-  } else if (msg.indexOf("강원") != -1 && msg.indexOf("영서") != -1) {
-    region = "강원 영서";
-  } else if (msg.indexOf("강원") != -1 && msg.indexOf("영동") != -1) {
-    region = "강원 영동";
-  } else if (msg.indexOf("충청북도") != -1) {
-    region = "충청 북도";
-  } else if (msg.indexOf("충청남도") != -1) {
-    region = "충청 남도";
-  } else if (msg.indexOf("경상북도") != -1) {
-    region = "경상 북도";
-  } else if (msg.indexOf("경상남도") != -1) {
-    region = "경상 남도";
-  } else if (msg.indexOf("전라북도") != -1) {
-    region = "전라 북도";
-  } else if (msg.indexOf("전라남도") != -1) {
-    region = "전라 남도";
-  } else if (msg.indexOf("울릉") != -1 || msg.indexOf("독도") != -1) {
-    region = "울릉 독도";
-  } else if (msg.indexOf("제주") != -1) {
-    region = "제주";
-  } else {
-    return "서울/경기, 서해, 강원 영서, 강원 영동, 충청북도, 충청남도, 경상북도, 경상남도, 전라북도, 전라남도, 울릉/독도, 제주를 포함한 날씨를 입력해주세요.\n\nex. --날씨 서울";
-  }
+  var weather = org.jsoup.Jsoup.connect("https://www.google.com/search?q=" + msg.replace(" ", "+")).get().select("#wob_wc");
+  if (weather == undefined) return;
 
-  var weather = org.jsoup.Jsoup.connect("https://weather.naver.com/rgn/cityWetrMain.nhn").get();
-  var tbl_weather = weather.select("table.tbl_weather").select("tbody").select("tr");
-  for (var i = 0; i < tbl_weather.size(); i++) {
-    var row = tbl_weather.get(i);
-    if (row.select("th").text() != region) continue;
-    return_msg = return_msg.concat("[" + row.select("th").text() + ": 오늘 오전]\n");
-    return_msg = return_msg.concat(row.select("td").get(0).select("ul>li").get(0).text() + "\n");
-    return_msg = return_msg.concat(row.select("td").get(0).select("ul>li").get(1).text() + "\n");
+  var wob_loc = weather.select("#wob_loc").text();
+  var wob_dts = weather.select("#wob_dts").text();
+  var wob_dc = weather.select("#wob_dc").text();
+  var wob_tm = weather.select("#wob_tm").text();
+
+  return_msg = wob_loc + " 날씨 ⛅";
+  return_msg = return_msg.concat("\n" + wob_dts + "\n");
+  return_msg = return_msg.concat("\n" + wob_dc + " " + wob_tm + "℃");
+
+  var wob_d = weather.select("#wob_d").select(".wob-dtl");
+  return_msg = return_msg.concat("\n강수확률 : " + wob_d.select("#wob_pp").text());
+  return_msg = return_msg.concat("\n습도 : " + wob_d.select("#wob_hm").text());
+  return_msg = return_msg.concat("\n풍속 : " + wob_d.select("#wob_ws").text());
+
+
+  return_msg = return_msg.concat("\n\n=-=-=-=-=-=-=-=-=-=-=-=-=");
+  var wob_df = weather.select(".wob_df");
+  for (var i = 0; i < 7; i++) {
+    var t = wob_df.get(i);
     return_msg = return_msg.concat("\n");
-    return_msg = return_msg.concat("[" + row.select("th").text() + ": 오늘 오후]\n");
-    return_msg = return_msg.concat(row.select("td").get(1).select("ul>li").get(0).text() + "\n");
-    return_msg = return_msg.concat(row.select("td").get(1).select("ul>li").get(1).text());
+    return_msg = return_msg.concat(t.select("div>div").get(0).text() + " : ");
+    return_msg = return_msg.concat(t.select("div>img").attr("alt") + " ");
+    return_msg = return_msg.concat("(" + t.select("div>div>span").get(0).text());
+    return_msg = return_msg.concat(" ~ " + t.select("div>div>span").get(2).text() + "℃)");
   }
 
   return return_msg;
@@ -361,9 +347,6 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
   if (msg.indexOf("--로또") == 0) {
     replier.reply(getLottoNumber(room, msg, sender)); return;
   }
-  if (msg.indexOf("--날씨") == 0) {
-    replier.reply(getWeather(room, msg, sender)); return;
-  }
 
   if (msg.indexOf("--타이머") == 0) {
     replier.reply(setTimer(room, msg, sender, replier)); return;
@@ -387,6 +370,10 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
 
   if (msg.indexOf("주사위") != -1) {
     replier.reply(rollDice()); return;
+  }
+
+  if (msg.indexOf("날씨") != -1) {
+    replier.reply(getWeather(msg)); return;
   }
 
   if (msg == "가위" || msg == "바위" || msg == "보") {
