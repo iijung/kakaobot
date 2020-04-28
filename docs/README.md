@@ -5,8 +5,25 @@
  
  <br />
 
+**목차**
+* [환경구성](#환경구성)
+  * [앱 플레이어 설치](#앱-플레이어-설치)
+  * [필수 어플리케이션 설치](#필수-어플리케이션-설치)
+* [메신저봇R](#메신저봇R)
+  * [화면구성](#화면구성)
+  * [개발](#개발)
+  * [샘플 코드](#샘플-코드)
+  * [테스트](#테스트)
+* [참고](#참고)
+
+ <br />
+
+
+
 ## 환경구성  
-> 안드로이드 휴대폰일 경우, 환경 구성 생략 가능합니다. 
+
+### 앱 플레이어 설치 
+> 안드로이드 휴대폰일 경우, 앱 플레이어 설치 생략 가능합니다. 
 
 아이폰에서는 메신저봇R과 같은 자동응답 어플이 지원되지 않습니다. <br />
 따라서, 휴대폰에서 사용할 수 없으므로 다음과 같이 PC에 개발환경 구성이 필요합니다.  
@@ -30,13 +47,10 @@
 
     ※ 오래된 미디어 파일이나 비밀 채팅 및 오픈 채팅의 대화 내용은 백업이 되지 않습니다. 
     ```
- 
  <br />
 
----
-
-## 애플리케이션 설치
-자동 응답을 위해 필요한 앱은 총 3개 입니다.  <br />
+### 필수 어플리케이션 설치 
+> 자동 응답을 위해 필요한 앱은 총 3개 입니다.  <br />
 구글 플레이스토어를 통해 앱을 설치해야하므로 구글 계정이 필요합니다. 
 
 ![process](./images/process.png)
@@ -92,55 +106,47 @@
 
 ---
 
-## 메신저봇R 화면 구성
+## 메신저봇R
+메신저봇R 에서는 `JavaScript`를 사용합니다. (자세한 사항은 [Javascript 가이드](./Javascript_guide.md) 참고)
+
+### 화면구성
 <img src="./images/main.png" height="500"> </img><img src="./images/main_bot.png" height="500"></img> <img src="./images/edit.png" height="500"> </img>
 
-**메인 화면** 
-
-`추가` 버튼을 클릭하여 새로운 스크립트를 생성합니다. 
-
-```
+**메인화면** 
+> `추가` 버튼을 클릭하여 새로운 스크립트를 생성합니다. 
 - 활성화 : 모든 스크립트에 대하여 활성화/비활성화 여부를 지정합니다.
 - 추가(+) : 새로운 스크립트를 추가합니다. (스크립트 ≒ 봇)
-```
 
 <br />
 
 **메인화면 - test 스크립트** 
-```
-- 초록색 : 컴파일이 필요한 경우, 초록색 아이콘이 표시됩니다.
-- 활성화 : 해당 스크립트에 대하여 활성화/비활성화 여부를 지정합니다. <br>
-
-- 새로고침 : 스크립트를 컴파일합니다. (컴파일: 소스코드를 실행파일로 변환하는 작업)
-- 연필모양 : 스크립트를 편집합니다. 
-- 채팅모양 : 스크립트가 잘 구동하는지 테스트합니다.
-     * 디폴트 Room 이름 : DEBUG ROOM
-     * 디폴트 Sender 이름 : DEBUG SENDER
-- 막대모양 : 스크립트에서 출력되는 로그 메시지를 확인합니다.
-- 재생버튼 : ??? 
-- 설정버튼 : 스크립트에 대한 개별 설정입니다.
-```
+> 스크립트에 대한 컴파일이 필요한 경우, 좌측에 초록색 아이콘이 표시됩니다.
+- `활성화` : 해당 스크립트에 대하여 활성화/비활성화 여부를 지정합니다.
+- `새로고침` : 스크립트를 컴파일합니다. (컴파일: 소스코드를 실행파일로 변환하는 작업)
+- `연필모양` : 스크립트를 편집합니다. 
+- `채팅모양` : 스크립트가 잘 구동하는지 테스트합니다.
+     * 디폴트 Room 이름 : `DEBUG ROOM`
+     * 디폴트 Sender 이름 : `DEBUG SENDER`
+- `막대모양` : 스크립트에서 출력되는 로그 메시지를 확인합니다.
+- `재생버튼` : ??? 
+- `설정버튼` : 스크립트에 대한 개별 설정입니다.
 
  <br />
 
 **편집화면 - test 스크립트** 
-```
-- 폴더모양 : `저장` 또는 `저장하고 컴파일`
-- 연필모양 : 되돌리기, 다시 실행, 모두 선택, 붙여넣기 등 편집 도구
-- 설정버튼 : 자동 정렬, 검색, 공유, 이동, 자세히(문자 및 라인 수) 등 편의 도구
+> 코드 수정 후 반드시 우측 상단 폴더의 `저장하고 컴파일`을 수행해야 합니다.
+- `폴더모양` : `저장` 또는 `저장하고 컴파일`
+- `연필모양` : 되돌리기, 다시 실행, 모두 선택, 붙여넣기 등 편집 도구
+- `설정버튼` : 자동 정렬, 검색, 공유, 이동, 자세히(문자 및 라인 수) 등 편의 도구
      * Beautify(Experimental) : 자동 정렬 (소스코드를 보기 편하게 탭 등을 자동으로 정렬)
-```
 
  <br />
 
 ---
 
-## 메신저봇R 개발
-> 메신저봇R 에서는 `JavaScript`를 사용하며, 코드 수정 후 반드시 우측 상단 폴더의 `저장하고 컴파일`을 수행해야 합니다.
+### 개발
 
-* `Javascript`를 잘 모르거나 자세한 사항은 [가이드](./Javascript_guide.md)를 참고바랍니다.
-
-### 기본 소스코드
+**기본 소스코드**
 ```javascript
 const scriptName = "test";
 function response(room, msg, sender, isGroupChat, replier, imageDB, packageName) {
@@ -165,15 +171,21 @@ function onStop(activity) {}
 ```
 <br />
 
-### 작성 예시
-`function response` 함수 내부에 앞으로 수행될 봇의 소스코드를 작성하게 됩니다.
+**작성 예시**
+> `function response` 함수 내부에 앞으로 수행될 봇의 소스코드를 작성하게 됩니다. <br />
 
+* 모든 명령문은 `세미콜론(;)`으로 끝나야합니다.
+* 중괄호`{}`는 함수 또는 여러 명령문의 영역(범위)를 의미하며, `{`와 `}` 한 쌍이 세트입니다.
+* `//` 로 시작하거나 `/* */`으로 감싸여진 부분은 **주석**으로 코드가 수행되지 않습니다.
 ```javascript
 function response(room,msg,sender,isGroupChat, replier, imageDB, packageName) { 
     // 알림 팝업이 올 때마다 "안녕!" 이라는 메시지 답장
     replier.reply("안녕!");
 }
 ```
+
+<br />
+
 `function response`의 각 파라미터는 다음과 같습니다.
 | 파라미터        | 설명                                                |
 | ----------- | ------------------------------------------------- |
@@ -186,7 +198,7 @@ function response(room,msg,sender,isGroupChat, replier, imageDB, packageName) {
 
 <br />
 
-### 샘플 예제
+### 샘플 코드
 > 채팅방 이름(room)과 메시지(msg)를 확인하지 않을 경우, 모든 채팅방의 모든 메시지에 답장을 보내므로 주의바랍니다! 
 
 ```javascript
@@ -282,7 +294,7 @@ function response(room,msg,sender,isGroupChat, replier, imageDB, packageName) {
 ```
  <br />
 
-## 메신저봇 테스트
+### 테스트
 코드 작성이 끝났다면 `저장 후 컴파일`을 진행한 뒤, 메인 화면의 `채팅 모양`을 클릭해서 테스트합니다.
 
 <br />
@@ -297,7 +309,7 @@ function response(room,msg,sender,isGroupChat, replier, imageDB, packageName) {
 3. 메신저봇R 앱을 처음 구동할 때 권한을 설정하지 않았다면, `알림 읽기 권한`을 활성화 합니다. 
    * 우측 상단 > 설정 > 공용 설정 > 기타 > 알림 읽기 권한 : 메신저봇 활성화
   
-4. 그래도 되지 않을 경우, 휴대폰을 재부팅하면 높은 확률로 해결됩니다.
+4. 그래도 되지 않을 경우, 휴대폰을 재부팅하면 높은 확률로 해결됩니다. (`최초 1번`)
 
 <br />
 
@@ -315,7 +327,14 @@ function response(room,msg,sender,isGroupChat, replier, imageDB, packageName) {
 
 <br />
 
-## 참고 사이트
+## 참고
+**테스트**
+- Javascript 테스트 : [https://jsfiddle.net](https://jsfiddle.net)
+
+**공식 자료**
 - 메신저봇 공식 홈 : [https://violet.develope.kr](https://violet.develope.kr)
 - 메신저봇 구버전 API : [https://deviolet.tistory.com/entry/메신저봇-가이드](https://deviolet.tistory.com/entry/%EB%A9%94%EC%8B%A0%EC%A0%80%EB%B4%87-%EA%B0%80%EC%9D%B4%EB%93%9C)
-- Javascript 테스트 사이트 : [https://jsfiddle.net](https://jsfiddle.net)
+
+**개인 자료**
+- 간단한 Javascript 가이드 : [https://github.com/Tanya58/kakaobot/tree/master/docs/Javascript_guide.md](https://github.com/Tanya58/kakaobot/tree/master/docs/Javascript_guide.md)
+- 실제 봇 구현 소스 : [https://github.com/Tanya58/kakaobot/tree/master/src](https://github.com/Tanya58/kakaobot/tree/master/src)
