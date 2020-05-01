@@ -729,7 +729,7 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
   // 안녕이 포함된 경우, 랜덤 인사 
   if (msg.indexOf("안녕") != -1) {
     var ment = ["안녕하세요!", "하이하이!", sender + "님, 안녕!"];  
-    replier.reply(ment[Math.random() * ment.length - 1]);
+    replier.reply(ment[Math.ceil(Math.random() * ment.length) - 1]);
   }
 
   // 주사위가 포함된 경우, 주사위 굴리기
