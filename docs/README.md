@@ -589,7 +589,7 @@ function sub(a,b) {
 function response(room, msg, sender, isGroupChat, replier, imageDB, packageName) {
   replier.reply("1 + 3 = " + add(1,3)); //  4
   replier.reply("3 + 5 = " + add(3,5)); //  8
-  replier.reply("4 + 9 = " + sub(4,9)); // -5 
+  replier.reply("4 - 9 = " + sub(4,9)); // -5 
 }
 ```
 > 
@@ -729,7 +729,7 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
   // 안녕이 포함된 경우, 랜덤 인사 
   if (msg.indexOf("안녕") != -1) {
     var ment = ["안녕하세요!", "하이하이!", sender + "님, 안녕!"];  
-    replier.reply(math[Math.random() * ment.length) - 1]);
+    replier.reply(math[Math.random() * ment.length - 1]);
   }
 
   // 주사위가 포함된 경우, 주사위 굴리기
