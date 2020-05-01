@@ -1094,7 +1094,7 @@ function delAdmin(name) {
 function isAdmin(name) {
   var AdminList = JSON.parse(getAdminList());
   for (var idx in AdminList) {
-    if (AdminList[idx]["name"] == name) return 0; // is admin
+    if (AdminList[idx]["name"] == name) return 1; // is admin
   }
   return 0; // isn't admmin
 }
@@ -1229,10 +1229,12 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
     }
     var admins = contents.split(" ");
     for (var idx in admins) {
-      if (admins[idx] != "" && addAdmin(admins[idx]) < 0) {
-        replier.reply(admins[idx] + "님은 이미 추가된 관리자입니다.");
-      } else {
-        replier.reply(admins[idx] + "님을 관리자로 추가했습니다.");
+      if (admins[idx] != "") {
+        if addAdmin(admins[idx]) < 0) {
+          replier.reply(admins[idx] + "님은 이미 추가된 관리자입니다.");
+        } else {
+          replier.reply(admins[idx] + "님을 관리자로 추가했습니다.");
+        }
       }
     }
   }
@@ -1245,10 +1247,12 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
     }
     var admins = contents.split(" ");
     for (var idx in admins) {
-      if (admins[idx] != "" && delAdmin(admins[idx]) < 0) {
-        replier.reply(admins[idx] + "님은 관리자가 아닙니다.");
-      } else {
-        replier.reply(admins[idx] + "님을 관리자에서 제거했습니다.");
+      if (admins[idx] != "") {
+        if (delAdmin(admins[idx]) < 0) {
+          replier.reply(admins[idx] + "님은 관리자가 아닙니다.");
+        } else {
+          replier.reply(admins[idx] + "님을 관리자에서 제거했습니다.");
+        }
       }
     }
   }
