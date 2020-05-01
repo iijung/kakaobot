@@ -962,7 +962,7 @@ function getWeather(replier, msg) {
 
   // 날씨 데이터 파싱 
   var data = weather.select("#wob_loc").text() + " 날씨 ⛅";
-  data = data.concat("\n" + weather.select("#wob_dts").text(); + "\n");
+  data = data.concat("\n" + weather.select("#wob_dts").text() + "\n");
   data = data.concat("\n" + weather.select("#wob_dc").text() + " ");
   data = data.concat("\n" + weather.select("#wob_tm").text() + "℃");
 
@@ -1050,7 +1050,7 @@ var DFLT_ADMIN = [{ name: "관리자1" }, { name: "관리자2" }];
 function getAdminList() {
   var database = DataBase.getDataBase("AdminList.json");
   if (database == null) {
-    database = DataBase.setDataBase("AdminList.json", JSON.stringify(DefaultList));
+    database = DataBase.setDataBase("AdminList.json", JSON.stringify(DFLT_ADMIN));
   }
   return database;
 }
