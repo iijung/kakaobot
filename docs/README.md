@@ -640,6 +640,7 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
 | "`1 2 3 4`".split("` `")         | `1,2,3,4` | ` `을 기준으로 문자열 잘라서 배열로 반환            |
 | "`abcabca`".substring(`0`,`3`)   | `abc`     | 문자열의 `0`번째 부터 `3`번째 전까지 잘라서 반환      |
 | "`abcabca`".replace("`a`","`A`") | `Abcabca` | 처음 발견된 `a`를 `A`로 치환하여 반환            |
+| "`abc`".concat("def")            | `abcdef`  |
 
 ```javascript
 /* ----  trim  ---- */
