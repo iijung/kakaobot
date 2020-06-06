@@ -8,34 +8,35 @@
 
 **목차**
 
-* [환경구성](#환경구성)
-  * [앱 플레이어 설치](#앱-플레이어-설치)
-  * [필수 어플리케이션 설치](#필수-어플리케이션-설치)
-* [메신저봇R](#메신저봇R)
-  * [화면구성](#화면구성)
-  * [개발](#개발)
-  * [샘플 코드](#샘플-코드)
-  * [테스트](#테스트)
-* [기초 과정](#기초-과정)
-  * [출력](#출력)
-  * [변수](#변수)
-  * [조건문](#조건문)
-  * [반복문](#반복문)
-  * [함수](#함수)
-* [응용 과정](#응용-과정)
-  * [포맷](#포맷)
-  * [문자열 활용](#문자열-활용)
-  * [랜덤 출력](#랜덤-출력)
-  * [타이머](#타이머)
-  * [날짜 및 시간](#날짜-및-시간)
-  * [JSON](#JSON)
-  * [파일 및 데이터베이스](#파일-및-데이터베이스)
-  * [웹페이지 크롤링](#웹페이지-크롤링)
-* [심화 과정](#심화-과정)
-  * [공용 스크립트](#공용-스크립트)
-  * [관리자 스크립트](#관리자-스크립트)
-  * [카톡봇 스크립트](#카톡봇-스크립트)
-* [참고](#참고)
+- [메신저 봇 개발](#메신저-봇-개발)
+  - [환경구성](#환경구성)
+    - [앱 플레이어 설치](#앱-플레이어-설치)
+    - [필수 어플리케이션 설치](#필수-어플리케이션-설치)
+  - [메신저봇R](#메신저봇r)
+    - [화면구성](#화면구성)
+    - [개발](#개발)
+    - [샘플 코드](#샘플-코드)
+    - [테스트](#테스트)
+  - [기초 과정](#기초-과정)
+    - [출력](#출력)
+    - [변수](#변수)
+    - [조건문](#조건문)
+    - [반복문](#반복문)
+    - [함수](#함수)
+  - [응용 과정](#응용-과정)
+    - [포맷](#포맷)
+    - [문자열 활용](#문자열-활용)
+    - [랜덤 출력](#랜덤-출력)
+    - [타이머](#타이머)
+    - [날짜 및 시간](#날짜-및-시간)
+    - [JSON](#json)
+    - [파일 및 데이터베이스](#파일-및-데이터베이스)
+    - [웹페이지 크롤링](#웹페이지-크롤링)
+  - [심화 과정](#심화-과정)
+    - [공용 스크립트](#공용-스크립트)
+    - [관리자 스크립트](#관리자-스크립트)
+    - [카톡봇 스크립트](#카톡봇-스크립트)
+  - [참고](#참고)
  <br />
 
 ---
@@ -74,10 +75,10 @@
 > 구글 플레이스토어를 통해 앱을 설치해야하므로 구글 계정이 필요합니다.
 
 ![process](./images/process.png)
-|                   용도                   | 간단 설명                            |
-| :------------------------------------: | :------------------------------- |
-|                  카카오톡                  | 알림센터에 메시지를 표시합니다. (알림 팝업)        |
-|                 메신저봇R                  | 알림센터에서 메시지를 읽어와 답장을 보낸다.         |
+|                  용도                  | 간단 설명                                                |
+| :------------------------------------: | :------------------------------------------------------- |
+|                카카오톡                | 알림센터에 메시지를 표시합니다. (알림 팝업)              |
+|               메신저봇R                | 알림센터에서 메시지를 읽어와 답장을 보낸다.              |
 | Wear OS by Google <br> Galaxy Wearable | 자동 응답 어플로 부터 요청받은 답장을 실제로 전달합니다. |
 
 1. 카카오톡
@@ -206,13 +207,13 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
 <br />
 
 `function response`의 각 파라미터는 다음과 같습니다.
-| 파라미터        | 설명                                                |
-| ----------- | ------------------------------------------------- |
-| room        | 채팅방의 이름입니다.                                       |
-| sender      | 보낸이의 이름입니다.                                       |
+| 파라미터    | 설명                                                               |
+| ----------- | ------------------------------------------------------------------ |
+| room        | 채팅방의 이름입니다.                                               |
+| sender      | 보낸이의 이름입니다.                                               |
 | isGorupChat | 단체톡방 여부입니다. (`false`: 개인톡방, `true`: 단체톡방)         |
-| replier     | 답장을 보내기 위한 객체입니다.                                 |
-| imageDB     | 프로필 이미지와 관련된 객체입니다.                               |
+| replier     | 답장을 보내기 위한 객체입니다.                                     |
+| imageDB     | 프로필 이미지와 관련된 객체입니다.                                 |
 | packageName | 알림 팝업을 띄운 어플의 패키지명입니다. (ex. `com.kakao.talk.apk`) |
 
 <br />
@@ -309,16 +310,16 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
 ### 출력
 > 사람이 데이터를 실제 눈으로 확인할 수 있도록 데이터를 출력해봅시다.
 
-| 소스코드                              | 출력 위치                         | 비고                                        |
-| --------------------------------- | ----------------------------- | ----------------------------------------- |
-| puts("`데이터`")                     | 웹 콘솔 화면(`F12`)                | 기본 출력함수. `https://jsfiddle.net/` 테스트 시 사용 |
-| document.write("`데이터`")           | 웹 페이지 화면                      | 기본 출력함수. `https://jsfiddle.net/` 테스트 시 사용 |
-| --------------------------------- | ----------------------------- | ----------------------------------------- |
-| replier.reply("`데이터`")            | 카카오톡 등 메시지 답장                 | 답장. `메신저봇R`에서만 사용됩니다.                     |
-| i("`데이터`"), info("`데이터`")         | `메신저봇R` 앱 로그 메시지              | 정보 로그. `메신저봇R`에서만 사용됩니다.                  |
-| e("`데이터`"), error("`데이터`")        | `메신저봇R` 앱 로그 메시지              | 에러 로그. `메신저봇R`에서만 사용됩니다.                  |
-| d("`데이터`"), debug("`데이터`")        | `메신저봇R` 앱 로그 메시지              | 디버그 로그. `메신저봇R`에서만 사용됩니다.                 |
-| clear()                           | -                             | `메신저봇R` 앱 로그 메시지를 모두 지울 때 사용됩니다.          |
+| 소스코드                          | 출력 위치                     | 비고                                                  |
+| --------------------------------- | ----------------------------- | ----------------------------------------------------- |
+| puts("`데이터`")                  | 웹 콘솔 화면(`F12`)           | 기본 출력함수. `https://jsfiddle.net/` 테스트 시 사용 |
+| document.write("`데이터`")        | 웹 페이지 화면                | 기본 출력함수. `https://jsfiddle.net/` 테스트 시 사용 |
+| --------------------------------- | ----------------------------- | -----------------------------------------             |
+| replier.reply("`데이터`")         | 카카오톡 등 메시지 답장       | 답장. `메신저봇R`에서만 사용됩니다.                   |
+| i("`데이터`"), info("`데이터`")   | `메신저봇R` 앱 로그 메시지    | 정보 로그. `메신저봇R`에서만 사용됩니다.              |
+| e("`데이터`"), error("`데이터`")  | `메신저봇R` 앱 로그 메시지    | 에러 로그. `메신저봇R`에서만 사용됩니다.              |
+| d("`데이터`"), debug("`데이터`")  | `메신저봇R` 앱 로그 메시지    | 디버그 로그. `메신저봇R`에서만 사용됩니다.            |
+| clear()                           | -                             | `메신저봇R` 앱 로그 메시지를 모두 지울 때 사용됩니다. |
 
 **bot.js**
 
@@ -397,21 +398,21 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
 **연산자**
 > 변수 `A`와 `B`를 통한 연산자 요약입니다.
 
-| 논리 연산자   | 의미  | 설명            |
-| -------- | --- | ------------- |
-| A        | -   | A가 참일 경우      |
-| !A       | NOT | A 가 참이 아닐 경우  |
-| A \|\| B | OR  | A 또는 B가 참일 경우 |
-| A && B   | AND | A와 B 모두 참일 경우 |
+| 논리 연산자 | 의미 | 설명                 |
+| ----------- | ---- | -------------------- |
+| A           | -    | A가 참일 경우        |
+| !A          | NOT  | A 가 참이 아닐 경우  |
+| A \|\| B    | OR   | A 또는 B가 참일 경우 |
+| A && B      | AND  | A와 B 모두 참일 경우 |
 
-| 비교 연산자 | 의미                       | 설명                |
-| ------ | ------------------------ | ----------------- |
-| A < B  | greater than             | A 보다 B가 클 경우      |
-| A <= B | greater than or equal to | A 보다 B가 크거나 같을 경우 |
-| A > B  | less than                | A 보다 B가 작을 경우     |
-| A >=B  | less than or equal to    | A 보다 B가 작거나 같을 경우 |
-| A == B | equals                   | A 와 B가 같을 경우      |
-| A != B | not equal to             | A 와 B가 같지 않을 경우   |
+| 비교 연산자 | 의미                     | 설명                        |
+| ----------- | ------------------------ | --------------------------- |
+| A < B       | greater than             | A 보다 B가 클 경우          |
+| A <= B      | greater than or equal to | A 보다 B가 크거나 같을 경우 |
+| A > B       | less than                | A 보다 B가 작을 경우        |
+| A >=B       | less than or equal to    | A 보다 B가 작거나 같을 경우 |
+| A == B      | equals                   | A 와 B가 같을 경우          |
+| A != B      | not equal to             | A 와 B가 같지 않을 경우     |
 
 <br />
 
@@ -632,15 +633,15 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
 ### 문자열 활용
 > 문자열을 조작하기 위한 함수를 활용하여 봇을 개발합니다.
 
-| 소스코드                             | 결과        | 기능                                  |
-| -------------------------------- | --------- | ----------------------------------- |
-| "`   테  스  트   `".trim()         | `테  스  트` | 문자열의 좌우 공백 제거                       |
-| "`abcabca`".indexOf("`ca`")      | `2`       | `ca`의 첫번째 위치를 반환 (없으면, `-1` 반환)     |
-| "`abcabca`".lastIndexOf("`ca`")  | `5`       | `ca`의 뒤에서 첫번째 위치를 반환 (없으면, `-1` 반환) |
-| "`1 2 3 4`".split("` `")         | `1,2,3,4` | ` `을 기준으로 문자열 잘라서 배열로 반환            |
-| "`abcabca`".substring(`0`,`3`)   | `abc`     | 문자열의 `0`번째 부터 `3`번째 전까지 잘라서 반환      |
-| "`abcabca`".replace("`a`","`A`") | `Abcabca` | 처음 발견된 `a`를 `A`로 치환하여 반환            |
-| "`abc`".concat("def")            | `abcdef`  |
+| 소스코드                         | 결과         | 기능                                                 |
+| -------------------------------- | ------------ | ---------------------------------------------------- |
+| "`   테  스  트   `".trim()      | `테  스  트` | 문자열의 좌우 공백 제거                              |
+| "`abcabca`".indexOf("`ca`")      | `2`          | `ca`의 첫번째 위치를 반환 (없으면, `-1` 반환)        |
+| "`abcabca`".lastIndexOf("`ca`")  | `5`          | `ca`의 뒤에서 첫번째 위치를 반환 (없으면, `-1` 반환) |
+| "`1 2 3 4`".split("` `")         | `1,2,3,4`    | ` `을 기준으로 문자열 잘라서 배열로 반환             |
+| "`abcabca`".substring(`0`,`3`)   | `abc`        | 문자열의 `0`번째 부터 `3`번째 전까지 잘라서 반환     |
+| "`abcabca`".replace("`a`","`A`") | `Abcabca`    | 처음 발견된 `a`를 `A`로 치환하여 반환                |
+| "`abc`".concat("def")            | `abcdef`     |
 
 ```javascript
 /* ----  trim  ---- */
@@ -916,12 +917,12 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
 <br />
 
 **JSOUP 함수 요약** 
-| 구분   | 가져올 HTML 소스코드                                    | 예시                                                              |
-| ---- | ------------------------------------------------ | --------------------------------------------------------------- |
-| 전체   | HTML 소스 전체                                       | var doc = org.jsoup.Jsoup.connect("https://github.com/").get(); |
-| 클래스  | \<div class="test_class"\> 의 값                   | var element = doc.select(".test_class");                        |
-| 아이디  | \<p id="test_id" alt="100"\> 의 값                 | var element = doc.select("#test_id");                           |
-| 속성값  | \<p id="test_id" alt="100"\> 의 값                 | var element = doc.select("#test_id").attr("alt");               |
+| 구분     | 가져올 HTML 소스코드                               | 예시                                                            |
+| -------- | -------------------------------------------------- | --------------------------------------------------------------- |
+| 전체     | HTML 소스 전체                                     | var doc = org.jsoup.Jsoup.connect("https://github.com/").get(); |
+| 클래스   | \<div class="test_class"\> 의 값                   | var element = doc.select(".test_class");                        |
+| 아이디   | \<p id="test_id" alt="100"\> 의 값                 | var element = doc.select("#test_id");                           |
+| 속성값   | \<p id="test_id" alt="100"\> 의 값                 | var element = doc.select("#test_id").attr("alt");               |
 | 하위태그 | \<div class="test"\>\<a\>...\<\/a\>\<\/div\> 의 값 | var element = doc.select("div.test a");                         |
 | 하위태그 | <ul\>\<li\>...\<\/li\>\<\/ul\> 의 값               | var element = doc.select("ul>li");                              |  |  |
 
@@ -1044,15 +1045,32 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
 - `프로필 이미지`로 관리하고 싶은 경우, 프로필 이미지를 Base64의 형태로 반환하는 `imageDB.getProfileImage()`를 사용합니다.
 
 ```javascript
-const scriptName = "admin.js";
+const scriptName = "admin";
 
-var DFLT_ADMIN = [{ name: "관리자1" }, { name: "관리자2" }];
+var DFLT_ADMIN = [{ name: "Tanya" }, { name: "Tanya2" }]];
+
+var RoomList = [];
+
+function checkRoom(room) {
+  var new_flag = 1;
+  for (var idx in RoomList) {
+    if (RoomList[idx] == room) new_flag = 0;
+  }
+  if (new_flag) RoomList.push(room);
+}
+function showRooms() {
+  var rtn_msg = "[방 리스트]";
+  for (var idx in RoomList) rtn_msg = rtn_msg.concat("\n " + RoomList[idx]);
+  return rtn_msg;
+}
+
+function isNull(value) {
+  return typeof value == "undefined" || value == null || value == "" ? true : false;
+}
 
 function getAdminList() {
   var database = DataBase.getDataBase("AdminList.json");
-  if (database == null) {
-    database = DataBase.setDataBase("AdminList.json", JSON.stringify(DFLT_ADMIN));
-  }
+  if (isNull(database) || database == "[]") database = DataBase.setDataBase("AdminList.json", JSON.stringify(DFLT_ADMIN));
   return database;
 }
 
@@ -1060,9 +1078,7 @@ function getAdminList() {
 function getAdminText() {
   var AdminList = JSON.parse(getAdminList());
   var text = "";
-  for (var idx in AdminList) {
-    text = text.concat(AdminList[idx]["name"] + "\n");
-  }
+  for (var idx in AdminList) text = text.concat(AdminList[idx]["name"] + "\n");
   return text.slice(0, -1);
 }
 
@@ -1102,10 +1118,10 @@ function isAdmin(name) {
 function help() {
   var help_msg = "[관리자 도움말]";
   help_msg = help_msg.concat("\n*도움말");
-  help_msg = help_msg.concat("\n*공지 room 하고싶은말");
-  help_msg = help_msg.concat("\n*봇 상태");
   help_msg = help_msg.concat("\n*디바이스 상태");
   help_msg = help_msg.concat("\n");
+  help_msg = help_msg.concat("\n*방");
+  help_msg = help_msg.concat("\n*상태");
   help_msg = help_msg.concat("\n*재컴파일");
   help_msg = help_msg.concat("\n*구동 bot1 ...");
   help_msg = help_msg.concat("\n*중지 bot2 ...");
@@ -1113,6 +1129,8 @@ function help() {
   help_msg = help_msg.concat("\n*관리자 조회");
   help_msg = help_msg.concat("\n*관리자 추가 admin1 ...");
   help_msg = help_msg.concat("\n*관리자 제거 admin1 ...");
+  help_msg = help_msg.concat("\n");
+  help_msg = help_msg.concat("\n*공지\n공지할 방이름\n하고싶은말");
   return help_msg;
 }
 
@@ -1120,7 +1138,7 @@ function botStatus() {
   var stat_msg = "";
   var scripts = Api.getScriptNames();
   for (var idx in scripts) {
-    stat_msg = "[" + scripts[idx] + " 봇 상태]";
+    stat_msg = stat_msg.concat("[" + scripts[idx] + " 봇 상태]");
     stat_msg = stat_msg.concat("\n 전원 상태 : " + Api.isOn(scripts[idx]));
     stat_msg = stat_msg.concat("\n 컴파일 완료 : " + Api.isCompiled(scripts[idx]));
     stat_msg = stat_msg.concat("\n 컴파일 진행중 : " + Api.isCompiling(scripts[idx]));
@@ -1148,35 +1166,39 @@ function deviceStatus() {
 }
 
 function response(room, msg, sender, isGroupChat, replier, imageDB, packageName) {
+  checkRoom(room);
   if (!isAdmin(sender)) return; // sedner가 관리자가 아닐 경우, 종료
 
   if (msg == "*도움말") replier.reply(help());
 
-  if (msg == "*봇 상태") replier.reply(botStatus());
-
   if (msg == "*디바이스 상태") replier.reply(deviceStatus());
 
   if (msg.indexOf("*공지") == 0) {
-    var contents = msg.replace("*공지 ", "").trim();
-    if (contents == "") {
-      replier.reply("ex) *공지 디버그룸 테스트 입니다.");
+    var contents = msg.replace("*공지", "").trim();
+    if (isNull(contents)) {
+      replier.reply("ex) *공지\n디버그룸\n테스트 메시지 입니다.");
     } else {
-      var room_name = contents.split(" ")[0]; // 공백이 오기 전 문자열
-      var notice = contents.substring(contents.indexOf(" ") + 1); // 공백 다음 문자열
+      var room_name = contents.split("\n")[0]; // 공백이 오기 전 문자열
+      var notice = contents.substring(contents.indexOf("\n") + 1); // 공백 다음 문자열
       replier.reply(room_name, notice);
     }
   }
+  // 방 확인
+  if (msg == "*방") replier.reply(showRooms());
+
+  // 스크립트 상태 확인
+  if (msg == "*상태") replier.reply(botStatus());
 
   // 스크립트 재컴파일
   if (msg.indexOf("*재컴파일") == 0) {
-    var contents = msg.replace("*재컴파일").trim();
-    if (contents == "") {
+    var contents = msg.replace("*재컴파일", "").trim();
+    if (isNull(contents)) {
       Api.reload();
       replier.reply("전체 스크립트가 재컴파일되었습니다.");
     } else {
       var scripts = contents.split(" ");
       for (var idx in scripts) {
-        if (script[idx] != "") {
+        if (!isNull(scripts[idx])) {
           Api.reload(scripts[idx]);
           replier.reply(scripts[idx] + "(이)가 재컴파일되었습니다.");
         }
@@ -1186,14 +1208,14 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
 
   // 스크립트 구동
   if (msg.indexOf("*구동") == 0) {
-    var contents = msg.replace("*구동").trim();
-    if (contents == "") {
+    var contents = msg.replace("*구동", "").trim();
+    if (isNull(contents)) {
       Api.on();
       replier.reply("전체 스크립트가 구동되었습니다.");
     } else {
       var scripts = contents.split(" ");
       for (var idx in scripts) {
-        if (script[idx] != "") {
+        if (!isNull(scripts[idx])) {
           Api.on(scripts[idx]);
           replier.reply(scripts[idx] + "(이)가 구동되었습니다.");
         }
@@ -1203,14 +1225,14 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
 
   // 스크립트 중지
   if (msg.indexOf("*중지") == 0) {
-    var contents = msg.replace("*중지").trim();
-    if (contents == "") {
+    var contents = msg.replace("*중지", "").trim();
+    if (isNull(contents)) {
       Api.off();
       replier.reply("전체 스크립트가 중지되었습니다.");
     } else {
       var scripts = contents.split(" ");
       for (var idx in scripts) {
-        if (script[idx] != "") {
+        if (!isNull(scripts[idx])) {
           Api.off(scripts[idx]);
           replier.reply(scripts[idx] + "(이)가 중지되었습니다.");
         }
@@ -1219,18 +1241,18 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
   }
 
   // 관리자 관리
-  if (msg == "*관리자 조회") replier.reply(getAdminText());
+  if (msg == "*관리자 조회") replier.reply("[관리자 리스트]\n" + getAdminText());
 
   if (msg.indexOf("*관리자 추가") == 0) {
     var contents = msg.replace("*관리자 추가", "").trim();
-    if (contents == "") {
+    if (isNull(contents)) {
       replier.reply("ex) *관리자 추가 admin1 admin2");
       return;
     }
     var admins = contents.split(" ");
     for (var idx in admins) {
-      if (admins[idx] != "") {
-        if addAdmin(admins[idx]) < 0) {
+      if (!isNull(admins[idx])) {
+        if (addAdmin(admins[idx]) < 0) {
           replier.reply(admins[idx] + "님은 이미 추가된 관리자입니다.");
         } else {
           replier.reply(admins[idx] + "님을 관리자로 추가했습니다.");
@@ -1241,13 +1263,13 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
 
   if (msg.indexOf("*관리자 제거") == 0) {
     var contents = msg.replace("*관리자 제거", "").trim();
-    if (contents == "") {
+    if (isNull(contents)) {
       replier.reply("ex) *관리자 제거 admin1 admin2");
       return;
     }
     var admins = contents.split(" ");
     for (var idx in admins) {
-      if (admins[idx] != "") {
+      if (!isNull(admins[idx])) {
         if (delAdmin(admins[idx]) < 0) {
           replier.reply(admins[idx] + "님은 관리자가 아닙니다.");
         } else {
@@ -1257,6 +1279,22 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
     }
   }
 }
+
+//아래 4개의 메소드는 액티비티 화면을 수정할때 사용됩니다.
+function onCreate(savedInstanceState, activity) {
+  var textView = new android.widget.TextView(activity);
+  textView.setText("Hello, World!");
+  textView.setTextColor(android.graphics.Color.DKGRAY);
+  activity.setContentView(textView);
+}
+
+function onStart(activity) { }
+
+function onResume(activity) { }
+
+function onPause(activity) { }
+
+function onStop(activity) { }
 ```
 
 <br />
