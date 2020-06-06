@@ -1,175 +1,243 @@
-const scriptName = "admin.js";
+const scriptName = "admin";
 
-var Common = Bridge.getScopeOf("common.js");
+var DFLT_ADMIN = [{ name: "Tanya" }];
 
-/* default */
-var BotName = "봇";
-function changeBotName(bot_name) {
-  botName = bot_name;
+var RoomList = [];
+
+function checkRoom(room) {
+  var new_flag = 1;
+  for (var idx in RoomList) {
+    if (RoomList[idx] == room) new_flag = 0;
+  }
+  if (new_flag) RoomList.push(room);
+}
+function showRooms() {
+  var rtn_msg = "[방 리스트]";
+  for (var idx in RoomList) rtn_msg = rtn_msg.concat("\n " + RoomList[idx]);
+  return rtn_msg;
 }
 
-/* AdminList.json
-   [
-      {name: "관리자1"},
-      {name: "관리자2"},
-      {name: "관리자3"}
-   ]
-*/
-function isAdmin(sender_name) {
-  if (sender_name == "Admin") return 1;
-  var AdminList = Common.selectDB("AdminList.json");
-  for (var key in AdminList) {
-    if (AdminList[key].name === sender_name) return 1;
-  }
-  return 0;
+function isNull(value) {
+  return typeof value == "undefined" || value == null || value == "" ? true : false;
 }
 
-var before_room = "";
+function getAdminList() {
+  var database = DataBase.getDataBase("AdminList.json");
+  if (isNull(database) || database == "[]") database = DataBase.setDataBase("AdminList.json", JSON.stringify(DFLT_ADMIN));
+  return database;
+}
 
-function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName, threadId) {
-  /*(String) room: 메시지를 받은 방 이름
-   *(String) msg: 메시지 내용
-   *(String) sender: 전송자 닉네임
-   *(boolean) isGroupChat: 단체/오픈채팅 여부
-   *replier: 응답용 객체. replier.reply("메시지") 또는 replier.reply("방이름","메시지")로 전송
-   *(String) ImageDB.getProfileImage(): 전송자의 프로필 이미지를 Base64로 인코딩하여 반환
-   *(String) packageName: 메시지를 받은 메신저의 패키지 이름. (카카오톡: com.kakao.talk, 페메: com.facebook.orca, 라인: jp.naver.line.android
-   *(int) threadId: 현재 쓰레드의 순번(스크립트별로 따로 매김)     *Api,Utils객체에 대해서는 설정의 도움말 참조*/
+// 관리자 조회
+function getAdminText() {
+  var AdminList = JSON.parse(getAdminList());
+  var text = "";
+  for (var idx in AdminList) text = text.concat(AdminList[idx]["name"] + "\n");
+  return text.slice(0, -1);
+}
 
-  if (!isAdmin(sender)) return;
-
-  if (msg.indexOf("--방") == 0) {
-    replier.reply(before_room);
+// 관리자 추가
+function addAdmin(name) {
+  var AdminList = JSON.parse(getAdminList());
+  for (var idx in AdminList) {
+    if (AdminList[idx]["name"] == name) return -1; // already exist
   }
-  before_room = room;
+  AdminList.push({ name: name });
+  DataBase.setDataBase("AdminList.json", JSON.stringify(AdminList));
+  return 0; // success
+}
 
-  if (msg.indexOf("--공지") == 0) {
-    var msg_content = msg.replace("--공지 ", "").trim();
-    if (msg_content == "") {
-      replier.reply("ex) --공지 테스트 안녕");
-      return;
+// 관리자 제거
+function delAdmin(name) {
+  var AdminList = JSON.parse(getAdminList());
+  for (var idx in AdminList) {
+    if (AdminList[idx]["name"] == name) {
+      AdminList.splice(idx, 1);
+      DataBase.setDataBase("AdminList.json", JSON.stringify(AdminList));
+      return 0; // success
     }
-
-    var room_name = msg_content.split(" ")[0];
-    var notice = msg_content.substring(msg_content.indexOf(" ") + 1);
-    replier.reply(room_name, notice);
   }
+  return -1; // not exist
+}
 
-  if (msg.indexOf("--도움말") == 0) {
-    helper = "## " + BotName + " 관리자 도움말##\n";
-    helper = helper.concat("--컴파일 \n");
-    helper = helper.concat("--구동 : 사용자 명령어 사용\n");
-    helper = helper.concat("--중지 : 사용자 명령어 중지\n");
-    helper = helper.concat("--상태 : " + BotName + " 상태\n");
-    helper = helper.concat("--방 : 마지막 방 이름 조회\n");
-    helper = helper.concat("--공지 <방> <메시지>\n");
-    helper = helper.concat("--관리자 추가 <이름1> \n");
-    helper = helper.concat("--관리자 제거 <이름1> \n");
-    helper = helper.concat("--관리자 조회 : 관리자 조회");
-    replier.reply(helper);
+// 관리자 확인
+function isAdmin(name) {
+  var AdminList = JSON.parse(getAdminList());
+  for (var idx in AdminList) {
+    if (AdminList[idx]["name"] == name) return 1; // is admin
   }
+  return 0; // isn't admmin
+}
 
-  if (msg.indexOf("--컴파일") == 0) {
-    Api.reload();
-    Log.info("recompile the bot.");
-    replier.reply(BotName + "(이)가 재컴파일되었습니다.");
+function help() {
+  var help_msg = "[관리자 도움말]";
+  help_msg = help_msg.concat("\n*도움말");
+  help_msg = help_msg.concat("\n*디바이스 상태");
+  help_msg = help_msg.concat("\n");
+  help_msg = help_msg.concat("\n*방");
+  help_msg = help_msg.concat("\n*상태");
+  help_msg = help_msg.concat("\n*구동 bot1 ...");
+  help_msg = help_msg.concat("\n*중지 bot2 ...");
+  help_msg = help_msg.concat("\n");
+  help_msg = help_msg.concat("\n*관리자 조회");
+  help_msg = help_msg.concat("\n*관리자 추가 admin1 ...");
+  help_msg = help_msg.concat("\n*관리자 제거 admin1 ...");
+  help_msg = help_msg.concat("\n");
+  help_msg = help_msg.concat("\n*공지\n공지할 방이름\n하고싶은말");
+  return help_msg;
+}
+
+function botStatus() {
+  var stat_msg = "";
+  var scripts = Api.getScriptNames();
+  for (var idx in scripts) {
+    stat_msg = stat_msg.concat("[" + scripts[idx] + " 상태]");
+    stat_msg = stat_msg.concat("\n 전원 상태 : " + Api.isOn(scripts[idx]));
+    stat_msg = stat_msg.concat("\n 컴파일 완료 : " + Api.isCompiled(scripts[idx]));
+    stat_msg = stat_msg.concat("\n 컴파일 진행중 : " + Api.isCompiling(scripts[idx]));
+    stat_msg = stat_msg.concat("\n\n");
   }
+  return stat_msg.slice(0, -2);
+}
 
-  if (msg.indexOf("--구동") == 0) {
-    Api.on("user.js");
-    Log.info("start the bot.");
-    replier.reply(BotName + "(이)가 구동되었습니다.");
-  }
+function deviceStatus() {
+  var stat_msg = "[디바이스 상태]";
+  stat_msg = stat_msg.concat("\n안드로이드 OS빌드 : " + Device.getBuild());
+  stat_msg = stat_msg.concat("\n안드로이드 버전코드 : " + Device.getAndroidVersionCode());
+  stat_msg = stat_msg.concat("\n안드로이드 버전이름 : " + Device.getAndroidVersionCode());
+  stat_msg = stat_msg.concat("\n휴대폰 브랜드명 : " + Device.getPhoneBrand());
+  stat_msg = stat_msg.concat("\n휴대폰 모델명 : " + Device.getPhoneModel());
+  stat_msg = stat_msg.concat("\n");
+  stat_msg = stat_msg.concat("\n충전 여부 : " + Device.isCharging());
+  stat_msg = stat_msg.concat("\n충전기 타입 : " + Device.getPlugType());
+  stat_msg = stat_msg.concat("\n배터리 잔량 : " + Device.getBatteryLevel() + "%");
+  stat_msg = stat_msg.concat("\n배터리 온도 : " + Device.getBatteryTemperature());
+  stat_msg = stat_msg.concat("\n배터리 전압 : " + Device.getBatteryVoltage() + "mV");
+  stat_msg = stat_msg.concat("\n배터리 상태 : " + Device.getBatteryStatus());
+  stat_msg = stat_msg.concat("\n배터리 건강상태 : " + Device.getBatteryHealth());
+  return stat_msg;
+}
 
-  if (msg.indexOf("--중지") == 0) {
-    Api.off("user.js");
-    Log.info("stop the bot.");
-    replier.reply(BotName + "(이)가 중지되었습니다.");
-  }
+function response(room, msg, sender, isGroupChat, replier, imageDB, packageName) {
+  checkRoom(room);
+  if (msg == "일어나") { Api.reload(); Api.on(); }
 
-  if (msg.indexOf("--상태") == 0) {
-    status = "## " + BotName + " 상태##\n";
-    status = status.concat("API 응답 : " + Api.isOn("common.js") + "\n");
-    status = status.concat("API 컴파일 : " + Api.isCompiled("common.js") + "\n");
-    status = status.concat("\n");
-    status = status.concat(BotName + " 응답 : " + Api.isOn("user.js") + "\n");
-    status = status.concat(BotName + " 컴파일 : " + Api.isCompiled("user.js") + "\n");
-    status = status.concat("\n");
-    status = status.concat("배터리 잔량 : " + Device.getBatteryLevel() + "\n");
-    status = status.concat("배터리 충전 : " + Device.isCharging());
-    Log.info("check the bot status.");
-    replier.reply(status);
-  }
+  if (!isAdmin(sender)) return; // sedner가 관리자가 아닐 경우, 종료
 
-  if (msg.indexOf("--관리자 추가") == 0) {
-    var msg_content = msg.replace("--관리자 추가", "").trim();
-    if (msg_content == "") {
-      replier.reply("ex) --관리자 추가 Tanya");
-      return;
+  if (msg == "*도움말") replier.reply(help());
+
+  if (msg == "*디바이스 상태") replier.reply(deviceStatus());
+
+  if (msg.indexOf("*공지") == 0) {
+    var contents = msg.replace("*공지", "").trim();
+    if (isNull(contents)) {
+      replier.reply("ex) *공지\n디버그룸\n테스트 메시지 입니다.");
+    } else {
+      var room_name = contents.split("\n")[0]; // 공백이 오기 전 문자열
+      var notice = contents.substring(contents.indexOf("\n") + 1); // 공백 다음 문자열
+      replier.reply(room_name, notice);
     }
+  }
+  // 방 확인
+  if (msg == "*방") replier.reply(showRooms());
 
-    var names = msg_content.split(" ");
-    for (var idx in names) {
-      if (names[idx] == "") names.splice(idx, 1);
-    }
-    for (var idx in names) {
-      var object = new Object();
-      object["name"] = names[idx];
-      if (Common.insertDB("AdminList.json", object)) {
-        replier.reply(names[idx] + "추가 중 오류가 발생했습니다.");
-        return;
+  // 스크립트 상태 확인
+  if (msg == "*상태") replier.reply(botStatus());
+
+  // 스크립트 구동
+  if (msg.indexOf("*구동") == 0) {
+    var contents = msg.replace("*구동", "").trim();
+    if (isNull(contents)) {
+      var rtn_msg = "";
+      var scripts = Api.getScriptNames();
+      for (var idx in scripts) {
+        rtn_msg = rtn_msg.concat("*구동 " + scripts[idx] + "\n");
+      }
+      replier.reply(rtn_msg.slice(0, -1));
+    } else {
+      var scripts = contents.split(" ");
+      for (var idx in scripts) {
+        if (!isNull(scripts[idx])) {
+          Api.reload(scripts[idx]);
+          Api.on(scripts[idx]);
+          replier.reply(scripts[idx] + "(이)가 구동되었습니다.");
+        }
       }
     }
-    replier.reply(names + "님이 관리자로 추가되었습니다.");
   }
 
-  if (msg.indexOf("--관리자 제거") == 0) {
-    var msg_content = msg.replace("--관리자 제거 ", "").trim();
-    if (msg_content == "") {
-      replier.reply("ex) --관리자 제거 Tanya");
-      return;
-    }
-
-    var return_name = "";
-    var names = msg_content.split(" ");
-    for (var idx in names) {
-      if (names[idx] == "") names.splice(idx, 1);
-    }
-    for (var idx in names) {
-      var object = new Object();
-      object["name"] = names[idx];
-      var ObjectList = Common.deleteDB("AdminList.json", object);
-      for (var idx in ObjectList) {
-        return_name = return_name.concat(ObjectList[idx].name + ",");
+  // 스크립트 중지
+  if (msg.indexOf("*중지") == 0) {
+    var contents = msg.replace("*중지", "").trim();
+    if (isNull(contents)) {
+      var rtn_msg = "";
+      var scripts = Api.getScriptNames();
+      for (var idx in scripts) {
+        rtn_msg = rtn_msg.concat("*중지 " + scripts[idx] + "\n");
+      }
+      replier.reply(rtn_msg.slice(0, -1));
+    } else {
+      var scripts = contents.split(" ");
+      for (var idx in scripts) {
+        if (!isNull(scripts[idx])) {
+          Api.off(scripts[idx]);
+          replier.reply(scripts[idx] + "(이)가 중지되었습니다.");
+        }
       }
     }
-    replier.reply(return_name.slice(0, -1) + "님이 관리자에서 제거되었습니다.");
   }
 
-  if (msg.indexOf("--관리자 조회") == 0) {
-    var return_msg = "## 관리자 조회 ##\n";
-    var AdminList = Common.selectDB("AdminList.json", 0);
-    for (var idx in AdminList) {
-      return_msg = return_msg.concat(AdminList[idx].name + "\n");
+  // 관리자 관리
+  if (msg == "*관리자 조회") replier.reply("[관리자 리스트]\n" + getAdminText());
+
+  if (msg.indexOf("*관리자 추가") == 0) {
+    var contents = msg.replace("*관리자 추가", "").trim();
+    if (isNull(contents)) {
+      replier.reply("ex) *관리자 추가 admin1 admin2");
+      return;
     }
-    replier.reply(return_msg.slice(0, -1));
+    var admins = contents.split(" ");
+    for (var idx in admins) {
+      if (!isNull(admins[idx])) {
+        if (addAdmin(admins[idx]) < 0) {
+          replier.reply(admins[idx] + "님은 이미 추가된 관리자입니다.");
+        } else {
+          replier.reply(admins[idx] + "님을 관리자로 추가했습니다.");
+        }
+      }
+    }
   }
-}
 
-function onStartCompile() {
-  /*컴파일 또는 Api.reload호출시, 컴파일 되기 이전에 호출되는 함수입니다.
-   *제안하는 용도: 리로드시 자동 백업*/
+  if (msg.indexOf("*관리자 제거") == 0) {
+    var contents = msg.replace("*관리자 제거", "").trim();
+    if (isNull(contents)) {
+      replier.reply("ex) *관리자 제거 admin1 admin2");
+      return;
+    }
+    var admins = contents.split(" ");
+    for (var idx in admins) {
+      if (!isNull(admins[idx])) {
+        if (delAdmin(admins[idx]) < 0) {
+          replier.reply(admins[idx] + "님은 관리자가 아닙니다.");
+        } else {
+          replier.reply(admins[idx] + "님을 관리자에서 제거했습니다.");
+        }
+      }
+    }
+  }
 }
 
 //아래 4개의 메소드는 액티비티 화면을 수정할때 사용됩니다.
 function onCreate(savedInstanceState, activity) {
-  var layout = new android.widget.LinearLayout(activity);
-  layout.setOrientation(android.widget.LinearLayout.HORIZONTAL);
-  var txt = new android.widget.TextView(activity);
-  txt.setText("액티비티 사용 예시입니다.");
-  layout.addView(txt);
-  activity.setContentView(layout);
+  var textView = new android.widget.TextView(activity);
+  textView.setText("Hello, World!");
+  textView.setTextColor(android.graphics.Color.DKGRAY);
+  activity.setContentView(textView);
 }
-function onResume(activity) {}
-function onPause(activity) {}
-function onStop(activity) {}
+
+function onStart(activity) { }
+
+function onResume(activity) { }
+
+function onPause(activity) { }
+
+function onStop(activity) { }
