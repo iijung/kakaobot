@@ -80,7 +80,7 @@ function playRockScissorsPaper(room, msg, sender, com) {
     return ment[Math.floor(Math.random() * ment.length)];
 }
 
-function getWeather(msg) {
+function getWeather(replier, msg) {
     var weather = org.jsoup.Jsoup.connect("https://www.google.com/search?q=" + msg.replace(" ", "+")).get().select("#wob_wc");;
     if (weather == undefined || weather == "") return;
 
@@ -109,7 +109,7 @@ function getWeather(msg) {
         rtn_msg = rtn_msg.concat("(" + t.select("div>div>span").get(0).text());
         rtn_msg = rtn_msg.concat(" ~ " + t.select("div>div>span").get(2).text() + "℃)");
     }
-    return rtn_msg;
+    replier.reply(rtn_msg);
 }
 
 function getFortune(sender, msg) {
@@ -330,7 +330,7 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
     }
 
     if (msg.indexOf("날씨") != -1) {
-        replier.reply(getWeather(msg)); return;
+        getWeather(replier, msg); return;
     }
 
     if (msg == "가위" || msg == "바위" || msg == "보") {
