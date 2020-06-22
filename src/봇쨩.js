@@ -145,6 +145,11 @@ function getFortune(sender, msg) {
     rtn_msg = rtn_msg.concat("\n행운 "); while (luck > 0) { rtn_msg = rtn_msg.concat("🍀"); luck--; }
     rtn_msg = rtn_msg.concat("\n금전 "); while (gold > 0) { rtn_msg = rtn_msg.concat("💎"); gold--; }
     rtn_msg = rtn_msg.concat("\n건강 "); while (health > 0) { rtn_msg = rtn_msg.concat("💊"); health--; }
+
+    rtn_msg = rtn_msg.concat("\n\n# 행운의 색 🎨 #");
+    rtn_msg = rtn_msg.concat("\nhttps://www.htmlcsscolor.com/hex/");
+    for (var i = 1; i < 7; i++) rtn_msg = rtn_msg.concat((parseInt(seed / i) % 16).toString(16));
+
     return rtn_msg;
 }
 
