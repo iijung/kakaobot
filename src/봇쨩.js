@@ -18,11 +18,11 @@ function isNull(value) {
 function getHelp() {
     var rtn_msg = "## " + scriptName + " 도움말##";
     rtn_msg = rtn_msg.concat("\n# 명령어\n");
-    rtn_msg = rtn_msg.concat("--도움말\n");
-    rtn_msg = rtn_msg.concat("--로또\n");
-    rtn_msg = rtn_msg.concat("--타이머 10\n");;
-    rtn_msg = rtn_msg.concat("--출퇴근 9 18\n");
-    rtn_msg = rtn_msg.concat("--골라줘 A B C D...\n");
+    rtn_msg = rtn_msg.concat("-도움말\n");
+    rtn_msg = rtn_msg.concat("-로또\n");
+    rtn_msg = rtn_msg.concat("-타이머 10\n");;
+    rtn_msg = rtn_msg.concat("-출퇴근 9 18\n");
+    rtn_msg = rtn_msg.concat("-골라줘 A B C D...\n");
 
     rtn_msg = rtn_msg.concat("\n# 봇 응답\n");
     rtn_msg = rtn_msg.concat("지금\n");
@@ -183,11 +183,11 @@ function getLottoNumber() {
 }
 
 function setTimer(msg, replier) {
-    var content = msg.replace("--타이머", "").trim();
-    if (content == "") return "ex) --타이머 10";
+    var content = msg.replace("-타이머", "").trim();
+    if (content == "") return "ex) -타이머 10";
 
     var time = Number(content.replace(/[^0-9]/g, ""));
-    if (time == "") return "ex) --타이머 10";
+    if (time == "") return "ex) -타이머 10";
 
     replier.reply("타이머 시작!\n" + time + "초 뒤에 타이머가 종료됩니다!");
     java.lang.Thread.sleep(time * 1000);
@@ -195,8 +195,8 @@ function setTimer(msg, replier) {
 }
 
 function chooseObject(room, msg, sender) {
-    var content = msg.replace("--골라줘", "").trim();
-    if (content == "") return "ex) --골라줘 치킨 피자";
+    var content = msg.replace("-골라줘", "").trim();
+    if (content == "") return "ex) -골라줘 치킨 피자";
 
     var select = content.split(" ");
     for (var idx in select) {
@@ -211,17 +211,17 @@ function remainRushHour(msg) {
     var gowork = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 9, 0, 0, 0);
     var offwork = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 0, 0, 0);
 
-    var msg_content = msg.replace("--출퇴근", "").trim();
+    var msg_content = msg.replace("-출퇴근", "").trim();
     if (msg_content == "") {
         msg_content = "9 18";
     } else if (msg_content.indexOf(" ") == -1) {
-        return "ex) --출퇴근 9 18";
+        return "ex) -출퇴근 9 18";
     }
 
     if (msg_content != "") {
         var set_gowork = Number(msg_content.split(" ")[0].replace(/[^0-9]/g, ""));
         var set_offwork = Number(msg_content.split(" ")[1].replace(/[^0-9]/g, ""));
-        if (set_gowork == "" || set_offwork == "") return "ex) --출퇴근 9 18";
+        if (set_gowork == "" || set_offwork == "") return "ex) -출퇴근 9 18";
         gowork = new Date(now.getFullYear(), now.getMonth(), now.getDate(), set_gowork, 0, 0, 0);
         offwork = new Date(now.getFullYear(), now.getMonth(), now.getDate(), set_offwork, 0, 0, 0);
     }
@@ -303,23 +303,23 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
     //////////////////////////////////////////////////////////////////////////////////////
     // command
     //////////////////////////////////////////////////////////////////////////////////////
-    if (msg == "--도움말") {
+    if (msg == "-도움말") {
         replier.reply(getHelp()); return;
     }
 
-    if (msg.indexOf("--로또") == 0) {
+    if (msg.indexOf("-로또") == 0) {
         replier.reply(getLottoNumber()); return;
     }
 
-    if (msg.indexOf("--타이머") == 0) {
+    if (msg.indexOf("-타이머") == 0) {
         replier.reply(setTimer(msg, replier)); return;
     }
 
-    if (msg.indexOf("--출퇴근") != -1) {
+    if (msg.indexOf("-출퇴근") != -1) {
         replier.reply(remainRushHour(msg)); return;
     }
 
-    if (msg.indexOf("--골라줘") == 0) {
+    if (msg.indexOf("-골라줘") == 0) {
         replier.reply(chooseObject(room, msg, sender)); return;
     }
 
