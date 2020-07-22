@@ -425,9 +425,6 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
     } else if (msg.indexOf("껀데") > 0 || msg.indexOf("건데") > 0) {
         var ment = ["(｡•́ - •̀｡)", "(._. )", "...", "(・-・*)♪", "๑°⌓°๑"];
         replier.reply(ment[Math.floor(Math.random() * ment.length)]);
-    } else if (msg.indexOf("음악") != -1 || msg.indexOf("노래") != -1) {
-        var ment = ["▶               3:14", "⇆ㅤㅤ◁ㅤㅤ❚❚ㅤㅤ▷ㅤㅤ↻"];
-        replier.reply(ment[Math.floor(Math.random() * ment.length)]);
     }
 
     // 도배 체크
