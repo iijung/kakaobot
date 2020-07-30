@@ -290,6 +290,8 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
      - 모든 채팅방 : 모든 채팅방에 자동 응답이 수행됨
      - 알림 켠 채팅방만 : 알림을 켠 채팅방만 자동 응답이 수행됨
 
+3. 답장이 오지 않는 채팅방의 알림이 켜져있는지 확인합니다.
+
 <br />
 
 **오픈 채팅에서 실제 유저명와 `sender`가 일치하지 않을 경우, 원인은 다음과 같습니다**
