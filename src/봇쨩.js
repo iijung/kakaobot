@@ -433,6 +433,7 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
         msg = msg.replace(/ㅋ/g, "");
         if (msg == "" || msg == "이모티콘을 보냈습니다." || msg == "사진을 보냈습니다." || msg == "동영상을 보냈습니다.") return;
         if (msg.indexOf("사진 ") == 0 && msg.indexOf("장을 보냈습니다.") != -1) return;
+        if (msg.indexOf("#") == 0) return;
 
         Log.info("checkPlaster[ {0} ]".format(msg));
 
