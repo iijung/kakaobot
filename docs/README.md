@@ -1334,4 +1334,5 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
 - 메신저봇 구버전 API : [https://deviolet.tistory.com/entry/메신저봇-가이드](https://deviolet.tistory.com/entry/%EB%A9%94%EC%8B%A0%EC%A0%80%EB%B4%87-%EA%B0%80%EC%9D%B4%EB%93%9C)
 
 **개인 자료**
+> 위 예제 소스코드에는 오류가 있으므로 아래 소스들을 참고 바랍니다! 
 - 실제 봇 구현 소스 : [https://github.com/Tanya58/kakaobot/tree/master/src](https://github.com/Tanya58/kakaobot/tree/master/src)
