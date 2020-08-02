@@ -140,6 +140,12 @@ function getFortune(sender, msg) {
 
     if ((love + job + luck + gold + health) / 5 < 2) { love++; job++; luck++; gold++; health++; }
 
+    if (love > 5) love = 5;
+    if (job > 5) job = 5;
+    if (luck > 5) luck = 5;
+    if (gold > 5) gold = 5;
+    if (health > 5) health = 5;
+
     rtn_msg = rtn_msg.concat("\n애정 "); while (love > 0) { rtn_msg = rtn_msg.concat("❤"); love--; }
     rtn_msg = rtn_msg.concat("\n직업 "); while (job > 0) { rtn_msg = rtn_msg.concat("🏆"); job--; }
     rtn_msg = rtn_msg.concat("\n행운 "); while (luck > 0) { rtn_msg = rtn_msg.concat("🍀"); luck--; }
