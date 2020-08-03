@@ -25,7 +25,7 @@ function getHelp() {
     rtn_msg = rtn_msg.concat("-골라줘 A B C D...\n");
 
     rtn_msg = rtn_msg.concat("\n# 봇 응답\n");
-    rtn_msg = rtn_msg.concat("지금\n");
+    rtn_msg = rtn_msg.concat("지금 몇\n");
     rtn_msg = rtn_msg.concat("주사위\n");
     rtn_msg = rtn_msg.concat("경기도 날씨\n");
     rtn_msg = rtn_msg.concat("가위, 바위, 보\n");
