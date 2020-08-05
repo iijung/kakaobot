@@ -19,6 +19,7 @@ function getHelp() {
     var rtn_msg = "## " + scriptName + " 도움말##";
     rtn_msg = rtn_msg.concat("\n# 명령어\n");
     rtn_msg = rtn_msg.concat("-도움말\n");
+    rtn_msg = rtn_msg.concat("-뉴스\n");
     rtn_msg = rtn_msg.concat("-로또\n");
     rtn_msg = rtn_msg.concat("-타이머 10\n");;
     rtn_msg = rtn_msg.concat("-출퇴근 9 18\n");
@@ -311,6 +312,10 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
     //////////////////////////////////////////////////////////////////////////////////////
     if (msg == "-도움말") {
         replier.reply(getHelp()); return;
+    }
+
+    if (msg.indexOf("-뉴스") == 0) {
+        replier.reply("# 뉴닉 # 고슴이뉴스 🦔\nhttps://newneek.co/home"); return;
     }
 
     if (msg.indexOf("-로또") == 0) {
