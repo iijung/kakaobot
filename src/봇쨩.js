@@ -401,7 +401,7 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
         ment = [sender + "님, 좋은 저녁이에요!", sender + "님, 오늘 하루도 수고 많으셨어요!"];
         replier.reply(ment[Math.floor(Math.random() * ment.length)]);
     }
-    if ((msg.indexOf("좋은") != -1 && (msg.indexOf("꿈") != -1)) || (msg.indexOf("굿밤") != -1) || (msg.indexOf("잘자요") != -1)) {
+    if ((msg.indexOf("좋은") != -1 && (msg.indexOf("꿈") != -1)) || (msg.indexOf("굿밤") != -1) || (msg.indexOf("잘자요") != -1) || (msg.indexOf("자러가") != -1)) {
         ment = ["제 꿈 꿔요...♥", "좋은 꿈 꿔요💕", " ꈍ﹃ꈍ ", "쫀밤!", "굿밤 🐑", " (¦ꒉ[▓▓] zZ"];
         replier.reply(ment[Math.floor(Math.random() * ment.length)]);
     }
