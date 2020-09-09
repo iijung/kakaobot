@@ -21,6 +21,7 @@ function getHelp() {
     rtn_msg = rtn_msg.concat("-도움말\n");
     rtn_msg = rtn_msg.concat("-뉴스\n");
     rtn_msg = rtn_msg.concat("-로또\n");
+    rtn_msg = rtn_msg.concat("-타로\n");
     rtn_msg = rtn_msg.concat("-타이머 10\n");;
     rtn_msg = rtn_msg.concat("-출퇴근 9 18\n");
     rtn_msg = rtn_msg.concat("-골라줘 A B C D...\n");
@@ -79,6 +80,40 @@ function playRockScissorsPaper(room, msg, sender, com) {
         ment = ["제가 이겼어요! ヽ( ᐛ )ノ", "저의 승리입니다!٩(*´◒`*)۶♡", "LOSE!"];
     }
     return ment[Math.floor(Math.random() * ment.length)];
+}
+
+var TarotCard = [
+    { title: "O. 바보(The Fool)", meaning: "모험, 무지(無知)", link: "https://ko.wikipedia.org/wiki/%EB%B0%94%EB%B3%B4_(%ED%83%80%EB%A1%9C)", },
+    { title: "I. 마술사(The Magician)", meaning: "창조, 수완", link: "https://ko.wikipedia.org/wiki/%EB%A7%88%EC%88%A0%EC%82%AC_(%ED%83%80%EB%A1%9C)" },
+    { title: "II. 여교황(The High Priestess)", meaning: "지식, 총명", link: "https://ko.wikipedia.org/wiki/%EC%97%AC%EA%B5%90%ED%99%A9" },
+    { title: "III. 여제(The Empress)", meaning: "번영, 어머니", link: "https://ko.wikipedia.org/wiki/%EC%97%AC%EC%A0%9C_(%ED%83%80%EB%A1%9C)" },
+    { title: "IV. 황제(The Emperor)", meaning: "책임, 아버지", link: "https://ko.wikipedia.org/wiki/%ED%99%A9%EC%A0%9C_(%ED%83%80%EB%A1%9C)" },
+    { title: "V. 교황(The Hierophant)", meaning: "가르침, 관대함", link: "https://ko.wikipedia.org/wiki/%EA%B5%90%ED%99%A9_(%ED%83%80%EB%A1%9C)" },
+    { title: "VI. 연인(The Lovers)", meaning: "연애, 쾌락", link: "https://ko.wikipedia.org/wiki/%EC%97%B0%EC%9D%B8_(%ED%83%80%EB%A1%9C)" },
+    { title: "VII. 전차(The Chariot)", meaning: "전진, 승리", link: "https://ko.wikipedia.org/wiki/%EC%A0%84%EC%B0%A8_(%ED%83%80%EB%A1%9C)" },
+    { title: "VIII. 힘(Strength)", meaning: "힘, 용기", link: "https://ko.wikipedia.org/wiki/%ED%9E%98_(%ED%83%80%EB%A1%9C)" },
+    { title: "IX. 현자(The Hermit)", meaning: "탐색, 사려깊음", link: "https://ko.wikipedia.org/wiki/%EC%9D%80%EC%9E%90_(%ED%83%80%EB%A1%9C)" },
+    { title: "X. 운명의 수레바퀴(Wheel of Fortune)", meaning: "기회, 일시적인 행운", link: "https://ko.wikipedia.org/wiki/%EC%9A%B4%EB%AA%85%EC%9D%98_%EB%B0%94%ED%80%B4" },
+    { title: "XI. 정의(Justice)", meaning: "균형, 정당함", link: "https://ko.wikipedia.org/wiki/%EC%A0%95%EC%9D%98_(%ED%83%80%EB%A1%9C)" },
+    { title: "XII. 매달린 사람(The Hanged Man)", meaning: "자기희생, 인내", link: "https://ko.wikipedia.org/wiki/%EB%A7%A4%EB%8B%AC%EB%A6%B0_%EC%82%AC%EB%9E%8C" },
+    { title: "XIII. 죽음(Death)", meaning: "격변, 이별", link: "https://ko.wikipedia.org/wiki/%EC%A3%BD%EC%9D%8C_(%ED%83%80%EB%A1%9C)" },
+    { title: "XIV. 절제(Temperance)", meaning: "조화, 견실", link: "https://ko.wikipedia.org/wiki/%EC%A0%88%EC%A0%9C" },
+    { title: "XV. 악마(The Devil)", meaning: "사심, 속박, 타락", link: "https://ko.wikipedia.org/wiki/%EC%95%85%EB%A7%88_(%ED%83%80%EB%A1%9C)" },
+    { title: "XVI. 탑(The Tower)", meaning: "파괴, 파멸", link: "https://ko.wikipedia.org/wiki/%ED%83%91_(%ED%83%80%EB%A1%9C)" },
+    { title: "XVII. 별(The Star)", meaning: "희망, 동경", link: "https://ko.wikipedia.org/wiki/%EB%B3%84_(%ED%83%80%EB%A1%9C)" },
+    { title: "XVIII. 달(The Moon)", meaning: "불안, 애매함, 혼돈", link: "https://ko.wikipedia.org/wiki/%EB%8B%AC_(%ED%83%80%EB%A1%9C)" },
+    { title: "XIX. 태양(The Sun)", meaning: "밝은 미래, 만족", link: "https://ko.wikipedia.org/wiki/%ED%83%9C%EC%96%91_(%ED%83%80%EB%A1%9C)" },
+    { title: "XX. 심판(Judgement)", meaning: "부활, 개선", link: "https://ko.wikipedia.org/wiki/%EC%8B%AC%ED%8C%90_(%ED%83%80%EB%A1%9C)" },
+    { title: "XXI. 세계(The World)", meaning: "완성, 완전", link: "https://ko.wikipedia.org/wiki/%EC%84%B8%EA%B3%84_(%ED%83%80%EB%A1%9C)" }
+];
+function getTarot(msg, replier) {
+    replier.reply("카드를 뽑는 동안 질문을 마음 속으로 생각해주세요");
+    java.lang.Thread.sleep(4000);
+    var seed = Math.floor(Math.random() * 1000);
+    for (var i = 0; i < msg.length; i++) seed *= msg.charCodeAt(i) + Math.floor(Math.random() * 10);
+
+    var card = TarotCard[seed % 22];
+    replier.reply(card["meaning"] + "을(를) 의미하는 [" + card["title"] + "] 입니다\n\n" + card["link"])
 }
 
 function getWeather(replier, msg) {
@@ -316,6 +351,10 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
 
     if (msg.indexOf("-뉴스") == 0) {
         replier.reply("# 뉴닉 # 고슴이뉴스 🦔\nhttps://newneek.co/home"); return;
+    }
+
+    if (msg.indexOf("-타로") == 0) {
+        getTarot(msg, replier); return;
     }
 
     if (msg.indexOf("-로또") == 0) {
