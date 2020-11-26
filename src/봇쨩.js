@@ -129,12 +129,6 @@ function getWeather(replier, msg) {
     rtn_msg = rtn_msg.concat("\n" + wob_dts + "\n");
     rtn_msg = rtn_msg.concat("\n" + wob_dc + " " + wob_tm + "℃");
 
-    var wob_d = weather.select("#wob_d").select(".wob-dtl");
-    rtn_msg = rtn_msg.concat("\n강수확률 : " + wob_d.select("#wob_pp").text());
-    rtn_msg = rtn_msg.concat("\n습도 : " + wob_d.select("#wob_hm").text());
-    rtn_msg = rtn_msg.concat("\n풍속 : " + wob_d.select("#wob_ws").text());
-
-
     rtn_msg = rtn_msg.concat("\n\n=-=-=-=-=-=-=-=-=-=-=-=-=");
     var wob_df = weather.select(".wob_df");
     for (var i = 0; i < wob_df.size(); i++) {
