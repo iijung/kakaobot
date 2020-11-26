@@ -206,13 +206,13 @@ function getLottoNumber() {
 
         lotto.sort(function (a, b) { return a - b; });
 
-        rtn_msg = rtn_msg.concat("{0} {1} {2} {3} {4} {5}\n".format(
+        rtn_msg += "{0} {1} {2} {3} {4} {5}\n".format(
             (lotto[0] < 10 ? "0" : "") + lotto[0],
             (lotto[1] < 10 ? "0" : "") + lotto[1],
             (lotto[2] < 10 ? "0" : "") + lotto[2],
             (lotto[3] < 10 ? "0" : "") + lotto[3],
             (lotto[4] < 10 ? "0" : "") + lotto[4],
-            (lotto[5] < 10 ? "0" : "") + lotto[5])
+            (lotto[5] < 10 ? "0" : "") + lotto[5]
         );
     }
     return rtn_msg.slice(0, -1);
@@ -305,14 +305,14 @@ function showFoodList(msg) {
     var rtn_msg = "";
     for (var key in FoodList) {
         if (msg.indexOf(key) != -1) {
-            rtn_msg = rtn_msg.concat("########## " + key + " ##########\n");
-            rtn_msg = rtn_msg.concat(FoodList[key] + "\n\n");
+            rtn_msg += "########## " + key + " ##########\n";
+            rtn_msg += FoodList[key] + "\n\n";
         }
     }
     if (rtn_msg == "") {
         for (var key in FoodList) {
-            rtn_msg = rtn_msg.concat("########## " + key + " ##########\n");
-            rtn_msg = rtn_msg.concat(FoodList[key] + "\n\n");
+            rtn_msg += "########## " + key + " ##########\n";
+            rtn_msg += FoodList[key] + "\n\n";
         }
     }
     return rtn_msg.slice(0, -2);
