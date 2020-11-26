@@ -16,3 +16,8 @@
 
 ## 가이드 문서
 - [봇 개발 가이드](https://github.com/Tanya58/kakaobot/tree/master/docs)
+
+
+## THANKS
+
+- [kbs4674](https://github.com/kbs4674/kakao-bot_public)
