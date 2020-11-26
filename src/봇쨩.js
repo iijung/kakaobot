@@ -126,18 +126,18 @@ function getWeather(replier, msg) {
     var wob_tm = weather.select("#wob_tm").text();
 
     var rtn_msg = wob_loc + " 날씨 ⛅";
-    rtn_msg = rtn_msg.concat("\n" + wob_dts + "\n");
-    rtn_msg = rtn_msg.concat("\n" + wob_dc + " " + wob_tm + "℃");
+    rtn_msg += "\n" + wob_dts + "\n";
+    rtn_msg += "\n" + wob_dc + " " + wob_tm + "℃";
 
-    rtn_msg = rtn_msg.concat("\n\n=-=-=-=-=-=-=-=-=-=-=-=-=");
+    rtn_msg += "\n\n=-=-=-=-=-=-=-=-=-=-=-=-=";
     var wob_df = weather.select(".wob_df");
     for (var i = 0; i < wob_df.size(); i++) {
         var t = wob_df.get(i);
-        rtn_msg = rtn_msg.concat("\n");
-        rtn_msg = rtn_msg.concat(t.select("div>div").get(0).text() + " : ");
-        rtn_msg = rtn_msg.concat(t.select("div>img").attr("alt") + " ");
-        rtn_msg = rtn_msg.concat("(" + t.select("div>div>span").get(0).text());
-        rtn_msg = rtn_msg.concat(" ~ " + t.select("div>div>span").get(2).text() + "℃)");
+        rtn_msg += "\n";
+        rtn_msg += t.select("div>div").get(0).text() + " : ";
+        rtn_msg += t.select("div>img").attr("alt") + " ";
+        rtn_msg += "(" + t.select("div>div>span").get(0).text();
+        rtn_msg += " ~ " + t.select("div>div>span").get(2).text() + "℃)";
     }
     replier.reply(rtn_msg);
 }
