@@ -20,7 +20,6 @@ function getHelp() {
         + "\n"
         + "# 명령어\n"
         + "-도움말\n"
-        + "-뉴스\n"
         + "-로또\n"
         + "-타로\n"
         + "-타이머 10\n"
@@ -341,10 +340,6 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
     //////////////////////////////////////////////////////////////////////////////////////
     if (msg == "-도움말") {
         replier.reply(getHelp()); return;
-    }
-
-    if (msg.indexOf("-뉴스") == 0) {
-        replier.reply("# 뉴닉 # 고슴이뉴스 🦔\nhttps://newneek.co/home"); return;
     }
 
     if (msg.indexOf("-타로") == 0) {
