@@ -97,7 +97,7 @@ var TarotCard = [
     { title: "XI. 정의(Justice)", meaning: "균형, 정당함", link: "https://ko.wikipedia.org/wiki/%EC%A0%95%EC%9D%98_(%ED%83%80%EB%A1%9C)" },
     { title: "XII. 매달린 사람(The Hanged Man)", meaning: "자기희생, 인내", link: "https://ko.wikipedia.org/wiki/%EB%A7%A4%EB%8B%AC%EB%A6%B0_%EC%82%AC%EB%9E%8C" },
     { title: "XIII. 죽음(Death)", meaning: "격변, 이별", link: "https://ko.wikipedia.org/wiki/%EC%A3%BD%EC%9D%8C_(%ED%83%80%EB%A1%9C)" },
-    { title: "XIV. 절제(Temperance)", meaning: "조화, 견실", link: "https://ko.wikipedia.org/wiki/%EC%A0%88%EC%A0%9C" },
+    { title: "XIV. 절제(Temperance)", meaning: "조화, 견실", link: "https://ko.wikipedia.org/wiki/%EC%A0%88%EC%A0%9C_(%ED%83%80%EB%A1%9C)" },
     { title: "XV. 악마(The Devil)", meaning: "사심, 속박, 타락", link: "https://ko.wikipedia.org/wiki/%EC%95%85%EB%A7%88_(%ED%83%80%EB%A1%9C)" },
     { title: "XVI. 탑(The Tower)", meaning: "파괴, 파멸", link: "https://ko.wikipedia.org/wiki/%ED%83%91_(%ED%83%80%EB%A1%9C)" },
     { title: "XVII. 별(The Star)", meaning: "희망, 동경", link: "https://ko.wikipedia.org/wiki/%EB%B3%84_(%ED%83%80%EB%A1%9C)" },
