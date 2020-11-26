@@ -176,15 +176,15 @@ function getFortune(sender, msg) {
     if (gold > 5) gold = 5;
     if (health > 5) health = 5;
 
-    rtn_msg = rtn_msg.concat("\n애정 "); while (love > 0) { rtn_msg = rtn_msg.concat("❤"); love--; }
-    rtn_msg = rtn_msg.concat("\n직업 "); while (job > 0) { rtn_msg = rtn_msg.concat("🏆"); job--; }
-    rtn_msg = rtn_msg.concat("\n행운 "); while (luck > 0) { rtn_msg = rtn_msg.concat("🍀"); luck--; }
-    rtn_msg = rtn_msg.concat("\n금전 "); while (gold > 0) { rtn_msg = rtn_msg.concat("💎"); gold--; }
-    rtn_msg = rtn_msg.concat("\n건강 "); while (health > 0) { rtn_msg = rtn_msg.concat("💊"); health--; }
+    rtn_msg += "\n애정 "; while (love > 0) { rtn_msg += "❤"; love--; }
+    rtn_msg += "\n직업 "; while (job > 0) { rtn_msg += "🏆"; job--; }
+    rtn_msg += "\n행운 "; while (luck > 0) { rtn_msg += "🍀"; luck--; }
+    rtn_msg += "\n금전 "; while (gold > 0) { rtn_msg += "💎"; gold--; }
+    rtn_msg += "\n건강 "; while (health > 0) { rtn_msg += "💊"; health--; }
 
-    rtn_msg = rtn_msg.concat("\n\n# 행운의 색 🎨 #");
-    rtn_msg = rtn_msg.concat("\nhttps://www.htmlcsscolor.com/hex/");
-    for (var i = 1; i < 7; i++) rtn_msg = rtn_msg.concat((parseInt(seed / i) % 16).toString(16));
+    rtn_msg += "\n\n# 행운의 색 🎨 #";
+    rtn_msg += "\nhttps://www.htmlcsscolor.com/hex/";
+    for (var i = 1; i < 7; i++) rtn_msg += (parseInt(seed / i) % 16).toString(16);
 
     return rtn_msg;
 }
