@@ -16,34 +16,34 @@ function isNull(value) {
 }
 
 function getHelp() {
-    var rtn_msg = "## " + scriptName + " 도움말##";
-    rtn_msg = rtn_msg.concat("\n# 명령어\n");
-    rtn_msg = rtn_msg.concat("-도움말\n");
-    rtn_msg = rtn_msg.concat("-뉴스\n");
-    rtn_msg = rtn_msg.concat("-로또\n");
-    rtn_msg = rtn_msg.concat("-타로\n");
-    rtn_msg = rtn_msg.concat("-타이머 10\n");;
-    rtn_msg = rtn_msg.concat("-출퇴근 9 18\n");
-    rtn_msg = rtn_msg.concat("-골라줘 A B C D...\n");
-
-    rtn_msg = rtn_msg.concat("\n# 봇 응답\n");
-    rtn_msg = rtn_msg.concat("지금 몇\n");
-    rtn_msg = rtn_msg.concat("주사위\n");
-    rtn_msg = rtn_msg.concat("경기도 날씨\n");
-    rtn_msg = rtn_msg.concat("가위, 바위, 보\n");
-    rtn_msg = rtn_msg.concat("운세, 오늘 운세, 내일 운세, ...\n");
-    rtn_msg = rtn_msg.concat("메뉴 뭐, 메뉴 보여줘\n");
-    rtn_msg = rtn_msg.concat("음식 추천, 뭐 먹지, ...\n");
-
-    rtn_msg = rtn_msg.concat("\n# 봇 채팅\n");
-    rtn_msg = rtn_msg.concat("봇짱, 봇쨩\n");
-    rtn_msg = rtn_msg.concat("굿봇, 굿 봇, 구웃봇\n");
-    rtn_msg = rtn_msg.concat("밷봇, 밷 봇, 배드봇\n");
-    rtn_msg = rtn_msg.concat("~건데, ~껀데\n");
-    rtn_msg = rtn_msg.concat("심심해\n");
-    rtn_msg = rtn_msg.concat("응원, 위로해줘, 힘들어\n");
-    rtn_msg = rtn_msg.concat("어때?, 좋아?, 싫어?\n");
-    return rtn_msg;
+    return "## " + scriptName + " 도움말##"
+        + "\n"
+        + "# 명령어\n"
+        + "-도움말\n"
+        + "-뉴스\n"
+        + "-로또\n"
+        + "-타로\n"
+        + "-타이머 10\n"
+        + "-출퇴근 9 18\n"
+        + "-골라줘 A B C D...\n"
+        + "\n"
+        + "# 봇 응답\n"
+        + "지금 몇\n"
+        + "주사위\n"
+        + "경기도 날씨\n"
+        + "가위, 바위, 보\n"
+        + "운세, 오늘 운세, 내일 운세, ...\n"
+        + "메뉴 뭐, 메뉴 보여줘\n"
+        + "음식 추천, 뭐 먹지, ...\n"
+        + "\n"
+        + "# 봇 채팅\n"
+        + "봇짱, 봇쨩\n"
+        + "굿봇, 굿 봇, 구웃봇\n"
+        + "밷봇, 밷 봇, 배드봇\n"
+        + "~건데, ~껀데\n"
+        + "심심해\n"
+        + "응원, 위로해줘, 힘들어\n"
+        + "어때?, 좋아?, 싫어?\n";
 }
 
 function showDate(date) {
