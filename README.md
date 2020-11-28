@@ -6,9 +6,11 @@
 ![](https://img.shields.io/github/last-commit/Tanya58/kakaobot)
 
 
-## 개발 환경
-
-- [Messenger Bot R](https://play.google.com/store/apps/details?id=com.xfl.msgbot) : Javascript 사용
+## 개발 정보 
+- 개발 언어 : Javascript, Python
+- 사용 플랫폼 
+  - [Messenger Bot R](https://play.google.com/store/apps/details?id=com.xfl.msgbot)
+  - [Heroku](https://dashboard.heroku.com/)
 
 ## 프로젝트 설명
 1. 실 사용이 가능한 프로젝트를 구현해보고 싶었습니다. 
@@ -19,5 +21,4 @@
 
 
 ## THANKS
-
 - [kbs4674](https://github.com/kbs4674/kakao-bot_public)
