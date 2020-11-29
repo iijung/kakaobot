@@ -233,10 +233,7 @@ function chooseObject(room, msg, sender) {
     var content = msg.replace("-골라줘", "").trim();
     if (content == "") return "ex) -골라줘 치킨 피자";
 
-    var select = content.split(" ");
-    for (var idx in select) {
-        if (select[idx] == "") select.splice(idx, 1);
-    }
+    var select = content.replace(/ +/g, " ").split(' ');
     return select[Math.floor(Math.random() * select.length)] + "!!";
 }
 
