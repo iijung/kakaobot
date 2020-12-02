@@ -2,23 +2,43 @@ const scriptName = "admin";
 
 var DFLT_ADMIN = [{ name: "Tanya" }];
 
-var RoomList = [];
-
-function checkRoom(room) {
-  var new_flag = 1;
-  for (var idx in RoomList) {
-    if (RoomList[idx] == room) new_flag = 0;
-  }
-  if (new_flag) RoomList.push(room);
-}
-function showRooms() {
-  var rtn_msg = "[방 리스트]";
-  for (var idx in RoomList) rtn_msg = rtn_msg.concat("\n " + RoomList[idx]);
-  return rtn_msg;
-}
-
 function isNull(value) {
   return typeof value == "undefined" || value == null || value == "" ? true : false;
+}
+
+function checkRoom(room, bot) {
+  // 0 : new , 1 : change
+  if (isNull(bot)) bot = "봇쨩";
+
+  var database = DataBase.getDataBase("RoomOptions.json");
+  if (isNull(database) || database == "[]") {
+    database = DataBase.setDataBase("RoomOptions.json", JSON.stringify([{ room: room, bot: bot }]));
+    return 0;
+  }
+  var RoomOptions = JSON.parse(database);
+  for (var idx in RoomOptions) {
+    if (RoomOptions[idx]['room'] == room) {
+      RoomOptions[idx]['bot'] = bot;
+      DataBase.setDataBase("RoomOptions.json", JSON.stringify(RoomOptions));
+      return 1;
+    }
+  }
+  RoomOptions.push({ room: room, bot: bot });
+  DataBase.setDataBase("RoomOptions.json", JSON.stringify(RoomOptions));
+  return 0;
+}
+
+function showRooms() {
+  var rtn_msg = "";
+  var database = DataBase.getDataBase("RoomOptions.json");
+  if (isNull(database) || database == "[]") return "설정된 방이 없습니다.";
+
+  var RoomOptions = JSON.parse(database);
+  for (var idx in RoomOptions) {
+    rtn_msg = rtn_msg.concat(RoomOptions[idx]['room'] + " : \n");
+    rtn_msg = rtn_msg.concat(" - " + RoomOptions[idx]['bot'] + "\n\n");
+  }
+  return rtn_msg.slice(0, -2);
 }
 
 function getAdminList() {
@@ -77,6 +97,7 @@ function help() {
   help_msg = help_msg.concat("\n*상태");
   help_msg = help_msg.concat("\n*구동 bot1 ...");
   help_msg = help_msg.concat("\n*중지 bot2 ...");
+  help_msg = help_msg.concat("\n*초대 bot1");
   help_msg = help_msg.concat("\n");
   help_msg = help_msg.concat("\n*관리자 조회");
   help_msg = help_msg.concat("\n*관리자 추가 admin1 ...");
@@ -118,8 +139,13 @@ function deviceStatus() {
 }
 
 function response(room, msg, sender, isGroupChat, replier, imageDB, packageName) {
-  checkRoom(room);
   if (msg == "일어나") { Api.reload(); Api.on(); }
+
+  if (msg.indexOf("*초대") == 0) {
+    checkRoom(room, msg.replace("*초대", "").trim());
+    replier.reply("초대되었습니다.");
+    return;
+  }
 
   if (!isAdmin(sender)) return; // sedner가 관리자가 아닐 경우, 종료
 
