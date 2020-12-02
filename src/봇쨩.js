@@ -331,7 +331,21 @@ function recommendFood(msg) {
 var atTime = new Date();
 var checkPlaster = {};
 
+
+function isAvailable(room) {
+    var database = DataBase.getDataBase("RoomOptions.json");
+    if (isNull(database) || database == "[]") return 1;
+
+    var RoomOptions = JSON.parse(database);
+    for (var idx in RoomOptions) {
+        if (RoomOptions[idx]['room'] == room && RoomOptions[idx]['bot'] == scriptName) return 1;
+    }
+    return 0;
+}
+
 function response(room, msg, sender, isGroupChat, replier, imageDB, packageName) {
+    if (!isAvailable(room)) return;
+
     //////////////////////////////////////////////////////////////////////////////////////
     // command
     //////////////////////////////////////////////////////////////////////////////////////
