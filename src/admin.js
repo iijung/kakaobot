@@ -153,6 +153,14 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
 
   if (msg == "*디바이스 상태") replier.reply(deviceStatus());
 
+  if (msg.indexOf("*소스") == 0) {
+    var contents = msg.replace("*소스", "").trim();
+    if (isNull(contents)) return;
+    var documents = org.jsoup.Jsoup.connect(contents).get();
+    if (documents == undefined || documents == "") return;
+    replier.reply(documents);
+  }
+
   if (msg.indexOf("*공지") == 0) {
     var contents = msg.replace("*공지", "").trim();
     if (isNull(contents)) {
@@ -163,6 +171,7 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
       replier.reply(room_name, notice);
     }
   }
+
   // 방 확인
   if (msg == "*방") replier.reply(showRooms());
 
