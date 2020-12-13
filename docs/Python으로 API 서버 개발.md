@@ -1,27 +1,27 @@
-# Pyhton으로 API 서버 개발
-동적 페이지 웹 크롤링 같은 메신저봇R 만으로는 제공하기 어려운 기능으로 인해 추가되었습니다.
+# 웹 서버 구축 
 
-### 개발 정보
+## 개발 정보
 - 호스팅 사이트 : `Heroku`
-- 개발 언어 : `Python`, `Javascript`
-  - `flask` :  `Python`으로 구동되는 웹 어플리케이션 프레임워크로 `Django`보다 가벼움
-  - `gunicorn` : WSGI HTTP 서버로 Heroku에서 `flask` 동작을 위해 추가
-
-### 목차 
-1. [Flask 서버 구축](#flask-서버-구축)
-2. [Heorku 호스팅](#heroku-호스팅)
-
+- 프로그래밍 언어 : `Python`
+  - `flask` :  `Python`으로 구동되는 웹 어플리케이션 프레임워크로 `Django`보다 가벼움 (API서버에 적합)
+  - `gunicorn` : WSGI HTTP 서버로 Heroku에서 `flask` 동작을 하기 위해 추가
 
 ## Flask 서버 구축 
+### Python 3.7.4 설치 
+- 다운로드 경로 : http://www.python.org/downloads
+- 설치 및 강의 참고 : http://wikidocs.net/8
+
+### 모듈 설치 
 ```sh
 C:\> pip install flask    # api 서버 구축을 위해 패키지 설치 
 C:\> pip install gunicorn # heroku 연동을 위해 패키지 설치 
 ```
 
-### 기본 구조 및 샘플 코드 
+
+### 기본 구조
 ```sh
 C:\프로젝트
-├─ app.py                 # Flask 앱 
+├─ app.py                 # Flask 앱 (*중요)
 ├─ templates              # HTML 파일 모음 
 │     └─ index.html
 └─ static                 # js, css 등 정적 파일 모음
@@ -30,44 +30,57 @@ C:\프로젝트
     └─ css
         └─ style.css
 ```
-- style.css
-  ```css
-  h1{
-    color : blue;
-  }
-  ```
-- index.html
+- **app.py**
+    ```py
+    from flask import Flask
+    app = Flask (__name__)
+
+    @app.route('/')    
+    def hello_world():
+        return 'Hello, World!'
+
+    if __name__ == "__main__":
+        app.run()
+      # app.run(host="127.0.0.1", port="5000", debug=True)  
+    ```
+- **style.css**
+    ```css
+    h1 {
+        color : blue;
+    }
+    ```
+- **index.html**
   ```html
   <!DOCTYPE html>
   <html lang="en">
   <head>
       <meta charset="UTF-8">
       <title>Title</title>
-      <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">      
   </head>
   <body>
       <h1>대문 페이지</h1>
+      <!-- 샘플 코드 적용 -->
   </body>
   </html>
   ```
-- app.py
-  ```py
-  from flask import Flask
-  
-  app = Flask(__name__)
-  
-  @app.route("/")
-  def hello():
-      return 'Hello world!'
-  
-  if __name__ == '__main__':
-      app.run()
-    # app.run(host="127.0.0.1", port="5000", debug=True)  
-  ```
+<br>
 
-### 데이터 전송 (서버 → 클라이언트)
+### 데이터 반환 (서버 → 클라이언트)
+- flask는 `jinja2` 템플릿 엔진을 사용하며, render_template로 변수를 전달합니다. 
+
+#### index.html
+```html
+<!-- index.html  -->
+    <h1>대문 페이지</h1>
+    이름 : {{user}}             <!-- user 변수 -->
+    레벨 : {{data.level}}       <!-- data 의 level  -->
+    포인트 : {{data.point}}     <!-- data 의 point  -->
+    경험치 : {{data.exp}}       <!-- data 의 exp  -->
+<!-- 생략 -->
+```
+#### app.py
 ```py
-# app.py 
 from flask import Flask, render_template
 
 app = Flask(__name__)
@@ -79,14 +92,29 @@ def hello():
 @app.route('/index')          # http://127.0.0.1:5000/index 
 def index():
   return render_template('index.html',user="반원",data={'level':60,'point':360,'exp':45000})
-  # index.html에서 변수를 가져오고 싶을 때는 아래와 같은 형식으로 가져올 수 있음 
-  # {{user}} 또는 {{data.level}} 또는 {{data.point}} 또는 {{data.exp}}
-
+  # index.html에 변수를 전달하여 페이지를 렌더링 합니다. 
+  
 if __name__=="__main__":
   app.run(debug=True)
 ```
-### 데이터 전송 (클라이언트 → 서버)
-- `flask`에서는 `jinja2` 템플릿 엔진을 사용합니다. 
+
+### 데이터 요청 (클라이언트 → 서버)
+#### index.html
+```html
+<!-- index.html  -->
+    <h1>대문 페이지</h1>
+    이름 : {{user}}             <!-- user 변수 -->
+    레벨 : {{data.level}}       <!-- data 의 level  -->
+    포인트 : {{data.point}}     <!-- data 의 point  -->
+    경험치 : {{data.exp}}       <!-- data 의 exp  -->
+
+    <form action="/" method="post">
+        이름 : <input type="text" name="user">
+        <input type="submit" value="이름 변경">
+    </form>
+<!-- 생략 -->
+```
+#### app.py
 ```py
 from flask import Flask, render_template, request
 
@@ -98,27 +126,42 @@ def hello():
 
 @app.route('/index',methods=('GET', 'POST')) 
 def index():
+    data = {'level': 60, 'point': 360, 'exp': 45000}
     if request.method == "POST":
-        # HTML 코드
-        # <form action="/" method="post"> 이름 : <input type="text" name="user"> <input type="submit" value="전송"> </form>        
-        user = request.form.get('user')
-        data = {'level': 60, 'point': 360, 'exp': 45000}
-        return render_template('index.html', user=user, data=data)        
+        # HTML 코드 : <form action="/" method="post"> ...
+        user = request.form.get('user')        
     elif request.method == "GET":
-        # HTML 코드
-        # <form action="/" method="get"> 이름 : <input type="text" name="user"> <input type="submit" value="전송"> </form>        
+        # HTML 코드 : <form action="/" method="get"> ...
         user = request.args.get('user')    
-        data = {'level': 60, 'point': 360, 'exp': 45000}
-        return render_template('index.html', user=user, data=data)
+    return render_template('index.html', user=user, data=data)
 
 if __name__=="__main__":
     app.run(debug=True)
 ```
 
+### Jinja2 템플릿 작성법 
+#### 변수 출력 
+```jinja
+이름은 {{name}}이고 나이는 {{age}} 입니다. 
+```
+#### if 문법
+```jinja
+{% if data %}
+    데이터 : {{data}}
+{% endif %}
+```
+#### 반복문
+- `{{loop.index}}` : 1부터 시작하는 반복 횟수
+```jinja
+{% for k,v in data.items() %}
+    {{loop.index}} 번째 아이템 : {{k}} {{v}}
+{% endfor %}
+```
+
 ## Heroku 호스팅 
 > 모든 CLI 명령어는 `Windos` + `R`, `cmd` 를 통해 명령 프롬프트를 실행시킨 후 입력합니다. 
 
-### 로컬 파일 구조 
+### 기본 구조 
 ```sh
 C:\프로젝트
 └ .git                    # 로컬 Git 저장소. git init 명령어로 생성한다. 
@@ -146,7 +189,8 @@ C:\프로젝트> git commit -m "commit test"   # 로컬 Git에 변경 사항 반
 1. `Procfile` : 실행 명령어 
     ```sh
     # example1.py , example2=Flask(__name__) 
-    web: gunicorn example1:example2
+    # web: gunicorn example1:example2
+    web: gunicorn app:app
     ```
 2. `.gitignore` : 제외 리스트 
     - https://www.gitignore.io 사이트를 이용하여 작성하면 편리합니다. 
