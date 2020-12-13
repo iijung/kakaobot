@@ -1335,5 +1335,6 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
 - 메신저봇 신버전 API : [https://kkotbot-docs.kro.kr/](https://kkotbot-docs.kro.kr/)
 
 **개인 자료**
-> 위 예제 소스코드에는 오류가 있으므로 아래 소스들을 참고 바랍니다! 
+> 위 예제 소스코드에서 오류가 발생할 경우, 아래 소스들을 참고 바랍니다! <br>
+  (~~예를 들어, 구글 날씨 검색 HTML 소스가 바뀌면서 몇몇 정보가 출력되지 않음~~)
 - 실제 봇 구현 소스 : [https://github.com/Tanya58/kakaobot/tree/master/src](https://github.com/Tanya58/kakaobot/tree/master/src)
