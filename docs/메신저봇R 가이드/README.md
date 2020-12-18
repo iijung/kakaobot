@@ -4,7 +4,7 @@
 
 자동응답 어플 중 하나인 [메신저봇R](https://violet.develope.kr)을 사용하여 진행합니다.
 
-![process](./images/process.png)
+![process](../images/process.png)
 
 
 ## 가이드
