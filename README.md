@@ -11,6 +11,8 @@
 - 사용 플랫폼 
   - [Messenger Bot R](https://play.google.com/store/apps/details?id=com.xfl.msgbot)
   - [Heroku](https://dashboard.heroku.com/)
+  - [jsbin](http://jsbin.com/?js,output) : 테스트할 때 유용하게 사용함
+  - [jsfiddle](https://jsfiddle.net/) : 테스트할 때 유용하게 사용함
 
 ## 프로젝트 설명
 1. 실 사용이 가능한 프로젝트를 구현해보고 싶었습니다. 
