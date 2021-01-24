@@ -107,13 +107,10 @@ var checkPlaster = {};
 
 
 function isAvailable(room) {
-    var database = DataBase.getDataBase("RoomOptions.json");
-    if (isNull(database) || database == "[]") return 1;
-
-    var RoomOptions = JSON.parse(database);
-    for (var idx in RoomOptions) {
-        if (RoomOptions[idx]['room'] == room && RoomOptions[idx]['bot'] == scriptName) return 1;
-    }
+    try {
+        var Rooms = JSON.parse(DataBase.getDataBase("Room.json"));
+        for (var r of Rooms) if (r['name'] == room && r['bot'] == scriptName) return 1;
+    } catch (e) { }
     return 0;
 }
 
