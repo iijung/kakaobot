@@ -21,17 +21,16 @@ String.prototype.format = function () {
     return string;
 };
 
-Array.prototype.random = function () {
-    // Usage: [1,2,3,4].random();
-    return this[Math.floor(Math.random() * this.length)];
-}
-
 String.prototype.random = function (seq) {
     // Usage1: "1 2 3 4".random()
     // Usage2: "1 2 3 4".random(" ")
     if (seq == undefined) seq = " ";
     var list = this.replace(/ +/g, seq).split(seq);
     return list[Math.floor(Math.random() * list.length)];
+};
+
+function random(array) {
+    return array[Math.floor(Math.random() * array.length)];
 }
 
 function rollDice(min, max) {
@@ -45,20 +44,23 @@ function rollDices(expr) {
         data = data.replace(/\+/g, " +");
         data = data.split(" ");
 
-        for (var i in data) {
-            if (data[i].indexOf("d") != -1) {
-
-                var token = data[i].split("d");
-                data[i] = 0
-                for (j = 0; j < Number(token[0]); j++) {
-                    data[i] += rollDice(1, Number(token[1]))
-                }
-                data[i] = "+" + data[i];
-            }
+        for (var idx in data) {
+            if (data[idx].indexOf("d") == -1) continue;
+            var token = data[idx].split("d");
+            data[idx] = 0;
+            for (j = 0; j < Number(token[0]); j++) data[idx] += rollDice(1, Number(token[1]));
+            data[idx] = "+" + data[idx];
         }
-        return eval(data.join(""));
+        var result = 0;
+        for (var value of data) {
+            var operator = value[0];
+            var number = Number(value.substr(1));
+            if (value[0] == "+") result += number;
+            if (value[0] == "*") result *= number;
+        }
+        return result;
     } catch (e) {
-        return null;
+        return "오류";
     }
 }
 
@@ -103,8 +105,11 @@ function getFortune(sender, msg) {
         if (msg.indexOf("내일") != -1) date.setDate(date.getDate() + 1);
         else if (msg.indexOf("어제") != -1) date.setDate(date.getDate() - 1);
 
-        var seed = Number(date);
+        var seed = 1234;
         for (var i = 0; i < sender.length; i++) seed += sender.charCodeAt(i);
+        seed += date.getFullYear();
+        seed *= date.getMonth() + 1;
+        seed *= date.getDate();
 
         var fortune = {
             'love': parseInt((seed / 258)) % 5 + 1,
@@ -190,13 +195,13 @@ var Food = {
     recommend: function (msg) {
         var list = new Array();
         for (var key in this.menu) {
-            if (msg && msg.indexOf(key) != -1) list.push(...this.menu[key]);
+            if (msg && msg.indexOf(key) != -1) list = list.concat(this.menu[key]);
         }
         if (!list.length) {
             var keys = Object.keys(this.menu);
             list = this.menu[keys[(keys.length * Math.random()) << 0]];
         }
-        return list.random();
+        return random(list);
     }
 }
 
@@ -225,7 +230,7 @@ var Tarot = {
         "https://ko.wikipedia.org/wiki/%EC%8B%AC%ED%8C%90_(%ED%83%80%EB%A1%9C)", /* XX. 심판(Judgement) */
         "https://ko.wikipedia.org/wiki/%EC%84%B8%EA%B3%84_(%ED%83%80%EB%A1%9C)" /* XXI. 세계(The World) */
     ],
-    choose: function () { return this.cards.random(); }
+    choose: function () { return random(this.cards); }
 }
 
 function getHelp() {
@@ -234,7 +239,6 @@ function getHelp() {
         + "\n/타로"
         + "\n/음식메뉴"
         + "\n/음식추천"
-        + "\n/r 1d6"
         + "\n/r 2d6 * 5 + 30"
         + "\n운세"
         + "\n날씨"
@@ -269,7 +273,7 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
 
     if (msg.indexOf("골라") != -1) {
         var data = msg.substring(0, msg.indexOf("골라")).trim();
-        if (data != null) replier.reply(data.random() + "!!");
+        if (data != null) replier.reply(random(data) + "!!");
         return;
     }
 
@@ -316,7 +320,7 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
             "네??", "글쎄요...", "고민되네요..😥",
             "정말 싫어요! 🙅", "싫어요! 🙅", "조금 별로인 것 같아요! 🙅"
         ];
-        replier.reply(comments.random());
+        replier.reply(random(comments));
     }
 }
 
