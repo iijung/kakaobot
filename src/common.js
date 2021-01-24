@@ -1,7 +1,7 @@
 /*
 
  * PC 기준 최대 텍스트 길이 
-   ========================
+   ======================
 
  * 스크립트 공유
     var Common = Bridge.getScopeOf("common");
@@ -75,11 +75,10 @@ function getWeather(location) {
         var wob_tm = weather.select("#wob_tm").text();   // -5
         var wob_df = weather.select(".wob_df");          // 주간 날씨 정보
 
-        var result = "";
-        result += wob_loc + " 날씨 ⛅\n";
-        result += wob_dts + "\n\n";
-        result += wob_dc + " " + wob_tm + "℃\n";
-        result += "========================\n";
+        var result = wob_loc + " 날씨 ⛅";
+        result += "\n" + wob_dts;
+        result += "\n\n" + wob_dc + " " + wob_tm + "℃";
+        result += "\n====================";
         for (var i = 0; i < wob_df.size(); i++) {
             var t = wob_df.get(i);
             result += "\n";
@@ -88,9 +87,9 @@ function getWeather(location) {
             result += "(" + t.select("div>div>span").get(0).text();
             result += " ~ " + t.select("div>div>span").get(2).text() + "℃)";
         }
-        result += "========================\n";
-        result += "이 정보는 구글 검색 결과를\n";
-        result += "바탕으로 제공됩니다.";
+        result += "\n====================";
+        result += "\n이 정보는 구글 검색 결과를";
+        result += "\n바탕으로 제공됩니다.";
         return result;
     } catch (e) {
         return null;
