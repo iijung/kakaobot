@@ -35,14 +35,6 @@ function setTimer(msg, replier) {
     return time + "초가 경과했습니다.";
 }
 
-function chooseObject(room, msg, sender) {
-    var content = msg.replace("-골라줘", "").trim();
-    if (content == "") return "ex) -골라줘 치킨 피자";
-
-    var select = content.replace(/ +/g, " ").split(' ');
-    return select[Math.floor(Math.random() * select.length)] + "!!";
-}
-
 function remainRushHour(msg) {
     var rtn_msg = "";
     var now = new Date();
