@@ -170,23 +170,32 @@ function remainTime(msg) {
     var time = [now.getFullYear(), now.getMonth() + 1, now.getDate(), 0, 0, 0];
 
     // parse {yyyy-mm-dd} or {mm-dd}
-    if ((tmp = msg.match(/(\d{4})-(\d{1,2})-(\d{1,2})/))) {
-        time[0] = tmp[1];
-        time[1] = tmp[2];
-        time[2] = tmp[3];
-    } else if ((tmp = msg.match(/(\d{1,2})-(\d{1,2})/))) {
-        time[1] = tmp[1];
-        time[2] = tmp[2];
+    if ((t = msg.match(/(\d{4})-(\d{1,2})-(\d{1,2})/))) {
+        time[0] = t[1];
+        time[1] = t[2];
+        time[2] = t[3];
+    } else if ((t = msg.match(/(\d{1,2})-(\d{1,2})/))) {
+        time[1] = t[1];
+        time[2] = t[2];
     }
     // parse {hh:mm:dd} or {hh:mm}
-    if ((tmp = msg.match(/(\d{1,2}):(\d{1,2}):(\d{1,2})/))) {
-        time[3] = tmp[1];
-        time[4] = tmp[2];
-        time[5] = tmp[3];
-    } else if ((tmp = msg.match(/(\d{1,2}):(\d{1,2})/))) {
-        time[3] = tmp[1];
-        time[4] = tmp[2];
+    if ((t = msg.match(/(\d{1,2}):(\d{1,2}):(\d{1,2})/))) {
+        time[3] = t[1];
+        time[4] = t[2];
+        time[5] = t[3];
+    } else if ((t = msg.match(/(\d{1,2}):(\d{1,2})/))) {
+        time[3] = t[1];
+        time[4] = t[2];
     }
+    // pase {년 월 일 시 분 초}
+    if ((t = msg.match(/(\d{4})년/))) time[0] = t[1];
+    else if ((t = msg.match(/(\d{2})년/))) time[0] = 2000 + t[1];
+    if ((t = msg.match(/(\d{1,2})월/))) time[1] = t[1];
+    if ((t = msg.match(/(\d{1,2})일/))) time[2] = t[1];
+    if ((t = msg.match(/(\d{1,2})시/))) time[3] = t[1];
+    if ((t = msg.match(/(\d{1,2})분/))) time[4] = t[1];
+    if ((t = msg.match(/(\d{1,2})초/))) time[5] = t[1];
+
     var end = new Date(Date.UTC(time[0], time[1] - 1, time[2], time[3] - 9, time[4], time[5]));
 
     var diff = end > now ? end - now : now - end;
