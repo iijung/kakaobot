@@ -24,12 +24,14 @@ String.prototype.format = function () {
 String.prototype.random = function (seq) {
     // Usage1: "1 2 3 4".random()
     // Usage2: "1 2 3 4".random(" ")
-    if (seq == undefined) seq = " ";
-    var list = this.replace(/ +/g, seq).split(seq);
+    if (seq == "" || seq == undefined) seq = " ";
+    var list = this.split(seq);
     return list[Math.floor(Math.random() * list.length)];
 };
 
-function random(array) {
+function random(array, seq) {
+    if (seq == "" || seq == undefined) seq = " ";
+    if (typeof array == "string") array = array.split(seq);
     return array[Math.floor(Math.random() * array.length)];
 }
 
@@ -272,7 +274,7 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
 
     if (msg.indexOf("골라") != -1) {
         var data = msg.substring(0, msg.indexOf("골라")).trim();
-        if (data != null) replier.reply(random(data) + "!!");
+        if (data != "") replier.reply(random(data) + "!!");
         return;
     }
 
