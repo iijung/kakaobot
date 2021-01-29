@@ -165,6 +165,45 @@ function getLottoNumber() {
     return result;
 }
 
+function remainTime(msg) {
+    var now = new Date();
+    var time = [now.getFullYear(), now.getMonth() + 1, now.getDate(), 0, 0, 0];
+
+    // parse {yyyy-mm-dd} or {mm-dd}
+    if ((tmp = msg.match(/(\d{4})-(\d{1,2})-(\d{1,2})/))) {
+        time[0] = tmp[1];
+        time[1] = tmp[2];
+        time[2] = tmp[3];
+    } else if ((tmp = msg.match(/(\d{1,2})-(\d{1,2})/))) {
+        time[1] = tmp[1];
+        time[2] = tmp[2];
+    }
+    // parse {hh:mm:dd} or {hh:mm}
+    if ((tmp = msg.match(/(\d{1,2}):(\d{1,2}):(\d{1,2})/))) {
+        time[3] = tmp[1];
+        time[4] = tmp[2];
+        time[5] = tmp[3];
+    } else if ((tmp = msg.match(/(\d{1,2}):(\d{1,2})/))) {
+        time[3] = tmp[1];
+        time[4] = tmp[2];
+    }
+    var end = new Date(Date.UTC(time[0], time[1] - 1, time[2], time[3] - 9, time[4], time[5]));
+
+    var diff = end > now ? end - now : now - end;
+    var ss = Math.floor((diff % (1000 * 60)) / 1000);
+    var mm = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    var hh = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var dd = Math.floor((diff) / (1000 * 60 * 60 * 24));
+
+    var result = "{0}년 {1}월 {2}일 {3}시 {4}분 {5}초{6}".format(end.getFullYear(), (end.getMonth() + 1), end.getDate(), end.getHours(), end.getMinutes(), end.getSeconds(), end > now ? "까지 " : "부터 ");
+    if (dd > 0) result += dd + "일 ";
+    if (hh > 0) result += hh + "시 ";
+    if (mm > 0) result += mm + "분 ";
+    if (ss >= 0) result += ss + "초 ";
+    result += end > now ? "남았습니다!" : "지났습니다!";
+    return result;
+}
+
 var Food = {
     menu: {
         "한식": ["불고기", "두루치기", "닭볶음", "쌈밥", "비빔밥", "생선구이", "한우정식", "낙지볶음", "양념게장", "간장게장", "고등어자반", "잡채", "더덕구이", "계란말이", "김치", "총각김치", "깍두기", "열무김치", "우엉조림", "멸치볶음", "소세지야채볶음", "스팸구이", "전복죽", "계란죽", "참치죽", "산적", "표고전", "풋고추전", "육전", "감자전", "해물파전", "김치전", "호박전", "오이소박이", "오징어볶음", "무생채", "북어구이", "너비아니", "두부조림"],
@@ -240,6 +279,7 @@ function getHelp() {
         + "\n/타로"
         + "\n/음식메뉴"
         + "\n/음식추천"
+        + "\n/디데이 yyyy-mm-dd hh:mm:ss"
         + "\n/r 2d6 * 5 + 30"
         + "\n운세"
         + "\n날씨"
@@ -256,6 +296,7 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
     /* 고정 명령어 호출 */
     if (msg.indexOf("/로또") == 0) { replier.reply(getLottoNumber()); return; }
     if (msg.indexOf("/타로") == 0) { replier.reply(Tarot.choose()); return; }
+    if (msg.indexOf("/디데이") == 0) { replier.reply(remainTime(msg)); return; }
     if (msg.indexOf("/음식메뉴") == 0) { replier.reply(Food.show(msg)); return; }
     if (msg.indexOf("/음식추천") == 0) { replier.reply("저는 {0} 추천 드려요! 🍳".format(Food.recommend(msg))); return; }
 
