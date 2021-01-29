@@ -189,7 +189,7 @@ function remainTime(msg) {
     }
     // pase {년 월 일 시 분 초}
     if ((t = msg.match(/(\d{4})년/))) time[0] = t[1];
-    else if ((t = msg.match(/(\d{2})년/))) time[0] = 2000 + t[1];
+    else if ((t = msg.match(/(\d{2})년/))) time[0] = 20 + t[1];
     if ((t = msg.match(/(\d{1,2})월/))) time[1] = t[1];
     if ((t = msg.match(/(\d{1,2})일/))) time[2] = t[1];
     if ((t = msg.match(/(\d{1,2})시/))) time[3] = t[1];
