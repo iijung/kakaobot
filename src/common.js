@@ -282,6 +282,84 @@ var Tarot = {
     choose: function () { return random(this.cards); }
 }
 
+var Calc = {
+    /* 연산자 우선 순위 반환 */
+    prec: function (op) {
+        switch (op) {
+            case '^':
+                return 1;
+            case '*':
+            case '/':
+            case '%':
+                return 2;
+            case '+':
+            case '-':
+                return 3;
+        }
+        return 999;
+    },
+    /* 후위 표기식 (Postfix expression) 으로 전환*/
+    convert: function (f) {
+        f = f.replace(/(\s*)/g, ""); //공백 제거 
+        f = f.replace("**", "^");    //거듭제곱 연산자 변경
+
+        var stack = [];
+        var result = [];
+
+        for (var i = 0; i < f.length; i++) {
+            switch (f[i]) {
+                case '(':
+                    stack.push(f[i]);
+                    break;
+                case ')':
+                    while ((tmp = stack.pop()) != '(') result.push(tmp);
+                    break;
+                default:
+                    // 피연산자 계산 
+                    if ((t = f.slice(i).match(/^(\d+(?:[.]\d+)?)/))) {
+                        result.push(t[0]);
+                        i += t[0].length - 1;
+                        break;
+                    }
+                    // 연산자 계산 
+                    if (stack.length != 0 && this.prec(f[i]) >= this.prec(stack[stack.length - 1])) {
+                        result.push(stack.pop());
+                    }
+                    stack.push(f[i]);
+            }
+        }
+        while (stack.length != 0) result.push(stack.pop());
+        return result;
+    },
+    calc: function (f) {
+        try {
+            var array = this.convert(f);
+            var stack = [];
+
+            for (var value of array) {
+                if ((t = value.match(/^(\d+(?:[.]\d+)?)/))) {
+                    stack.push(value);
+                    continue;
+                }
+                var b = parseFloat(stack.pop());
+                var a = parseFloat(stack.pop());
+                if (isNaN(a) || isNaN(b)) throw {};
+                switch (value) {
+                    case '+': stack.push(a + b); break;
+                    case '-': stack.push(a - b); break;
+                    case '*': stack.push(a * b); break;
+                    case '/': stack.push(a / b); break;
+                    case '%': stack.push(a % b); break;
+                    case '^': stack.push(Math.pow(a, b)); break;
+                }
+            }
+            return stack[0];
+        } catch (e) {
+            return "연산 오류 발생!";
+        }
+    }
+}
+
 function getHelp() {
     return "## 도움말 ##"
         + "\n/로또"
@@ -309,6 +387,8 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
     if (msg.indexOf("/음식메뉴") == 0) { replier.reply(Food.show(msg)); return; }
     if (msg.indexOf("/음식추천") == 0) { replier.reply("저는 {0} 추천 드려요! 🍳".format(Food.recommend(msg))); return; }
 
+
+    if (msg.indexOf("/계산") == 0 && (f = msg.replace("/계산", "").trim())) { replier.reply(Calc.calc(f)); return; }
     if (msg.indexOf("/r ") == 0) { // ex. /r 2d6 * 5 + 30        
         var data = rollDices(msg.replace("/r ", "").trim());
         if (data != null) replier.reply(data);
