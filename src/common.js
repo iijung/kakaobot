@@ -39,33 +39,6 @@ function rollDice(min, max) {
     return min + Math.ceil(Math.random() * (max - min + 1)) - 1;
 }
 
-function rollDices(expr) {
-    try {
-        var data = expr.replace(/[^0-9+*d]/gi, "");
-        data = data.replace(/\*/g, " *");
-        data = data.replace(/\+/g, " +");
-        data = data.split(" ");
-
-        for (var idx in data) {
-            if (data[idx].indexOf("d") == -1) continue;
-            var token = data[idx].split("d");
-            data[idx] = 0;
-            for (j = 0; j < Number(token[0]); j++) data[idx] += rollDice(1, Number(token[1]));
-            data[idx] = "+" + data[idx];
-        }
-        var result = 0;
-        for (var value of data) {
-            var operator = value[0];
-            var number = Number(value.substr(1));
-            if (value[0] == "+") result += number;
-            if (value[0] == "*") result *= number;
-        }
-        return result;
-    } catch (e) {
-        return "오류";
-    }
-}
-
 function getWeather(location) {
     try {
         if (location.trim() == "날씨") location = "서울 날씨";
@@ -283,6 +256,18 @@ var Tarot = {
 }
 
 var Calc = {
+    help: function () {
+        var rtn = "[계산기 도움말]"
+            + "\n 도움말"
+            + "\n"
+            + "\n 제곱 : a ^ b 또는 a ** b"
+            + "\n 곱셈 : a * b"
+            + "\n 나눗셈 : a / b"
+            + "\n 나머지 : a % b"
+            + "\n 덧셈 : a + b"
+            + "\n 뺄셈 : a - b";
+        return rtn;
+    },
     /* 연산자 우선 순위 반환 */
     prec: function (op) {
         switch (op) {
@@ -333,6 +318,8 @@ var Calc = {
     },
     calc: function (f) {
         try {
+            if (f.indexOf("도움말") != -1) return this.help();
+
             var array = this.convert(f);
             var stack = [];
 
@@ -355,8 +342,143 @@ var Calc = {
             }
             return stack[0];
         } catch (e) {
-            return "연산 오류 발생!";
+            return null;
         }
+    }
+}
+
+
+var Roll20 = {
+    history: [],
+
+    help: function () {
+        var rtn = "[다이스 도움말]"
+            + "\n 도움말"
+            + "\n 기록"
+            + "\n"
+            + "\n /r 2dF (Fate Dice)"
+            + "\n -1, 0, 1 주사위를 2번 굴려 더한 합 "
+            + "\n"
+            + "\n /r 2d6 (Normal Dice)"
+            + "\n 6면체 주사위를 2번 굴려 더한 합"
+            + "\n"
+            + "\n /r 2d6! (Exploding Dice)"
+            + "\n 최대값이 나올 때마다 한 번 더 굴려 더한 합"
+            + "\n"
+            + "\n /r 2d6>2 (>,<) (Reroll Dice)"
+            + "\n 설정 이상의 수가 나오면 취소하고 다시 굴려 더한 합"
+            + "\n"
+            + "\n /r 5d6k2 (Keep Dice)"
+            + "\n 가장 높은 값 2개를 합산"
+            + "\n"
+            + "\n /r 5d6d2 (Down Dice)"
+            + "\n 가장 낮은 값 2개를 버린 뒤 합산"
+            + "\n"
+            + "\n /r 5d6mt (Match Dice)"
+            + "\n 같은 값이 2번 이상 나온 개수"
+            + "\n"
+            + "\n /r 5d6>=3 (>,>=,<=,<) (S/F Dice)"
+            + "\n 설정 범위 안으로 나온 개수"
+            + "\n"
+            + "\n /r 2d6s 후 /r 기록 (오름차순 정렬)"
+            + "\n /r 2d6sd 후 /r 기록 (내름차순 정렬)";
+        return rtn;
+    },
+    calc: function (f) {
+        try {
+            if (f.indexOf("도움말") != -1) return this.help();
+            if (f.indexOf("기록") != -1) return this.history.join("\n");
+
+            this.history = [];
+            while (((t = f.match(/(\d+)d(\d+)(\S*)/)))) {
+                f = f.replace(t[0], this.ndm(t[1], t[2], t[3]));
+            }
+            f = Calc.calc(f);
+            return f;
+        }
+        catch (e) {
+            return this.help();
+        }
+    },
+    ndm: function (n, m, options) {
+        var min = 1, max = m;
+
+        var history = ["# " + n + "d" + m + options];
+        var result = [];
+
+        // set Fate Dice 
+        if (m == "F") { min = -1; max = 1; }
+
+        for (var i = 0; i < n; i++) {
+            var dice = rollDice(min, max);
+
+            // Exploding Dice
+            while (options.indexOf("!") != -1 && dice == max) {
+                history.push(dice + "e");
+                result.push(dice);
+                dice = rollDice(min, max);
+            }
+
+            // Reroll Dice 
+            if (((t = options.match(/r([<>])(\d+)/)))) {
+                if ((t[1] == "<" && dice <= t[2]) || t[1] == ">" && dice >= t[2]) {
+                    history.push(dice + "r");
+                    i--;
+                    continue;
+                }
+            }
+
+            history.push(dice);
+            result.push(dice);
+        }
+
+        /* Dice sorting */
+        result.sort(function (a, b) { return parseInt(b) - parseInt(a); });
+        if (options.indexOf("sd") != -1) {
+            history.sort(function (a, b) { return parseInt(b) - parseInt(a); }); // desc
+        } else if (options.indexOf("s") != -1) {
+            history.sort(function (a, b) { return parseInt(a) - parseInt(b); }); // asc 
+        }
+        this.history.push(history);
+
+
+        /* Dice Pool */
+        // Match Dice 
+        if (options.indexOf("mt") != -1) {
+            var cnt = 0;
+            var obj = {};
+            result.forEach((x) => { obj[x] = (obj[x] || 0) + 1; });
+            for (var key in obj) if (obj[key] > 1) cnt++;
+            return cnt;
+        }
+
+        // Success & failure Dice      
+        if (((t = options.match(/r([<>])(\d+)/)))) options = options.replace(t[0], "");
+        if (((t = options.match(/([<>=]{1,2})(\d+)/)))) {
+            var cnt = 0;
+            for (var value of result) {
+                switch (t[1]) {
+                    case "<": if (value < t[2]) cnt++; break;
+                    case ">": if (value > t[2]) cnt++; break;
+                    case "<=": if (value <= t[2]) cnt++; break;
+                    case ">=": if (value >= t[2]) cnt++; break;
+                }
+            }
+            return cnt;
+        }
+
+        // Keep Dice
+        if (((t = options.match(/k(\d+)/)))) {
+            for (var i = 0; i < result.length; i++) if (i >= t[1]) result.pop();
+        }
+        // Down Dice        
+        if (((t = options.match(/d(\d+)/)))) {
+            for (var i = 0; i < t[1]; i++) result.pop();
+        }
+
+        var sum = 0;
+        for (var i of result) sum += i;
+        return sum;
     }
 }
 
@@ -389,10 +511,16 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
     if (msg.indexOf("/음식추천") == 0) { replier.reply("저는 {0} 추천 드려요! 🍳".format(Food.recommend(msg))); return; }
 
 
-    if (msg.indexOf("/계산") == 0 && (f = msg.replace("/계산", "").trim())) { replier.reply(Calc.calc(f)); return; }
-    if (msg.indexOf("/r ") == 0) { // ex. /r 2d6 * 5 + 30        
-        var data = rollDices(msg.replace("/r ", "").trim());
+    if (msg.indexOf("/계산") == 0 && (f = msg.replace("/계산", "").trim())) {
+        var data = Calc.calc(f);
         if (data != null) replier.reply(data);
+        else replier.reply(Calc.help());
+        return;
+    }
+    if (msg.indexOf("/r") == 0 && (f = msg.replace("/r", "").trim())) {
+        var data = Roll20.calc(f);
+        if (data != null) replier.reply(data);
+        else replier.reply(Roll20.help());
         return;
     }
 
