@@ -364,6 +364,7 @@ function getHelp() {
     return "## 도움말 ##"
         + "\n/로또"
         + "\n/타로"
+        + "\n/계산"
         + "\n/음식메뉴"
         + "\n/음식추천"
         + "\n/디데이 yyyy-mm-dd hh:mm:ss"
