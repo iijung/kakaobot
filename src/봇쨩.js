@@ -1,5 +1,7 @@
 const scriptName = "봇쨩";
 
+var Common = Bridge.getScopeOf("common");
+
 String.prototype.format = function () {
     // Usage: "hello {1} {0} world {0}".foramt('!', 10)
     // Return: hello 10 ! world !
@@ -24,67 +26,19 @@ String.prototype.random = function (seq) {
     return list[Math.floor(Math.random() * list.length)];
 }
 function setTimer(msg, replier) {
-    var content = msg.replace("-타이머", "").trim();
-    if (content == "") return "ex) -타이머 10";
-
-    var time = Number(content.replace(/[^0-9]/g, ""));
-    if (time == "") return "ex) -타이머 10";
-
-    replier.reply("타이머 시작!\n" + time + "초 뒤에 타이머가 종료됩니다!");
-    java.lang.Thread.sleep(time * 1000);
-    return time + "초가 경과했습니다.";
+    try {
+        var time = Number(msg.replace("-타이머", "").trim().replace(/[^0-9]/g, ""));
+        replier.reply("타이머 시작!\n" + time + "초 뒤에 타이머가 종료됩니다!");
+        java.lang.Thread.sleep(time * 1000);
+        replier.reply(time + "초가 경과했습니다.");
+    } catch (e) {
+        replier.reply("ex) /타이머 10");
+    }
 }
 
-function remainRushHour(msg) {
-    var rtn_msg = "";
-    var now = new Date();
-    var gowork = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 9, 0, 0, 0);
-    var offwork = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 0, 0, 0);
-
-    var msg_content = msg.replace("-출퇴근", "").trim();
-    if (msg_content == "") {
-        msg_content = "9 18";
-    } else if (msg_content.indexOf(" ") == -1) {
-        return "ex) -출퇴근 9 18";
-    }
-
-    if (msg_content != "") {
-        var set_gowork = Number(msg_content.split(" ")[0].replace(/[^0-9]/g, ""));
-        var set_offwork = Number(msg_content.split(" ")[1].replace(/[^0-9]/g, ""));
-        if (set_gowork == "" || set_offwork == "") return "ex) -출퇴근 9 18";
-        gowork = new Date(now.getFullYear(), now.getMonth(), now.getDate(), set_gowork, 0, 0, 0);
-        offwork = new Date(now.getFullYear(), now.getMonth(), now.getDate(), set_offwork, 0, 0, 0);
-    }
-
-    if (gowork > offwork && now > offwork) offwork.setDate(now.getDate() + 1);
-
-    if (gowork < offwork && now < gowork) {
-        var diff = gowork - now;
-        var hh = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        var mm = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        var ss = Math.floor((diff % (1000 * 60)) / 1000);
-        rtn_msg = "출근까지 {0}시 {1}분 {2}초 남았습니다!".format(hh, mm, ss);
-    } else if (now < offwork) {
-        var diff = offwork - now;
-        var hh = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        var mm = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        var ss = Math.floor((diff % (1000 * 60)) / 1000);
-        rtn_msg = "퇴근까지 {0}시 {1}분 {2}초 남았습니다!".format(hh, mm, ss);
-    } else {
-        gowork.setDate(now.getDate() + 1);
-        var diff = gowork - now;
-        var hh = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        var mm = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        var ss = Math.floor((diff % (1000 * 60)) / 1000);
-        rtn_msg = "출근까지 {0}시 {1}분 {2}초 남았습니다!".format(hh, mm, ss);
-    }
-
-    return rtn_msg;
-}
 function getHelp() {
-    return Common.getHelp()
+    return Common.getHelp() + "\n"
         + "\n/타이머 10"
-        + "\n/출퇴근 9 18"
         + "\n봇짱, 봇쨩"
         + "\n굿봇, 굿 봇, 구웃봇"
         + "\n밷봇, 밷 봇, 배드봇"
@@ -113,8 +67,7 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
     if (!isAvailable(room)) return;
 
     if (msg.indexOf("/도움말") == 0) { replier.reply(getHelp()); return; }
-    if (msg.indexOf("/타이머") == 0) { replier.reply(setTimer(msg, replier)); return; }
-    if (msg.indexOf("/출퇴근") != -1) { replier.reply(remainRushHour(msg)); return; }
+    if (msg.indexOf("/타이머") == 0) { setTimer(msg, replier); return; }
 
     if (msg.indexOf("봇짱") != -1 || msg.indexOf("봇쨩") != -1) {
         var ment = ["예스 마이 마스터?", "ヽ( ᐛ )ノ", "ヽ(✿ﾟ▽ﾟ)ノ", "ヽ(✿ﾟωﾟ)ノ", " ꧁⍤⃝꧂ ", " ꧁⍢⃝꧂ ", " ꈍ﹃ꈍ ", "ヾ(*'▽'*)"];
@@ -138,7 +91,7 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
     }
     if ((msg.indexOf("좋은") != -1 && (msg.indexOf("꿈") != -1)) || (msg.indexOf("굿밤") != -1) || (msg.indexOf("잘자요") != -1) || (msg.indexOf("자러가") != -1)) {
         ment = ["제 꿈 꿔요...♥", "좋은 꿈 꿔요💕", " ꈍ﹃ꈍ ", "쫀밤!", "굿밤 🐑", " (¦ꒉ[▓▓] zZ"];
-        replier.reply(ment.random()]);
+        replier.reply(ment.random());
     }
 
     if (msg.indexOf("안녕") != -1) {
