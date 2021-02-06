@@ -78,6 +78,10 @@ function getFortune(sender, msg) {
 
         if (msg.indexOf("내일") != -1) date.setDate(date.getDate() + 1);
         else if (msg.indexOf("어제") != -1) date.setDate(date.getDate() - 1);
+        else {
+            if ((t = msg.match(/(\d{1,2})월/))) date.setMonth(t[1] - 1);
+            if ((t = msg.match(/(\d{1,2})일/))) date.setDate(t[1]);
+        }
 
         var seed = 1234;
         for (var i = 0; i < sender.length; i++) seed += sender.charCodeAt(i);
