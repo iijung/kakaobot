@@ -40,11 +40,15 @@ function getHelp() {
     return Common.getHelp() + "\n"
         + "\n/타이머 10"
         + "\n봇짱, 봇쨩"
+        + "\n   안돼 "
+        + "\n   하지마 "
         + "\n굿봇, 굿 봇, 구웃봇"
         + "\n밷봇, 밷 봇, 배드봇"
         + "\n~건데, ~껀데"
         + "\n심심해"
-        + "\n응원, 위로해줘, 힘들어";
+        + "\n응원, 위로해줘, 힘들어"
+        + "\n바보, 바부"
+        + "\n봇쨩 안돼";
 }
 
 
@@ -70,8 +74,14 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
     if (msg.indexOf("/타이머") == 0) { setTimer(msg, replier); return; }
 
     if (msg.indexOf("봇짱") != -1 || msg.indexOf("봇쨩") != -1) {
-        var ment = ["예스 마이 마스터?", "ヽ( ᐛ )ノ", "ヽ(✿ﾟ▽ﾟ)ノ", "ヽ(✿ﾟωﾟ)ノ", " ꧁⍤⃝꧂ ", " ꧁⍢⃝꧂ ", " ꈍ﹃ꈍ ", "ヾ(*'▽'*)"];
-        replier.reply(ment.random());
+
+        if (msg.indexOf("안돼") != -1 || msg.indexOf("하지마") != -1) {
+            var ment = ["엔 ( ˘•ω•˘ )", "진짜요? (*´□`*｡)", "( o̴̶̷᷄﹏o̴̶̷̥᷅ )", "ᐡඉ́  ̫ ඉ̀ᐡ", "힝 (._.`)"];
+            replier.reply(ment.random());
+        } else {
+            var ment = ["예스 마이 마스터?", "ヽ( ᐛ )ノ", "ヽ(✿ﾟ▽ﾟ)ノ", "ヽ(✿ﾟωﾟ)ノ", " ꧁⍤⃝꧂ ", " ꧁⍢⃝꧂ ", " ꈍ﹃ꈍ ", "ヾ(*'▽'*)"];
+            replier.reply(ment.random());
+        }
     }
 
     // Thanks
@@ -118,7 +128,12 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
     } else if (msg.indexOf("껀데") > 0 || msg.indexOf("건데") > 0) {
         var ment = ["(｡•́ - •̀｡)", "(._. )", "...", "(・-・*)♪", "๑°⌓°๑"];
         replier.reply(ment.random());
+    } else if (msg.indexOf("바보") != -1 || msg.indexOf("바부") != -1) {
+        var ment = ["저 불렀어요?(빼꼼)", "저 불렀어요? ┃´・ω・｀)", "⁽⁽٩(灬╹ω╹灬)۶⁾⁾"];
+        replier.reply(ment.random());
     }
+
+
 
     // 도배 체크
     if (new Date().valueOf() < atTime.valueOf() + 10000) return; // 도배 경고 후, 일정 시간 동안 도배 확인 X

@@ -39,10 +39,11 @@ function rollDice(min, max) {
     return min + Math.ceil(Math.random() * (max - min + 1)) - 1;
 }
 
-function getWeather(location) {
+function getWeather(replier, location) {
     try {
         if (location.trim() == "날씨") location = "서울 날씨";
         var weather = org.jsoup.Jsoup.connect("https://www.google.com/search?q=" + location.replace(" ", "+")).get().select("#wob_wc");;
+        if (weather == undefined || weather == "") return;
 
         var wob_loc = weather.select("#wob_loc").text(); // 서울특별시
         var wob_dts = weather.select("#wob_dts").text(); // (화요일) 오후 11:00
@@ -65,9 +66,9 @@ function getWeather(location) {
         result += "\n====================";
         result += "\n이 정보는 구글 검색 결과를";
         result += "\n바탕으로 제공됩니다.";
-        return result;
+        replier.reply(result);
     } catch (e) {
-        return null;
+        return;
     }
 }
 
@@ -99,7 +100,7 @@ function getFortune(sender, msg) {
 
         var sum = 0;
         for (var i in fortune) sum += fortune[i];
-        if (sum / Object.keys(fortune).length < 2) for (var i in fortune) if (fortune[i] < 5) fortune[i]++;
+        if (sum / Object.keys(fortune).length < 2.5) for (var i in fortune) if (fortune[i] < 5) fortune[i]++;
 
         // render
         var result = "# {0} 님의 {1}월 {2}일 운세 🔮\n".format(sender, date.getMonth() + 1, date.getDate());
@@ -541,15 +542,11 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
         return;
     }
 
-    if (msg.indexOf("날씨") != -1) {
-        var data = getWeather(msg);
-        if (data != null) replier.reply(data);
-        return;
-    }
+    if (msg.indexOf("날씨") != -1) { getWeather(replier, msg); return; }
 
     if (msg.indexOf("확률") != -1) {
         var percent = Math.ceil(Math.random() * 101 * 1000) / 1000 - 1; // 0.000 ~ 100.000
-        replier.reply(percent + "%로 나왔습니다!");
+        replier.reply("예상 확률 " + percent + "%!");
         return;
     }
 
