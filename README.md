@@ -1,9 +1,9 @@
 # kakaobot
 
-![](https://img.shields.io/github/commit-activity/y/Tanya58/kakaobot)
-![](https://img.shields.io/github/commit-activity/m/Tanya58/kakaobot)
-![](https://img.shields.io/github/commit-activity/w/Tanya58/kakaobot)
-![](https://img.shields.io/github/last-commit/Tanya58/kakaobot)
+![](https://img.shields.io/github/commit-activity/y/iijung/kakaobot)
+![](https://img.shields.io/github/commit-activity/m/iijung/kakaobot)
+![](https://img.shields.io/github/commit-activity/w/iijung/kakaobot)
+![](https://img.shields.io/github/last-commit/iijung/kakaobot)
 
 
 ## 개발 정보 
@@ -19,7 +19,7 @@
 2. 각 기능은 친구들의 요청에 의해 구현되었습니다. 
 
 ## 가이드 문서
-- [봇 개발 가이드](https://github.com/Tanya58/kakaobot/tree/master/docs)
+- [봇 개발 가이드](https://github.com/iijung/kakaobot/tree/master/docs)
 
 
 ## THANKS
